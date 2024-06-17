@@ -1,0 +1,650 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "Tiktok",
+    "collectionId": "6c347e79-3365-4425-8aea-89a46b26f00d",
+    "dateExported": "2024-05-26T03:28:54.136Z",
+    "version": "1.2",
+    "folders": [
+        {
+            "_id": "a12e8994-4f07-4523-86b1-c108da0e5e47",
+            "name": "Auth",
+            "containerId": "",
+            "created": "2024-05-26T03:25:48.059Z",
+            "sortNum": 10000
+        },
+        {
+            "_id": "8ce1b7e7-2535-49a9-9463-9d8365181f7a",
+            "name": "User",
+            "containerId": "",
+            "created": "2024-05-26T03:25:56.478Z",
+            "sortNum": 20000
+        },
+        {
+            "_id": "51a5dd4b-8024-427c-b9f1-1d0f63d58141",
+            "name": "Post",
+            "containerId": "",
+            "created": "2024-05-26T03:26:25.504Z",
+            "sortNum": 30000
+        },
+        {
+            "_id": "758b8601-df81-4732-bbb3-b806df68ba4f",
+            "name": "Follow",
+            "containerId": "",
+            "created": "2024-05-26T03:26:46.475Z",
+            "sortNum": 40000
+        },
+        {
+            "_id": "c20fa3ed-17db-4bd5-a969-619dda64ea7f",
+            "name": "Chatroom",
+            "containerId": "",
+            "created": "2024-05-26T03:26:58.763Z",
+            "sortNum": 50000
+        },
+        {
+            "_id": "0470a0ab-1e20-4275-bac2-5ccf9c75b5bd",
+            "name": "Message",
+            "containerId": "",
+            "created": "2024-05-26T03:27:09.204Z",
+            "sortNum": 60000
+        },
+        {
+            "_id": "b80d7395-92ea-406e-a55f-d7931c808085",
+            "name": "Role",
+            "containerId": "",
+            "created": "2024-05-26T03:27:23.844Z",
+            "sortNum": 70000
+        },
+        {
+            "_id": "7326d9c0-6114-4849-8011-78a3d390c71a",
+            "name": "Notification",
+            "containerId": "",
+            "created": "2024-05-26T03:27:53.191Z",
+            "sortNum": 80000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "f26d4345-0b5b-4387-9cf3-e52f97e87cff",
+            "colId": "6c347e79-3365-4425-8aea-89a46b26f00d",
+            "containerId": "a12e8994-4f07-4523-86b1-c108da0e5e47",
+            "name": "Register",
+            "url": "http://localhost:8000/api/v1/auth/register",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-02-10T21:15:05.506Z",
+            "modified": "2024-02-18T08:54:07.253Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\" : \"hoanghuydev@gmail.com\",\n  \"fullName\" : \"Hoàng Huy\",\n  \"userName\" : \"hoanghuydev\",\n  \"password\" : \"admin\",\n  \"association\" : \"\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "c60cef70-804e-4cb3-be6d-9e551dd28234",
+            "colId": "6c347e79-3365-4425-8aea-89a46b26f00d",
+            "containerId": "758b8601-df81-4732-bbb3-b806df68ba4f",
+            "name": "Follow User",
+            "url": "http://localhost:8000/api/v1/follow/4",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-02-15T12:58:12.816Z",
+            "modified": "2024-05-21T14:13:00.514Z",
+            "headers": [
+                {
+                    "name": "Token",
+                    "value": "Bearer access_token_here"
+                }
+            ]
+        },
+        {
+            "_id": "bce9dccb-753e-4e54-88ab-01201df9ad28",
+            "colId": "6c347e79-3365-4425-8aea-89a46b26f00d",
+            "containerId": "c20fa3ed-17db-4bd5-a969-619dda64ea7f",
+            "name": "Get Users In Chatroom",
+            "url": "http://localhost:8000/api/v1/chatroom/9/users",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-02-15T19:48:26.731Z",
+            "modified": "2024-02-15T19:48:39.619Z",
+            "headers": [
+                {
+                    "name": "Token",
+                    "value": "Bearer access_token_here"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "a90afcc9-c0b0-431f-bcd0-ea4b91f780ba",
+            "colId": "6c347e79-3365-4425-8aea-89a46b26f00d",
+            "containerId": "b80d7395-92ea-406e-a55f-d7931c808085",
+            "name": "Delete Role",
+            "url": "http://localhost:8000/api/v1/role",
+            "method": "DELETE",
+            "sortNum": 10000,
+            "created": "2024-02-17T19:57:08.165Z",
+            "modified": "2024-02-17T20:25:50.732Z",
+            "headers": [
+                {
+                    "name": "Token",
+                    "value": "Bearer access_token_here"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"code\" : \"shop\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "dd63e763-9f04-4c16-a6ae-8afa393f68b8",
+            "colId": "6c347e79-3365-4425-8aea-89a46b26f00d",
+            "containerId": "7326d9c0-6114-4849-8011-78a3d390c71a",
+            "name": "Get Notify By UserId",
+            "url": "http://localhost:8000/api/v1/notification/1",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-02-17T20:27:35.980Z",
+            "modified": "2024-02-17T20:28:09.681Z",
+            "headers": [
+                {
+                    "name": "Token",
+                    "value": "Bearer access_token_here"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"code\" : \"shop\",\n  \"value\" : \"Shop\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "54344a3e-362c-4b34-aac6-36dc15a1c267",
+            "colId": "6c347e79-3365-4425-8aea-89a46b26f00d",
+            "containerId": "0470a0ab-1e20-4275-bac2-5ccf9c75b5bd",
+            "name": "Send Message",
+            "url": "http://localhost:8000/api/v1/message/1",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-02-17T20:50:32.173Z",
+            "modified": "2024-02-17T20:52:49.476Z",
+            "headers": [
+                {
+                    "name": "Token",
+                    "value": "Bearer access_token_here"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"content\" : \"Hi PA. I'm fine\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "540bf5f7-d593-4e64-b5ed-1918076f6c26",
+            "colId": "6c347e79-3365-4425-8aea-89a46b26f00d",
+            "containerId": "8ce1b7e7-2535-49a9-9463-9d8365181f7a",
+            "name": "Update User",
+            "url": "http://localhost:8000/api/v1/user/2",
+            "method": "PUT",
+            "sortNum": 10000,
+            "created": "2024-02-18T06:50:05.652Z",
+            "modified": "2024-02-18T18:22:29.052Z",
+            "headers": [
+                {
+                    "name": "Token",
+                    "value": "Bearer access_token_here"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "userName",
+                        "value": "hoanghuydev"
+                    }
+                ],
+                "files": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "82e9a992-e7bc-4cb6-9bc9-b20145646caa",
+            "colId": "6c347e79-3365-4425-8aea-89a46b26f00d",
+            "containerId": "51a5dd4b-8024-427c-b9f1-1d0f63d58141",
+            "name": "Get Post By Id",
+            "url": "http://localhost:8000/api/v1/post/6",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-02-21T01:44:34.729Z",
+            "modified": "2024-03-01T06:54:45.097Z",
+            "headers": [
+                {
+                    "name": "Token",
+                    "value": "Bearer access_token_here"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "5c4b77bf-f76c-454a-b0fe-b55bef6ceac5",
+            "colId": "6c347e79-3365-4425-8aea-89a46b26f00d",
+            "containerId": "8ce1b7e7-2535-49a9-9463-9d8365181f7a",
+            "name": "Upload Avatar",
+            "url": "http://localhost:8000/api/v1/user/avatar/4",
+            "method": "POST",
+            "sortNum": 15000,
+            "created": "2024-02-18T07:27:00.738Z",
+            "modified": "2024-05-22T06:24:43.261Z",
+            "headers": [
+                {
+                    "name": "Token",
+                    "value": "Bearer access_token_here"
+                }
+            ],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [],
+                "files": [
+                    {
+                        "name": "avatar",
+                        "value": "e:\\Dowload\\mKrFsdFClkq5uYfZe1mnjNn51cPAHuGVBIz3q5wnEWHKH2S_KbBZPbtsOCCj-u22K-XsLz8trxH54Ub6NPiDDMv0zjC2ChwhCFLAVMNmNzKqy-IW85HyTe3wFvOIyfoTe9YjhVORmy2FRh9mkOd745lcSZUMkSEzCjuF30UwRQiUJAEzpovV2AB_bUkR3w.jpg"
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "81369156-de68-4f64-88ef-ae7a537588ba",
+            "colId": "6c347e79-3365-4425-8aea-89a46b26f00d",
+            "containerId": "8ce1b7e7-2535-49a9-9463-9d8365181f7a",
+            "name": "Find Users",
+            "url": "http://localhost:8000/api/v1/user/find?userName=h",
+            "method": "GET",
+            "sortNum": 16250,
+            "created": "2024-02-15T19:19:25.544Z",
+            "modified": "2024-02-15T19:23:06.660Z",
+            "headers": [
+                {
+                    "name": "Token",
+                    "value": "Bearer access_token_here"
+                }
+            ],
+            "params": [
+                {
+                    "name": "userName",
+                    "value": "h",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "9f57c58f-d8a6-429a-aa46-44ffbddf3a4a",
+            "colId": "6c347e79-3365-4425-8aea-89a46b26f00d",
+            "containerId": "8ce1b7e7-2535-49a9-9463-9d8365181f7a",
+            "name": "Remove Avatar",
+            "url": "http://localhost:8000/api/v1/user/avatar/1",
+            "method": "DELETE",
+            "sortNum": 17500,
+            "created": "2024-02-18T18:22:36.446Z",
+            "modified": "2024-02-21T01:10:26.910Z",
+            "headers": [
+                {
+                    "name": "Token",
+                    "value": "Bearer access_token_here"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "d07e1e49-e5d8-466c-ac19-5ab32e0e9021",
+            "colId": "6c347e79-3365-4425-8aea-89a46b26f00d",
+            "containerId": "a12e8994-4f07-4523-86b1-c108da0e5e47",
+            "name": "Login",
+            "url": "http://localhost:8000/api/v1/auth/login",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-02-10T21:39:42.485Z",
+            "modified": "2024-05-18T05:56:34.691Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"emailOrUsername\" : \"hoanghuydev@gmail.com\",\n  \"password\" : \"admin\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "13930af7-e798-4093-af3d-504ac2a33f9e",
+            "colId": "6c347e79-3365-4425-8aea-89a46b26f00d",
+            "containerId": "8ce1b7e7-2535-49a9-9463-9d8365181f7a",
+            "name": "Get User",
+            "url": "http://localhost:8000/api/v1/user/1",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2024-02-14T09:21:17.032Z",
+            "modified": "2024-02-17T20:28:00.337Z",
+            "headers": [
+                {
+                    "name": "Token",
+                    "value": "Bearer access_token_here"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "b9fc77c9-f780-46e0-bb19-80cacb671f01",
+            "colId": "6c347e79-3365-4425-8aea-89a46b26f00d",
+            "containerId": "758b8601-df81-4732-bbb3-b806df68ba4f",
+            "name": "Unfollow User",
+            "url": "http://localhost:8000/api/v1/follow/9",
+            "method": "DELETE",
+            "sortNum": 20000,
+            "created": "2024-02-15T13:52:14.036Z",
+            "modified": "2024-02-15T13:52:29.537Z",
+            "headers": [
+                {
+                    "name": "Token",
+                    "value": "Bearer access_token_here"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "6177db81-d023-4d2c-b7b2-17b90a1d2a8e",
+            "colId": "6c347e79-3365-4425-8aea-89a46b26f00d",
+            "containerId": "c20fa3ed-17db-4bd5-a969-619dda64ea7f",
+            "name": "Get Chatrooms By UserId",
+            "url": "http://localhost:8000/api/v1/chatroom/user/10",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2024-02-15T19:28:30.590Z",
+            "modified": "2024-02-15T19:28:49.467Z",
+            "headers": [
+                {
+                    "name": "Token",
+                    "value": "Bearer access_token_here"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "d9a2640d-27ae-4f97-bc51-18965e991852",
+            "colId": "6c347e79-3365-4425-8aea-89a46b26f00d",
+            "containerId": "b80d7395-92ea-406e-a55f-d7931c808085",
+            "name": "Add Role",
+            "url": "http://localhost:8000/api/v1/role/",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-02-17T20:23:57.149Z",
+            "modified": "2024-02-17T20:27:28.358Z",
+            "headers": [
+                {
+                    "name": "Token",
+                    "value": "Bearer access_token_here"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"code\" : \"shop\",\n  \"value\" : \"Shop\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "50c57c70-916b-4506-886b-17f2df7ec070",
+            "colId": "6c347e79-3365-4425-8aea-89a46b26f00d",
+            "containerId": "7326d9c0-6114-4849-8011-78a3d390c71a",
+            "name": "Send Notify By UserId",
+            "url": "http://localhost:8000/api/v1/notification/1",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-02-17T20:28:33.884Z",
+            "modified": "2024-02-17T20:31:41.539Z",
+            "headers": [
+                {
+                    "name": "Token",
+                    "value": "Bearer access_token_here"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"content\" : \"New Notify Test 4\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "42dfb2a3-1708-4101-85f6-8c1e8f589d3e",
+            "colId": "6c347e79-3365-4425-8aea-89a46b26f00d",
+            "containerId": "0470a0ab-1e20-4275-bac2-5ccf9c75b5bd",
+            "name": "Get Msg By ChatroomId",
+            "url": "http://localhost:8000/api/v1/message/1",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2024-02-17T20:53:17.213Z",
+            "modified": "2024-02-17T20:53:25.294Z",
+            "headers": [
+                {
+                    "name": "Token",
+                    "value": "Bearer access_token_here"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "8ecd2d11-cec2-4791-9c1a-e6c9ab9a2eb0",
+            "colId": "6c347e79-3365-4425-8aea-89a46b26f00d",
+            "containerId": "51a5dd4b-8024-427c-b9f1-1d0f63d58141",
+            "name": "Get Posts",
+            "url": "http://localhost:8000/api/v1/post",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2024-02-21T01:50:21.421Z",
+            "modified": "2024-05-21T05:04:04.195Z",
+            "headers": [
+                {
+                    "name": "Token",
+                    "value": "Bearer access_token_here"
+                }
+            ]
+        },
+        {
+            "_id": "b82a7022-2e08-4794-8b42-58897f486441",
+            "colId": "6c347e79-3365-4425-8aea-89a46b26f00d",
+            "containerId": "a12e8994-4f07-4523-86b1-c108da0e5e47",
+            "name": "Vertify Email",
+            "url": "http://localhost:8000/api/v1/auth/vertify-email",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2024-02-11T18:10:36.932Z",
+            "modified": "2024-02-15T13:15:07.002Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\" : \"phuonganh@gmail.com\",\n  \"otp\" : \"m1n1im\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "bdaca991-b7ab-4052-a1d1-3a2fcab6417c",
+            "colId": "6c347e79-3365-4425-8aea-89a46b26f00d",
+            "containerId": "758b8601-df81-4732-bbb3-b806df68ba4f",
+            "name": "Get List Follower",
+            "url": "http://localhost:8000/api/v1/follow/followers/9?userName=phuong",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2024-02-15T14:20:50.118Z",
+            "modified": "2024-02-15T19:04:17.647Z",
+            "headers": [
+                {
+                    "name": "Token",
+                    "value": "Bearer access_token_here"
+                }
+            ],
+            "params": [
+                {
+                    "name": "userName",
+                    "value": "phuong",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "24a7734d-990c-453d-96fb-3da79d1e8a02",
+            "colId": "6c347e79-3365-4425-8aea-89a46b26f00d",
+            "containerId": "7326d9c0-6114-4849-8011-78a3d390c71a",
+            "name": "Delete Notify By NotifyId",
+            "url": "http://localhost:8000/api/v1/notification/1",
+            "method": "DELETE",
+            "sortNum": 30000,
+            "created": "2024-02-17T20:29:26.149Z",
+            "modified": "2024-02-17T20:30:02.341Z",
+            "headers": [
+                {
+                    "name": "Token",
+                    "value": "Bearer access_token_here"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "9e8b9bd7-0385-4b53-bfd9-be5545787914",
+            "colId": "6c347e79-3365-4425-8aea-89a46b26f00d",
+            "containerId": "0470a0ab-1e20-4275-bac2-5ccf9c75b5bd",
+            "name": "Delete Msg By MsgId & UesrId",
+            "url": "http://localhost:8000/api/v1/message/3/user/2",
+            "method": "DELETE",
+            "sortNum": 30000,
+            "created": "2024-02-17T20:57:21.078Z",
+            "modified": "2024-02-17T20:58:33.447Z",
+            "headers": [
+                {
+                    "name": "Token",
+                    "value": "Bearer access_token_here"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "5bc62586-2eb6-472a-812e-c8c1ed7d1f9c",
+            "colId": "6c347e79-3365-4425-8aea-89a46b26f00d",
+            "containerId": "51a5dd4b-8024-427c-b9f1-1d0f63d58141",
+            "name": "Get Posts By UserId",
+            "url": "http://localhost:8000/api/v1/post/user/1",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2024-02-21T01:52:17.158Z",
+            "modified": "2024-02-24T07:21:10.762Z",
+            "headers": [
+                {
+                    "name": "Token",
+                    "value": "Bearer access_token_here"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "18500145-a56d-4e9b-96e0-2a62a06a5c8b",
+            "colId": "6c347e79-3365-4425-8aea-89a46b26f00d",
+            "containerId": "758b8601-df81-4732-bbb3-b806df68ba4f",
+            "name": "Get List Following",
+            "url": "http://localhost:8000/api/v1/follow/followings/9?userName=hoanghuydev",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2024-02-15T14:29:49.007Z",
+            "modified": "2024-02-15T18:58:50.308Z",
+            "headers": [
+                {
+                    "name": "Token",
+                    "value": "Bearer access_token_here"
+                }
+            ],
+            "params": [
+                {
+                    "name": "userName",
+                    "value": "hoanghuydev",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "4b7e3ee9-ddcd-4aa1-9f7e-6b10f240a9a9",
+            "colId": "6c347e79-3365-4425-8aea-89a46b26f00d",
+            "containerId": "51a5dd4b-8024-427c-b9f1-1d0f63d58141",
+            "name": "Upload Post",
+            "url": "http://localhost:8000/api/v1/post/upload",
+            "method": "POST",
+            "sortNum": 40000,
+            "created": "2024-02-19T20:15:13.678Z",
+            "modified": "2024-05-22T06:36:51.552Z",
+            "headers": [
+                {
+                    "name": "Token",
+                    "value": "Bearer access_token_here"
+                }
+            ],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "title",
+                        "value": "Hướng dẫn cách đánh bọt cho meo meo"
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "video",
+                        "value": "e:\\Dowload\\Download (5).mp4"
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "00df0d54-92dc-44f8-a1a0-8c5b8e054b1a",
+            "colId": "6c347e79-3365-4425-8aea-89a46b26f00d",
+            "containerId": "51a5dd4b-8024-427c-b9f1-1d0f63d58141",
+            "name": "Like Post",
+            "url": "http://localhost:8000/api/v1/post/like/8",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2024-05-21T04:49:57.784Z",
+            "modified": "2024-05-21T04:50:19.873Z",
+            "headers": [
+                {
+                    "name": "Token",
+                    "value": "Bearer access_token_here"
+                }
+            ]
+        }
+    ],
+    "ref": "ZpgEwH7ubTnzQySlJOonlrYe_eKKnHgFLNZ3GpuH1pt5VJ7CA9v2tSOhKErGivvgkiUzVXoTKg9XsmVka67ENA"
+}
