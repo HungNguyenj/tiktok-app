@@ -1,0 +1,3 @@
+export const VISIBILITY_POST_PUBLIC = 1;
+export const VISIBILITY_POST_PRIVATE = -1;
+export const VISIBILITY_POST_FRIEND = 0;
