@@ -3,8 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
-    >
+    android:background="@color/black">
+
+    <VideoView
+        android:id="@+id/videoView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
+
     <!--Left-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
@@ -121,20 +132,19 @@
     <!--    End Left-->
 
     <TextView
-        android:id="@+id/username"
+        android:id="@+id/videoTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="YAN 45s"
+        android:text="Title"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/postTitle"
-        app:layout_constraintEnd_toEndOf="@+id/postTitle"
-        app:layout_constraintStart_toStartOf="@+id/postTitle"
         android:textStyle="bold"
-        />
+        app:layout_constraintBottom_toTopOf="@+id/videoContent"
+        app:layout_constraintEnd_toEndOf="@+id/videoContent"
+        app:layout_constraintStart_toStartOf="@+id/videoContent" />
 
     <TextView
-        android:id="@+id/postTitle"
+        android:id="@+id/videoContent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

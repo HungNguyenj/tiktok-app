@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
 
+import com.example.tiktokapp.Model.Post;
 import com.example.tiktokapp.R;
 import com.example.tiktokapp.utils.IntentUtil;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
