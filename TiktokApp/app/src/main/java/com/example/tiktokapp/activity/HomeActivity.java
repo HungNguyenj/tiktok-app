@@ -1,6 +1,8 @@
 package com.example.tiktokapp.activity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
@@ -11,10 +13,11 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.tiktokapp.R;
+import com.example.tiktokapp.utils.IntentUtil;
 
 public class HomeActivity extends AppCompatActivity {
     private ImageView soundDisk;
-
+    private ImageView uploadButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,11 +28,17 @@ public class HomeActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        runAnimation();
+        init();
     }
-    private void runAnimation() {
-//        Run sound disk
+    private void init(){
+        //        Run sound disk
         soundDisk = findViewById(R.id.soundDisk);
         Glide.with(this).load(R.drawable.disk).into(soundDisk);
+        uploadButton = findViewById(R.id.btnUpload);
+        uploadButton.setOnClickListener(v -> {
+            IntentUtil.changeActivity(this, UploadActivity.class);
+            overridePendingTransition(R.anim.slide_up,R.anim.slide_down);
+        });
     }
+
 }
