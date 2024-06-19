@@ -23,6 +23,6 @@ public class MainActivity extends AppCompatActivity {
                 IntentUtil.changeActivity(MainActivity.this,HomeActivity.class);
                 finish();
             }
-        },3000);
+        },500);
     }
 }
