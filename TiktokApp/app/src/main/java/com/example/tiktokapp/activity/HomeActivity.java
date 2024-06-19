@@ -1,6 +1,8 @@
 package com.example.tiktokapp.activity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
@@ -17,13 +19,16 @@ import com.example.tiktokapp.adapter.PostAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.example.tiktokapp.utils.IntentUtil;
 
 public class HomeActivity extends AppCompatActivity {
     private ImageView soundDisk;
+    private ImageView uploadButton;
 
     private List<Post> postList;
     private ViewPager2 viewPager2;
     private PostAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +40,6 @@ public class HomeActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        runAnimation();
 
         postList = new ArrayList<>();
         viewPager2 = findViewById(R.id.viewPager2);
@@ -49,10 +53,19 @@ public class HomeActivity extends AppCompatActivity {
 
         adapter = new PostAdapter(postList);
         viewPager2.setAdapter(adapter);
+  
+        init();
+
     }
-    private void runAnimation() {
-//        Run sound disk
+    private void init(){
+        //        Run sound disk
         soundDisk = findViewById(R.id.soundDisk);
         Glide.with(this).load(R.drawable.disk).into(soundDisk);
+        uploadButton = findViewById(R.id.btnUpload);
+        uploadButton.setOnClickListener(v -> {
+            IntentUtil.changeActivity(this, UploadActivity.class);
+            overridePendingTransition(R.anim.slide_up,R.anim.slide_down);
+        });
     }
+
 }
