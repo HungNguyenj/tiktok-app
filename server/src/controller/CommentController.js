@@ -4,13 +4,27 @@ import * as commentReplyServices from '../services/commentReply';
 import * as commentServices from '../services/comment';
 import * as postServices from '../services/post';
 
-import { badRequest, internalServerError } from '../utils/handleResp';
+import { badRequest, forBidden, internalServerError } from '../utils/handleResp';
+/**
+ * @typedef {Object} CommentPostModel
+ * @property {number} commenter - The ID of the commenter.
+ * @property {number} postId - The ID of the post.
+ * @property {string} content - The content of the comment.
+ */
+
+/**
+ * @typedef {Object} CommentReplyModel
+ * @property {number} responder - The ID of the responder.
+ * @property {number} commentPostId - The ID of the comment post.
+ * @property {string} content - The content of the comment reply.
+ */
 class CommentController {
     async getCommentsByPostId(req, res) {
         try {
             const comments = await commentPostServices.getCommentsByPostId(
                 req.params.postId,
-                req.query
+                req.query,
+                req
             );
             return res.status(200).json({
                 err: 0,
@@ -28,7 +42,8 @@ class CommentController {
             const comments =
                 await commentReplyServices.getReplyCommentsOfCommentPost(
                     req.params.commentPostId,
-                    req.query
+                    req.query,
+                    req
                 );
             return res.status(200).json({
                 err: 0,
@@ -85,6 +100,58 @@ class CommentController {
             return internalServerError(res);
         }
     }
+
+    async editCommentPost(req,res) {
+        try {
+            const {content} = req.body
+            const {commentPostId} = req.params
+            if (!content) return badRequest("Please enter content",res)
+                /**
+                 * @type {CommentPostModel}
+                 */
+            const comment = await commentPostServices.findCommentById(commentPostId)
+            if (!comment) return badRequest("Not found comment",res)
+            if (comment.commenter!=req.user.id) return forBidden("For bidden",res)
+            const resp = commentPostServices.updateCommentPost(commentPostId,content)
+            comment.content = content
+            if (resp) 
+                return res.status(200).json({
+                    err : 0,
+                    mes : 'Edited comment',
+                    comment
+                })
+            else return badRequest("Some error occured",res)
+            
+        } catch (error) {
+            console.log(error);
+            return internalServerError(res)
+        }
+    }
+    async editCommentReply(req,res) {
+        try {
+            const {content} = req.body
+            const {commentReplyId} = req.params
+            if (!content) return badRequest("Please enter content",res)
+                /**
+                 * @type {CommentReplyModel}
+                 */
+            const comment = await commentReplyServices.findCommentReplyById(commentReplyId)
+            if (!comment) return badRequest("Not found comment",res)
+            if (comment.responder!=req.user.id) return forBidden("For bidden",res)
+            const resp = commentReplyServices.updateCommentReply(commentReplyId,content)
+            comment.content = content
+            if (resp) 
+                return res.status(200).json({
+                    err : 0,
+                    mes : 'Replied comment',
+                    comment
+                })
+            else return badRequest("Some error occured",res)
+        } catch (error) {
+            console.log(error);
+            return internalServerError(res)
+        }
+    }
     async removeCommentPost(req, res) {
         try {
             const deleted = await commentPostServices.removeCommentPost(
@@ -133,11 +200,13 @@ class CommentController {
                 commentId : req.params.commentId,
                 isCommentPost : true
             }
-            const liked = await commentServices.reactComment(
+            const isLiked = await commentServices.checkLikeComment(likeCommentModel)
+            if (isLiked) return badRequest("You're already like this comment",res)
+            const like = await commentServices.reactComment(
                 likeCommentModel,
                 'like'
             );
-            if (liked)
+            if (like)
                 return res.status(200).json({
                     err: 0,
                     mes: 'Liked comment',
@@ -158,6 +227,8 @@ class CommentController {
                 commentId : req.params.commentId,
                 isCommentPost : false
             }
+            const isLiked = await commentServices.checkLikeComment(likeCommentModel)
+            if (isLiked) return badRequest("You're already like this comment",res)
             const liked = await commentServices.reactComment(
                 likeCommentModel,
                 'like'
@@ -184,6 +255,8 @@ class CommentController {
                 commentId : req.params.commentId,
                 isCommentPost : true
             }
+            const isLiked = await commentServices.checkLikeComment(likeCommentModel)
+            if (!isLiked) return badRequest("You're not like this comment yet",res)
             const unliked = await commentServices.reactComment(
                 likeCommentModel,
                 'unlike'
@@ -210,6 +283,8 @@ class CommentController {
                 commentId : req.params.commentId,
                 isCommentPost : false
             }
+            const isLiked = await commentServices.checkLikeComment(likeCommentModel)
+            if (!isLiked) return badRequest("You're not like this comment yet",res)
             const unliked = await commentServices.reactComment(
                 likeCommentModel,
                 'unlike'

@@ -1,7 +1,8 @@
-import { Op, where } from 'sequelize';
+import { Op, literal, where } from 'sequelize';
 import db from '../models';
 import { pagingConfig } from '../utils/pagination';
 import { query } from 'express';
+import { formatQueryUser } from './user';
 export const getReplyCommentsOfCommentPost = (
     commentPostId,
     {
@@ -13,7 +14,8 @@ export const getReplyCommentsOfCommentPost = (
         userId,
         fullName,
         content,
-    }
+    },
+    req
 ) =>
     new Promise(async (resolve, reject) => {
         try {
@@ -34,7 +36,7 @@ export const getReplyCommentsOfCommentPost = (
                 include: [
                     {
                         model: db.User,
-                        attributes: ['id', 'userName', 'fullName', 'avatar'],
+                        attributes: ['id', 'userName', 'fullName'],
                         ...formatQueryUser,
                         as: 'responderData',
                         where: userQuery,
@@ -46,7 +48,39 @@ export const getReplyCommentsOfCommentPost = (
                         where: { id: commentPostId },
                     },
                 ],
+                attributes : {
+                    include : [
+                        [
+                            literal(`(
+                                SELECT COUNT(*)
+                                FROM likesComment lc
+                                WHERE
+                                  lc.commentId = commentReply.id
+                                  AND lc.isCommentPost = false
+                                )`),
+                            'likes'
+                        ]
+                        
+                    ]
+                }
             };
+            if (req.user) {
+                commonQuery.attributes.include.push([
+                    literal(`
+                    (
+                        SELECT EXISTS (
+                            SELECT 1
+                            FROM likesComment lc
+                            JOIN users u ON lc.liker = u.id
+                            WHERE
+                                lc.commentId = commentReply.id
+                                AND lc.isCommentPost = false
+                                AND u.id = ${req.user.id}
+                        )
+                    )`),
+                    'isLiked'
+                ])
+            }
             const { count, rows } = await db.CommentReply.findAndCountAll({
                 attributes: {
                     exclude: ['createdAt', 'updatedAt'],
@@ -62,10 +96,10 @@ export const getReplyCommentsOfCommentPost = (
             resolve({
                 commentsReply: rows,
                 pagination: {
-                    orderBy: queries.orderBy,
-                    page: queries.offset + 1,
-                    pageSize: queries.limit,
-                    orderDirection: queries.orderDirection,
+                    orderBy: pagingQuery.orderBy,
+                    page: pagingQuery.offset + 1,
+                    pageSize: pagingQuery.limit,
+                    orderDirection: pagingQuery.orderDirection,
                     totalItems,
                     totalPages,
                 },
@@ -159,13 +193,13 @@ export const removeCommentReplyByCommentPostId = (commentPostId) =>
     })
 
 
-export const updateCommentReply = (content) =>
+export const updateCommentReply = (id,content) =>
     new Promise(async (resolve, reject) => {
         try {
             const updated = await db.CommentReply.update({
                 content 
             }, {
-                where: { id: commentReplyModel.id },
+                where: { id },
             });
             resolve(updated);
         } catch (error) {

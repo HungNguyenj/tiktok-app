@@ -24,24 +24,18 @@ export const reactComment = (
         try {
             // Check comment exists or not
             if (likeCommentModel.isCommentPost) {
-                const comment = await db.CommentPost.findByPk(commentId);
+                const comment = await db.CommentPost.findByPk(likeCommentModel.commentId);
                 if (!comment)
-                    return badRequest(
-                        'Not found comment to ' + typeAction,
-                        res
-                    );
+                    resolve(false)
                 
             } else {
-                const commentReply = await db.CommentReply.findByPk(commentId);
+                const commentReply = await db.CommentReply.findByPk(likeCommentModel.commentId);
                 if (!commentReply)
-                    return badRequest(
-                        'Not found comment to ' + typeAction,
-                        res
-                    )
+                    resolve(false)
             }
             // insert/destroy record to like/unlike comment
             if (typeAction=="like") {
-                const resp = await db.LikeComment.insert(likeCommentModel)
+                const resp = await db.LikeComment.create(likeCommentModel)
                 resolve(resp);
             } else {
                 const resp = await db.LikeComment.destroy({
@@ -54,3 +48,19 @@ export const reactComment = (
             reject(error);
         }
     });
+/**
+ * React to a comment.
+ * @param {LikeCommentModel} likeCommentModel - The comment object.
+ * @returns {Promise<void>} A promise that resolves when the action is complete.
+ */
+export const checkLikeComment = (likeCommentModel) => 
+    new Promise((resolve,reject)=> {
+        try {
+            const isLiked = db.LikeComment.findOne({
+                where : likeCommentModel
+            })
+            resolve(isLiked)
+        } catch (error) {
+            reject(error)
+        }
+    })
