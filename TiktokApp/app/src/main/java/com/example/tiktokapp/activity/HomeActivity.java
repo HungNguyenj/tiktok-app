@@ -2,6 +2,7 @@ package com.example.tiktokapp.activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -54,7 +55,7 @@ public class HomeActivity extends AppCompatActivity {
         adapter = new PostAdapter(postList);
         viewPager2.setAdapter(adapter);
   
-        init();
+        //init();
 
     }
     private void init(){
@@ -67,5 +68,6 @@ public class HomeActivity extends AppCompatActivity {
             overridePendingTransition(R.anim.slide_up,R.anim.slide_down);
         });
     }
+
 
 }
