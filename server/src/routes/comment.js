@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 import CommentController from '../controller/CommentController';
 import Auth from '../middleware/auth';
-router.get('/post/:postId', Auth.origin, CommentController.getCommentsByPostId);
+router.get('/post/:postId', Auth.setUser, CommentController.getCommentsByPostId);
 router.get(
     '/:commentPostId/reply',
-    Auth.origin,
+    Auth.setUser,
     CommentController.getReplyCommentsOfCommentPost
 );
 router.post('/post/:postId', Auth.origin, CommentController.insertCommentPost);
