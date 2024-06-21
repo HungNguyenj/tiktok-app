@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,22 +15,28 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
+import com.example.tiktokapp.Model.APIResponeList;
 import com.example.tiktokapp.Model.Post;
 import com.example.tiktokapp.R;
 import com.example.tiktokapp.adapter.PostAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.example.tiktokapp.services.PostService;
 import com.example.tiktokapp.utils.IntentUtil;
+import com.google.gson.Gson;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity {
-    private ImageView soundDisk;
     private ImageView uploadButton;
 
     private List<Post> postList;
     private ViewPager2 viewPager2;
     private PostAdapter adapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,33 +48,43 @@ public class HomeActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        postList = new ArrayList<>();
         viewPager2 = findViewById(R.id.viewPager2);
-
-        postList.add(new Post("title 01", "http://res.cloudinary.com/da5wewzih/video/upload/v1709014619/tiktok_video/xzzgbdzlxuo51eu9qz9q.mp4"));
-        postList.add(new Post("title 02", "http://res.cloudinary.com/da5wewzih/video/upload/v1716220712/tiktok_video/qkfwangsiwkmaszsem1v.mp4"));
-        postList.add(new Post("title 03", "http://res.cloudinary.com/da5wewzih/video/upload/v1716220837/tiktok_video/gqsyudrlwcbxdlp68vd2.mp4"));
-        postList.add(new Post("title 04", "http://res.cloudinary.com/da5wewzih/video/upload/v1716220942/tiktok_video/qatbetefbw0bdzuvnl7o.mp4"));
-        postList.add(new Post("title 05", "http://res.cloudinary.com/da5wewzih/video/upload/v1716226746/tiktok_video/ut2zoqvl9xfuwkzalw1l.mp4"));
-        postList.add(new Post("title 06", "http://res.cloudinary.com/da5wewzih/video/upload/v1716358440/tiktok_video/l8r2ue2zvcd8pr8tch6b.mp4"));
-
+        // Initialize adapter with an empty list initially
+        postList = new ArrayList<>();
+        postList.add(new Post("Title 01","http://res.cloudinary.com/da5wewzih/video/upload/v1709014619/tiktok_video/xzzgbdzlxuo51eu9qz9q.mp4"));
         adapter = new PostAdapter(postList);
         viewPager2.setAdapter(adapter);
-  
-        //init();
-
+        init();
+        // Call API to get posts
+        getPosts();
     }
-    private void init(){
-        //        Run sound disk
-        soundDisk = findViewById(R.id.soundDisk);
-        Glide.with(this).load(R.drawable.disk).into(soundDisk);
+
+    private void init() {
+        // Run sound disk
         uploadButton = findViewById(R.id.btnUpload);
         uploadButton.setOnClickListener(v -> {
             IntentUtil.changeActivity(this, UploadActivity.class);
-            overridePendingTransition(R.anim.slide_up,R.anim.slide_down);
+            overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
         });
     }
 
-
+    private void getPosts() {
+        PostService.excute.getPosts().enqueue(new Callback<APIResponeList<Post>>() {
+            @Override
+            public void onResponse(Call<APIResponeList<Post>> call, Response<APIResponeList<Post>> response) {
+                APIResponeList<Post> apiResponse = response.body();
+                if (apiResponse.getErr() == 0) {
+                    postList = apiResponse.getData();
+                    adapter.setData(postList);
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(HomeActivity.this, apiResponse.getMes(), Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<APIResponeList<Post>> call, Throwable t) {
+                Toast.makeText(HomeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import android.widget.VideoView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.tiktokapp.Model.Post;
 import com.example.tiktokapp.R;
 
@@ -30,12 +32,18 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
     @Override
     public PostHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_main , parent, false);
+        ImageView soundDisk = view.findViewById(R.id.soundDisk);
+        Glide.with(view.getContext()).load(R.drawable.disk).into(soundDisk);
         return new PostHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull PostHolder holder, int position) {
         holder.setPostData(postList.get(position));
+    }
+    public void setData(List<Post> postList) {
+        this.postList = postList;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -102,7 +110,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                             // Video có tỷ lệ cao hơn View
                             scaleY = viewRatio / videoRatio;
                         }
-
                         videoView.setScaleX(scaleX);
                         videoView.setScaleY(scaleY);
                     }

@@ -94,7 +94,7 @@ export const getReplyCommentsOfCommentPost = (
                     ? Math.ceil(totalItems / pageSize)
                     : 1;
             resolve({
-                commentsReply: rows,
+                comments: rows,
                 pagination: {
                     orderBy: pagingQuery.orderBy,
                     page: pagingQuery.offset + 1,

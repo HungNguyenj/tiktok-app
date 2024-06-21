@@ -29,6 +29,8 @@ android {
 }
 
 dependencies {
+    compileOnly("org.projectlombok:lombok:1.18.32")
+    annotationProcessor("org.projectlombok:lombok:1.18.32")
     implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.squareup.retrofit2:converter-gson:2.1.0")
