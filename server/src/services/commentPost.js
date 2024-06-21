@@ -92,7 +92,7 @@ export const getCommentsByPostId = (
                     ? Math.ceil(totalItems / pageSize)
                     : 1;
             resolve({
-                commentsPost: rows,
+                comments: rows,
                 pagination: {
                     orderBy: pagingQuery.orderBy,
                     page: pagingQuery.offset + 1,

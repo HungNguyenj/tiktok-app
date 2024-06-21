@@ -2,7 +2,6 @@ package com.example.tiktokapp.activity;
 
 import android.os.Bundle;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,13 +11,16 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.tiktokapp.R;
-import com.example.tiktokapp.adapter.UploadTabAdapter;
+import com.example.tiktokapp.adapter.FragmentViewPaggerAdapter;
+import com.example.tiktokapp.fragment.ImageFilesFragment;
+import com.example.tiktokapp.fragment.VideoAndImageFilesFragment;
+import com.example.tiktokapp.fragment.VideoFilesFragment;
 import com.google.android.material.tabs.TabLayout;
 
 public class UploadActivity extends AppCompatActivity {
     private ImageView btnClose;
     private ViewPager viewPager;
-    private UploadTabAdapter uploadtabAdapter;
+    private FragmentViewPaggerAdapter uploadtabAdapter;
     private TabLayout tabLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,31 +41,16 @@ public class UploadActivity extends AppCompatActivity {
             onBackPressed();
         });
         viewPager = findViewById(R.id.viewPagger);
-        uploadtabAdapter = new UploadTabAdapter(getSupportFragmentManager());
+        uploadtabAdapter = new FragmentViewPaggerAdapter(getSupportFragmentManager());
+        uploadtabAdapter.addFragment(new VideoAndImageFilesFragment(), "All");
+        uploadtabAdapter.addFragment(new VideoFilesFragment(), "Video");
+        uploadtabAdapter.addFragment(new ImageFilesFragment(), "Image");
         viewPager.setAdapter(uploadtabAdapter);
-        viewPager.setCurrentItem(0);
         tabLayout = findViewById(R.id.tabViewFiles);
-
+        tabLayout.setupWithViewPager(viewPager);
     }
     private void handleAction() {
 
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                int position = tab.getPosition();
-                viewPager.setCurrentItem(position);
-                Toast.makeText(UploadActivity.this, "Your message here", Toast.LENGTH_SHORT).show();
-
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-            }
-        });
     }
 
     @Override

@@ -29,7 +29,7 @@ class CommentController {
             return res.status(200).json({
                 err: 0,
                 mes: '',
-                comments,
+                ...comments,
             });
         } catch (error) {
             console.log(error);
@@ -48,7 +48,7 @@ class CommentController {
             return res.status(200).json({
                 err: 0,
                 mes: '',
-                comments,
+                ...comments,
             });
         } catch (error) {
             console.log(error);
@@ -69,6 +69,7 @@ class CommentController {
                 return res.status(200).json({
                     err: 0,
                     mes: 'Commented',
+                    comment
                 });
             else 
                 return badRequest("Some error occured",res)
@@ -83,15 +84,17 @@ class CommentController {
             const commentPostId = req.params.commentPostId
             const commentPost = await commentPostServices.findCommentById(commentPostId)
             if (!commentPost) return badRequest("Not found comment to reply",res)
-            const commentReply = await commentReplyServices.insertCommentReply({
+            const comment = await commentReplyServices.insertCommentReply({
                 responder: req.user.id,
                 commentPostId,
                 content: req.body.content,
             });
-            if (commentReply)
+            if (comment)
                 return res.status(200).json({
                     err: 0,
                     mes: 'Replied comment',
+                    comment
+
                 });
             else 
                 return badRequest("Some error occured",res)
