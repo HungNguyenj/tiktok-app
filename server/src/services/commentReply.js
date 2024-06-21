@@ -1,5 +1,5 @@
 import { Op, literal, where } from 'sequelize';
-import db from '../models';
+import db, { Sequelize, sequelize } from '../models';
 import { pagingConfig } from '../utils/pagination';
 import { query } from 'express';
 import { formatQueryUser } from './user';
@@ -139,21 +139,21 @@ export const insertCommentReply = (commentReplyModel) =>
     });
 export const removeCommentReply = (commentReplyId) =>
     new Promise(async (resolve, reject) => {
+        const transaction = await sequelize.transaction();
         try {
-            const removeLikeCommentReply = await db.LikeCommnet.destroy({
+            const removeLikeCommentReply = await db.LikeComment.destroy({
                 where : {
                     commentId : commentReplyId,
                     isCommentPost : false
                 }
             })
-            if (removeCommentReply) {
-                const deleted = await db.CommentReply.destroy({
-                    where: { id: commentReplyId },
-                });
-                resolve(deleted);
-            }
-            
+            const deleted = await db.CommentReply.destroy({
+                where: { id: commentReplyId },
+            });
+            await transaction.commit();
+            resolve(deleted);
         } catch (error) {
+            await transaction.rollback();
             reject(error);
         }
     });
@@ -167,21 +167,14 @@ export const removeCommentReplyByCommentPostId = (commentPostId) =>
         });
         await db.LikeComment.destroy({
             where: {
-                commentId: commentPostId,
-                isCommentPost: 1
-            },
-            transaction
-        });
-        await db.LikeComment.destroy({
-            where: {
                 commentId: {
-                    [Sequelize.Op.in]: sequelize.literal(`SELECT id FROM CommentReplies WHERE commentPostId = ${commentPostId}`)
-                }
+                    [Sequelize.Op.in]: sequelize.literal(`(
+                        SELECT id FROM CommentsReply 
+                        WHERE commentPostId = ${commentPostId} 
+                        )`)
+                },
+                isCommentPost : false
             },
-            transaction
-        });
-        await db.CommentPost.destroy({
-            where: { id: commentPostId },
             transaction
         });
         await transaction.commit();
