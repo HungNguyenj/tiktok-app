@@ -2,12 +2,17 @@ package com.example.tiktokapp.Model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class APIRespone<T extends AbstractModel> {
     private Integer err;
-    public String mes;
+    private String mes;
     @SerializedName(value = "post", alternate = {"user","follower","following","comment"})
-    public T data;
-    public Pagination pagination;
+    private T data;
+    private Pagination pagination;
 }
