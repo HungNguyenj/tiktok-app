@@ -1,5 +1,6 @@
 package com.example.tiktokapp.adapter;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -71,6 +73,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
         // Khai báo ImageView heartButton
         ImageView heartButton;
 
+        // Khai báo TextView amountLike
+        TextView amountLike;
+
         public PostHolder(@NonNull View itemView) {
             super(itemView);
             videoView = itemView.findViewById(R.id.videoView);
@@ -78,6 +83,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
             progressBar = itemView.findViewById(R.id.progress_bar);
             // Khởi tạo ImageView heartButton
             heartButton = itemView.findViewById(R.id.btnLike);
+            // Khởi tạo TextView amountLike
+            amountLike = itemView.findViewById(R.id.amountLike);
         }
 
         public void setPostData(Post post) {
@@ -99,7 +106,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
                     progressBar.setVisibility(View.GONE);
-
 
                     //kich thuoc cua video
                     int videoWidth = mp.getVideoWidth();
@@ -140,54 +146,71 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                 }
             });
 
+            // Set dữ liệu cho TextView amountLike
+            amountLike.setText(String.valueOf(post.getLikes()));
+
             // Xử lý sự kiện click cho ImageView heartButton
             heartButton.setOnClickListener((view) -> {
                 if (post.isLiked()) {
-                    unlikePost(post.getId());
+                    unlikePost(post, itemView.getContext());
                 } else {
-                    likePost(post.getId());
+                    likePost(post, itemView.getContext());
                 }
             });
         }
 
         // Hàm gọi api và xử lý sự kiện like
-        private void likePost(int postId) {
-            PostService.excute.likePost(postId).enqueue(new Callback<SimpleAPIRespone>() {
+        private void likePost(Post post, Context context) {
+            PostService.excute.likePost(post.getId()).enqueue(new Callback<SimpleAPIRespone>() {
                 @Override
                 public void onResponse(Call<SimpleAPIRespone> call, Response<SimpleAPIRespone> response) {
                     SimpleAPIRespone apiResponse = response.body();
                     if (apiResponse.getErr() == 0) {
                         // Xử lý khi like thành công
                         Log.i("likePost", "Like thành công");
+                        // Cập nhật màu của ImageView heartButton
+                        heartButton.setColorFilter(0xfffc1605);
+                        // Cập nhật số lượng like
+                        post.setLikes(post.getLikes() + 1);
+                        amountLike.setText(String.valueOf(post.getLikes()));
                     } else {
                         // Xử lý khi like video lỗi
+                        Toast.makeText(context, "Lỗi khi like post", Toast.LENGTH_SHORT).show();
                     }
                 }
                 @Override
                 public void onFailure(Call<SimpleAPIRespone> call, Throwable t) {
                     // Xử lý khi call api thất bại
+                    Toast.makeText(context, "Lỗi khi like post", Toast.LENGTH_SHORT).show();
                     Log.i("likePost", "Call api thất bại");
                 }
             });
         }
 
         // Hàm gọi api và xử lý sự kiện unlike
-        private void unlikePost(int postId) {
-            PostService.excute.unlikePost(postId).enqueue(new Callback<SimpleAPIRespone>() {
+        private void unlikePost(Post post, Context context) {
+            PostService.excute.unlikePost(post.getId()).enqueue(new Callback<SimpleAPIRespone>() {
                 @Override
                 public void onResponse(Call<SimpleAPIRespone> call, Response<SimpleAPIRespone> response) {
                     SimpleAPIRespone apiResponse = response.body();
                     if (apiResponse.getErr() == 0) {
                         // Xử lý khi unlike thành công
-                        Log.i("unlikePost", "Like thất bại");
+                        // Cập nhật màu của ImageView heartButton
+                        heartButton.setColorFilter(0xfffc1605);
+                        // Cập nhật số lượng like
+                        post.setLikes(post.getLikes() - 1);
+                        amountLike.setText(String.valueOf(post.getLikes()));
                     } else {
+                        Log.i("unlikePost", "Like thất bại");
                         // Xử lý khi unlike video lỗi
+                        Toast.makeText(context, "Lỗi khi unlike post", Toast.LENGTH_SHORT).show();
                     }
                 }
                 @Override
                 public void onFailure(Call<SimpleAPIRespone> call, Throwable t) {
                     // Xử lý khi call api thất bại
                     Log.i("unlikePost", "Call api thất bại");
+                    Toast.makeText(context, "Lỗi khi unlike post", Toast.LENGTH_SHORT).show();
                 }
             });
         }
