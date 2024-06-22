@@ -20,4 +20,8 @@ public class APIClient {
         }
         return retrofit;
     }
+    public static UserService getUserService(){
+        UserService userService = getClient().create(UserService.class);
+        return userService;
+    }
 }
