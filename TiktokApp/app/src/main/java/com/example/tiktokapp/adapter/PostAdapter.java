@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,8 @@ import com.example.tiktokapp.Model.Post;
 import com.example.tiktokapp.R;
 
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
 
@@ -54,14 +57,27 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
     public class PostHolder extends RecyclerView.ViewHolder {
 
         VideoView videoView;
-        TextView title;
+        TextView title, likes, comments, shares, userName;
+
+        CircleImageView avatar;
+
         ProgressBar progressBar;
 
         public PostHolder(@NonNull View itemView) {
             super(itemView);
 
+            //post element
             videoView = itemView.findViewById(R.id.videoView);
             title = itemView.findViewById(R.id.videoContent);
+            likes = itemView.findViewById(R.id.amountLike);
+            comments = itemView.findViewById(R.id.amountComment);
+            shares = itemView.findViewById(R.id.amountShare);
+
+            userName = itemView.findViewById(R.id.videoUserName);
+
+            avatar = itemView.findViewById(R.id.userAvatar);
+
+            //progressbar
             progressBar = itemView.findViewById(R.id.progress_bar);
 
         }
@@ -72,10 +88,23 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
 
             //set content
             title.setText(post.getTitle());
-//            videoView.setVideoPath(post.getVideoUrl());
+            likes.setText(String.valueOf(post.getLikes()));
+            comments.setText(String.valueOf(post.getComments()));
+            shares.setText(String.valueOf(post.getShares()));
+            //userName.setText(post.getVideoId());
+            //Toast.makeText(itemView.getContext(), post.getPosterData().toString(), Toast.LENGTH_SHORT).show();
 
+            //set avatar
+//            Uri avatarUri = Uri.parse(post.getPosterData().getAvatarData().getUrl().toString());
+
+
+//            Glide.with(itemView.getContext())
+//                    .load(post.getPosterData().getAvatarData().getUrl())
+//                    .into(avatar);
+
+            //control video
             MediaController mediaController = new MediaController(itemView.getContext());
-            mediaController.setAnchorView(videoView);
+//            mediaController.setAnchorView(videoView); disable controller
             videoView.setMediaController(mediaController);
 
             Uri videoUri = Uri.parse(post.getVideoUrl());

@@ -171,4 +171,141 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
     <!--End Menu-->
 
+    <!--Comment -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="409dp"
+        android:layout_height="450dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- Button for sending the comment -->
+        <!-- Initially hidden -->
+        <ScrollView
+            android:id="@+id/scrollView2"
+            android:layout_width="407dp"
+            android:layout_height="450dp"
+            app:layout_constraintBottom_toBottomOf="@+id/constraintLayout7"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+            <LinearLayout
+                android:id="@+id/linearCommentContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Example comment item -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="8dp">
+
+                    <!-- Avatar -->
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/userAvatar"
+                        android:layout_width="46dp"
+                        android:layout_height="49dp"
+                        android:layout_alignParentStart="true"
+                        android:src="@drawable/avatar"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <!-- Comment content -->
+
+                    <!-- Timestamp -->
+
+                    <TextView
+                        android:id="@+id/commentatorUsername"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="ABCal"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/userAvatar"
+                        app:layout_constraintTop_toTopOf="@+id/userAvatar" />
+
+                    <TextView
+                        android:id="@+id/textViewCommentContent"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:text="This is a comment"
+                        app:layout_constraintBottom_toBottomOf="@+id/userAvatar"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="@+id/commentatorUsername"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.73" />
+
+                    <TextView
+                        android:id="@+id/textViewTimestamp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="2 hours ago"
+                        app:layout_constraintStart_toStartOf="@+id/textViewCommentContent"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewCommentContent" />
+
+                    <ImageButton
+                        android:id="@+id/imageButton5"
+                        android:layout_width="24dp"
+                        android:layout_height="18dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="32dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewCommentContent"
+                        app:srcCompat="@drawable/baseline_favorite_border_24" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- Thêm các comment khác vào đây tương tự -->
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout7"
+            android:layout_width="407dp"
+            android:layout_height="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <EditText
+                android:id="@+id/editTextComment"
+                android:layout_width="402dp"
+                android:layout_height="46dp"
+                android:layout_weight="1"
+                android:background="#D3D3D3"
+                android:hint="Add a comment..."
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <ImageButton
+                android:id="@+id/imageButton4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="338dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/editTextComment"
+                app:layout_constraintStart_toStartOf="@+id/editTextComment"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0"
+                app:srcCompat="@drawable/baseline_arrow_circle_up_24" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
