@@ -68,7 +68,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
 
             MediaController mediaController = new MediaController(itemView.getContext());
             mediaController.setAnchorView(videoView);
-//            videoView.setMediaController(mediaController); unable controller
+            videoView.setMediaController(mediaController);
 
             Uri videoUri = Uri.parse(post.getVideoUrl());
             videoView.setVideoURI(videoUri);

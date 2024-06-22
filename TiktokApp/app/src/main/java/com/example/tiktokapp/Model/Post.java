@@ -31,10 +31,6 @@ public class Post extends AbstractModel{
         this.visibility = visibility;
     }
 
-    public Post(){
-
-    }
-
     public Post(String title, String videoUrl) {
         this.title = title;
         this.videoUrl = videoUrl;
@@ -42,54 +38,6 @@ public class Post extends AbstractModel{
 
     public String getTitle() {
         return title;
-    }
-
-    public void setComments(int comments) {
-        this.comments = comments;
-    }
-
-    public void setLikes(int likes) {
-        this.likes = likes;
-    }
-
-    public void setPoster(int poster) {
-        this.poster = poster;
-    }
-
-    public void setPosterData(User posterData) {
-        this.posterData = posterData;
-    }
-
-    public void setShares(int shares) {
-        this.shares = shares;
-    }
-
-    public void setThumnailId(String thumnailId) {
-        this.thumnailId = thumnailId;
-    }
-
-    public void setThumnailUrl(String thumnailUrl) {
-        this.thumnailUrl = thumnailUrl;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setVideoId(String videoId) {
-        this.videoId = videoId;
-    }
-
-    public void setVideoUrl(String videoUrl) {
-        this.videoUrl = videoUrl;
-    }
-
-    public void setViews(int views) {
-        this.views = views;
-    }
-
-    public void setVisibility(int visibility) {
-        this.visibility = visibility;
     }
 
     public String getVideoUrl() {
