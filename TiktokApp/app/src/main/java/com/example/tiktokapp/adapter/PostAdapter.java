@@ -2,6 +2,7 @@ package com.example.tiktokapp.adapter;
 
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,16 +10,26 @@ import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.tiktokapp.Model.APIResponeList;
 import com.example.tiktokapp.Model.Post;
+import com.example.tiktokapp.Model.SimpleAPIRespone;
 import com.example.tiktokapp.R;
+import com.example.tiktokapp.activity.HomeActivity;
+import com.example.tiktokapp.services.PostService;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
 
@@ -57,13 +68,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
         TextView title;
         ProgressBar progressBar;
 
+        // Khai báo ImageView heartButton
+        ImageView heartButton;
+
         public PostHolder(@NonNull View itemView) {
             super(itemView);
-
             videoView = itemView.findViewById(R.id.videoView);
             title = itemView.findViewById(R.id.videoContent);
             progressBar = itemView.findViewById(R.id.progress_bar);
-
+            // Khởi tạo ImageView heartButton
+            heartButton = itemView.findViewById(R.id.btnLike);
         }
 
         public void setPostData(Post post) {
@@ -123,6 +137,57 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                 public void onCompletion(MediaPlayer mp) {
 
                     mp.start();
+                }
+            });
+
+            // Xử lý sự kiện click cho ImageView heartButton
+            heartButton.setOnClickListener((view) -> {
+                if (post.isLiked()) {
+                    unlikePost(post.getId());
+                } else {
+                    likePost(post.getId());
+                }
+            });
+        }
+
+        // Hàm gọi api và xử lý sự kiện like
+        private void likePost(int postId) {
+            PostService.excute.likePost(postId).enqueue(new Callback<SimpleAPIRespone>() {
+                @Override
+                public void onResponse(Call<SimpleAPIRespone> call, Response<SimpleAPIRespone> response) {
+                    SimpleAPIRespone apiResponse = response.body();
+                    if (apiResponse.getErr() == 0) {
+                        // Xử lý khi like thành công
+                        Log.i("likePost", "Like thành công");
+                    } else {
+                        // Xử lý khi like video lỗi
+                    }
+                }
+                @Override
+                public void onFailure(Call<SimpleAPIRespone> call, Throwable t) {
+                    // Xử lý khi call api thất bại
+                    Log.i("likePost", "Call api thất bại");
+                }
+            });
+        }
+
+        // Hàm gọi api và xử lý sự kiện unlike
+        private void unlikePost(int postId) {
+            PostService.excute.unlikePost(postId).enqueue(new Callback<SimpleAPIRespone>() {
+                @Override
+                public void onResponse(Call<SimpleAPIRespone> call, Response<SimpleAPIRespone> response) {
+                    SimpleAPIRespone apiResponse = response.body();
+                    if (apiResponse.getErr() == 0) {
+                        // Xử lý khi unlike thành công
+                        Log.i("unlikePost", "Like thất bại");
+                    } else {
+                        // Xử lý khi unlike video lỗi
+                    }
+                }
+                @Override
+                public void onFailure(Call<SimpleAPIRespone> call, Throwable t) {
+                    // Xử lý khi call api thất bại
+                    Log.i("unlikePost", "Call api thất bại");
                 }
             });
         }

@@ -20,7 +20,7 @@ public class Post extends AbstractModel{
     private int poster;
     private User posterData;
     private boolean isFollow;
-    private boolean isLiked;
+     boolean isLiked;
     private boolean isMe;
 }
 
