@@ -19,19 +19,19 @@ router.post(
 );
 
 // Edit commnet
-router.put("/:commentPostId/edit",Auth.origin,CommentController.editCommentPost)
 router.put("/reply/:commentReplyId/edit",Auth.origin,CommentController.editCommentReply)
+router.put("/:commentPostId/edit",Auth.origin,CommentController.editCommentPost)
 
 // Delete comment
-router.delete(
-    '/:commentPostId',
-    Auth.origin,
-    CommentController.removeCommentPost
-);
 router.delete(
     '/reply/:replyCommentId',
     Auth.origin,
     CommentController.removeReplyComment
+);
+router.delete(
+    '/:commentPostId',
+    Auth.origin,
+    CommentController.removeCommentPost
 );
 // Like comment
 router.post('/:commentId/like', Auth.origin, CommentController.likeCommentPost);

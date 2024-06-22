@@ -1,5 +1,5 @@
 import { Op, literal, where } from 'sequelize';
-import db from '../models';
+import db, { sequelize } from '../models';
 import { pagingConfig } from '../utils/pagination';
 import { query } from 'express';
 import { badRequest } from '../utils/handleResp';
@@ -92,7 +92,7 @@ export const getCommentsByPostId = (
                     ? Math.ceil(totalItems / pageSize)
                     : 1;
             resolve({
-                commentsPost: rows,
+                comments: rows,
                 pagination: {
                     orderBy: pagingQuery.orderBy,
                     page: pagingQuery.offset + 1,
@@ -136,29 +136,30 @@ export const insertCommentPost = (commentPostModel) =>
             reject(error);
         }
     });
-
-export const removeCommentPost = (commentPostId, commenter) =>
-    new Promise(async (resolve, reject) => {
+export const removeCommentPost = (commentPostId) => 
+    new Promise(async (resolve,reject)=> {
+        const transaction = await sequelize.transaction();
         try {
-            const comment = await db.CommentPost.findOne({
-                where: { id: commentPostId, commenter },
+            await commentReplyServices.removeCommentReplyByCommentPostId(commentPostId)
+            await db.LikeComment.destroy({
+                where: {
+                    commentId: commentPostId,
+                    isCommentPost: 1
+                },
+                transaction
             });
-            if (comment) {
-                const removeRepliesOfComment = await db.CommentReply.destroy({
-                    where: { commentPostId },
-                });
-                if (removeRepliesOfComment) {
-                    await comment.destroy();
-                    resolve(true);
-                }
-            }
-            // Not found comment
-            resolve(false);
+            await db.CommentPost.destroy({
+                where: { id: commentPostId },
+                transaction
+            });
+            await transaction.commit();
+            resolve(true)
         } catch (error) {
-            reject(error);
+            await transaction.rollback();
+            reject(error)
         }
-    });
-
+    })
+    
 export const updateCommentPost = (id,content) =>
     new Promise(async (resolve, reject) => {
         try {

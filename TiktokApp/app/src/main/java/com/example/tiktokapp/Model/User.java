@@ -1,7 +1,13 @@
 package com.example.tiktokapp.Model;
 
 import java.sql.Timestamp;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class User extends AbstractModel{
     private String userName;
     private String fullName;

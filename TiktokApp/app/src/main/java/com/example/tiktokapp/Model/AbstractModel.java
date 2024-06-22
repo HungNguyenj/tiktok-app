@@ -1,9 +1,15 @@
 package com.example.tiktokapp.Model;
 
 import java.sql.Timestamp;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@RequiredArgsConstructor
 abstract class AbstractModel {
-     int id;
-     Timestamp createdAt;
-     Timestamp updatedAt;
+     private int id;
+     private Timestamp createdAt;
+     private Timestamp updatedAt;
 }
