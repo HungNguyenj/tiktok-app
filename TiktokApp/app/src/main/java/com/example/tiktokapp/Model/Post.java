@@ -1,4 +1,7 @@
 package com.example.tiktokapp.Model;
+
+import com.google.gson.annotations.SerializedName;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +21,10 @@ public class Post extends AbstractModel{
     private int shares;
     private int likes;
     private int poster;
+
+    @SerializedName("posterData")
     private User posterData;
+
     private boolean isFollow;
     private boolean isLiked;
     private boolean isMe;

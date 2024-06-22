@@ -29,6 +29,7 @@ android {
 }
 
 dependencies {
+    implementation("androidx.datastore:datastore-core-android:1.1.1")
     compileOnly("org.projectlombok:lombok:1.18.32")
     annotationProcessor("org.projectlombok:lombok:1.18.32")
     implementation("de.hdodenhof:circleimageview:3.1.0")
