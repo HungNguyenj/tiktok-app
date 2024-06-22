@@ -7,126 +7,150 @@
     android:layout_height="match_parent"
     tools:context=".activity.CommentActivity">
 
-    <!-- RecyclerView for displaying comments -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewComments"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:padding="16dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/commentInputLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- LinearLayout for comment input and send button -->
-    <LinearLayout
-        android:id="@+id/commentInputLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="409dp"
+        android:layout_height="450dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <!-- EditText for entering a comment -->
-        <EditText
-            android:id="@+id/editTextComment"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Add a comment..."
-            android:padding="8dp"
-            android:background="#D3D3D3" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <!-- Button for sending the comment -->
-        <ImageButton
-            android:id="@+id/buttonSendComment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/send_comment"
-            android:contentDescription="Send"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="8dp"
-            android:visibility="gone" /> <!-- Initially hidden -->
-
-    </LinearLayout>
-
-    <!-- Comment item layout -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/commentItemLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:visibility="gone"> <!-- Initially hidden -->
-
-        <!-- Avatar của commenter -->
-        <ImageView
-            android:id="@+id/imageViewAvatar"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/avatar"
+        <!-- Initially hidden -->
+        <ScrollView
+            android:id="@+id/scrollView2"
+            android:layout_width="407dp"
+            android:layout_height="400dp"
+            app:layout_constraintBottom_toBottomOf="@+id/constraintLayout7"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+            <LinearLayout
+                android:id="@+id/linearCommentContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Example comment item -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="8dp">
+
+                    <!-- Avatar -->
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/userAvatar"
+                        android:layout_width="46dp"
+                        android:layout_height="49dp"
+                        android:layout_alignParentStart="true"
+                        android:src="@drawable/avatar"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <!-- Comment content -->
+
+                    <!-- Timestamp -->
+
+                    <TextView
+                        android:id="@+id/commentatorUsername"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="ABCal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/userAvatar"
+                        app:layout_constraintTop_toTopOf="@+id/userAvatar" />
+
+                    <TextView
+                        android:id="@+id/textViewCommentContent"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:text="This is a comment"
+                        app:layout_constraintBottom_toBottomOf="@+id/userAvatar"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="@+id/commentatorUsername"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.73" />
+
+                    <TextView
+                        android:id="@+id/textViewTimestamp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="2 hours ago"
+                        app:layout_constraintStart_toStartOf="@+id/textViewCommentContent"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewCommentContent" />
+
+                    <TextView
+                        android:id="@+id/replyBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="4dp"
+                        android:text="Reply"
+                        app:layout_constraintStart_toEndOf="@+id/textViewTimestamp"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewCommentContent" />
+
+                    <ImageButton
+                        android:id="@+id/imageButton5"
+                        android:layout_width="24dp"
+                        android:layout_height="18dp"
+                        android:layout_marginTop="4dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewCommentContent"
+                        app:srcCompat="@drawable/baseline_favorite_border_24" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- Thêm các comment khác vào đây tương tự -->
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout7"
+            android:layout_width="407dp"
+            android:layout_height="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0" />
-
-        <!-- Tên của commenter -->
-        <TextView
-            android:id="@+id/commentatorUsername"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:text="Commenter Name"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/imageViewAvatar"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <!-- Nội dung comment -->
-        <TextView
-            android:id="@+id/commentContent"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="This is a comment"
-            app:layout_constraintStart_toEndOf="@id/imageViewAvatar"
-            app:layout_constraintTop_toBottomOf="@id/commentatorUsername"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <!-- Nút trả lời -->
-        <TextView
-            android:id="@+id/buttonReply"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Reply"
-            android:textColor="?attr/colorPrimary"
-            app:layout_constraintStart_toStartOf="@id/commentContent"
-            app:layout_constraintTop_toBottomOf="@id/commentContent"
-            android:paddingTop="4dp" />
-
-        <!-- Nút like comment -->
-        <ImageButton
-            android:id="@+id/buttonLike"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/like"
-            android:contentDescription="Like"
-            android:background="?attr/selectableItemBackgroundBorderless"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/buttonReply"
-            android:layout_marginEnd="8dp" />
+            app:layout_constraintStart_toStartOf="parent">
 
-        <!-- Số lượt like -->
-        <TextView
-            android:id="@+id/textViewLikeCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="10"
-            app:layout_constraintEnd_toStartOf="@id/buttonLike"
-            app:layout_constraintTop_toTopOf="@id/buttonReply"
-            android:paddingTop="4dp" />
+            <EditText
+                android:id="@+id/editTextComment"
+                android:layout_width="402dp"
+                android:layout_height="46dp"
+                android:layout_weight="1"
+                android:background="#D3D3D3"
+                android:hint="Add a comment..."
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <ImageButton
+                android:id="@+id/imageButton4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="338dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/editTextComment"
+                app:layout_constraintStart_toStartOf="@+id/editTextComment"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0"
+                app:srcCompat="@drawable/baseline_arrow_circle_up_24" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
