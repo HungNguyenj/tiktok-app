@@ -26,5 +26,17 @@ public interface PostService {
     })
     @POST("/post/unlike")
     Call<SimpleAPIRespone> unlikePost(@Path("postId") int postId);
+    @Headers({
+            "Token: access token" /// Thêm access token ở đây
+    })
+    @POST("/follow")
+    Call<SimpleAPIRespone> follow(@Path("userId") int userId);
+
+    @Headers({
+            "Token: access token" /// Thêm access token ở đây
+    })
+    @POST("/unfollow")
+    Call<SimpleAPIRespone> unFollow(@Path("userId") int userId);
+
 
 }
