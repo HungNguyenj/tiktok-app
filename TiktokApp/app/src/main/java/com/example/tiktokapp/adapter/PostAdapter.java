@@ -14,19 +14,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.tiktokapp.Model.APIResponeList;
-import com.example.tiktokapp.Model.Post;
-import com.example.tiktokapp.Model.SimpleAPIRespone;
+import com.example.tiktokapp.model.Post;
+import com.example.tiktokapp.model.SimpleAPIRespone;
 import com.example.tiktokapp.R;
-import com.example.tiktokapp.activity.HomeActivity;
 import com.example.tiktokapp.services.PostService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;

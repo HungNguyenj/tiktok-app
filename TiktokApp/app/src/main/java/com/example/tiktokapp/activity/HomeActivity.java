@@ -11,8 +11,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.tiktokapp.Model.APIResponeList;
-import com.example.tiktokapp.Model.Post;
+import com.example.tiktokapp.model.APIResponeList;
+import com.example.tiktokapp.model.Post;
 import com.example.tiktokapp.R;
 import com.example.tiktokapp.adapter.PostAdapter;
 

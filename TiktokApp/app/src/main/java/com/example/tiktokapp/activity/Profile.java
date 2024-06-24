@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.tiktokapp.Model.User;
 import com.example.tiktokapp.R;
 import com.example.tiktokapp.fragment.ProfileInfoFragment;
 import com.example.tiktokapp.fragment.ProfileLoginFragment;
