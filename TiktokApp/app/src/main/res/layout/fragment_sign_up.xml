@@ -10,7 +10,7 @@
     tools:context=".activity.SignUpActivity">
 
     <ImageView
-        android:id="@+id/sign_up"
+        android:id="@+id/sign_up_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/close_page"
@@ -23,7 +23,6 @@
         android:id="@+id/sign_up_to_tiktok_plain_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/cabin_medium"
         android:text="Sign up to Tiktok"
         android:textColor="@color/dark_black"
         android:textSize="@dimen/_24ssp"
@@ -39,7 +38,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/_12sdp"
-        android:fontFamily="@font/cabin"
         android:gravity="center"
         android:maxWidth="@dimen/_280sdp"
         android:text="@string/log_in_description_text"
@@ -134,7 +132,6 @@
         android:layout_marginTop="@dimen/_8sdp"
         android:paddingStart="@dimen/_6sdp"
         android:paddingEnd="@dimen/_6sdp"
-        android:fontFamily="@font/cabin_medium"
         android:text="Sign up"
         android:textAllCaps="false"
         android:textColor="@color/white"
@@ -162,7 +159,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:fontFamily="@font/cabin"
             android:text="Already have account?"
             android:textColor="@color/dark_black"
             app:layout_constraintBottom_toBottomOf="parent"

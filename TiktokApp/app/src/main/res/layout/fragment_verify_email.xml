@@ -24,7 +24,6 @@
             android:layout_marginTop="4dp"
             android:background="@android:color/transparent"
             android:ems="10"
-            android:fontFamily="@font/cabin_medium"
             android:paddingTop="@dimen/_6sdp"
             android:paddingBottom="@dimen/_6sdp"
             android:textColor="@color/dark_black"
@@ -44,7 +43,6 @@
             android:layout_marginEnd="@dimen/_16sdp"
             android:background="@android:color/transparent"
             android:ems="10"
-            android:fontFamily="@font/cabin_medium"
             android:paddingTop="@dimen/_6sdp"
             android:paddingBottom="@dimen/_6sdp"
             android:textColor="@color/dark_black"
@@ -71,7 +69,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:fontFamily="@font/advent_pro_medium"
             android:text="@string/terms_of_services_email"
             app:layout_constraintEnd_toEndOf="@+id/line"
             app:layout_constraintHorizontal_bias="0.0"
@@ -92,7 +89,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/tos_text"
             app:layout_constraintTop_toBottomOf="@+id/tos_text"
-            tools:backgroundTint="@color/grey_button_background" />
+            tools:backgroundTint="@color/pinkBtnBackground" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

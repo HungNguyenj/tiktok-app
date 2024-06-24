@@ -4,12 +4,12 @@ plugins {
 
 android {
     namespace = "com.example.tiktokapp"
-    compileSdk = 23
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.tiktokapp"
         minSdk = 23
-        targetSdk = 23
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -41,6 +41,7 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    buildToolsVersion = "34.0.0"
 }
 
 dependencies {

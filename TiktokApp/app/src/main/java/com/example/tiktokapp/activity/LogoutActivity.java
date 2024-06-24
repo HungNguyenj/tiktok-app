@@ -4,15 +4,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.android.material.button.MaterialButton;
+
+import com.example.tiktokapp.R;
 
 
 public class LogoutActivity  extends AppCompatActivity {
-    MaterialButton btnLogout;
+    Button btnLogout;
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
     @Override
@@ -24,7 +26,7 @@ public class LogoutActivity  extends AppCompatActivity {
 
         btnLogout = findViewById(R.id.log_out_btn);
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
+        btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editor.clear();

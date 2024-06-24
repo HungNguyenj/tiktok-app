@@ -23,7 +23,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_6sdp"
-        android:fontFamily="@font/cabin_medium"
         android:text="Log out for account"
         app:layout_constraintBottom_toTopOf="@+id/log_out_btn"
         app:layout_constraintEnd_toEndOf="@+id/dummy_image"
