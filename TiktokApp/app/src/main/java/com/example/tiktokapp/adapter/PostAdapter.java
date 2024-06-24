@@ -14,21 +14,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.tiktokapp.Model.APIResponeList;
-import com.example.tiktokapp.Model.Post;
-import com.example.tiktokapp.Model.SimpleAPIRespone;
+import com.example.tiktokapp.model.Post;
+import com.example.tiktokapp.model.SimpleAPIRespone;
 import com.example.tiktokapp.R;
-import com.example.tiktokapp.activity.HomeActivity;
 import com.example.tiktokapp.services.PostService;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -67,7 +64,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
     public class PostHolder extends RecyclerView.ViewHolder {
 
         VideoView videoView;
-        TextView title;
+        TextView title, likes, comments, shares, userName;
+
+        CircleImageView avatar;
+
         ProgressBar progressBar;
 
         // Khai báo ImageView heartButton
@@ -78,8 +78,19 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
 
         public PostHolder(@NonNull View itemView) {
             super(itemView);
+
+            //post element
             videoView = itemView.findViewById(R.id.videoView);
             title = itemView.findViewById(R.id.videoContent);
+            likes = itemView.findViewById(R.id.amountLike);
+            comments = itemView.findViewById(R.id.amountComment);
+            shares = itemView.findViewById(R.id.amountShare);
+
+            userName = itemView.findViewById(R.id.videoUserName);
+
+            avatar = itemView.findViewById(R.id.userAvatar);
+
+            //progressbar
             progressBar = itemView.findViewById(R.id.progress_bar);
             // Khởi tạo ImageView heartButton
             heartButton = itemView.findViewById(R.id.btnLike);
@@ -94,7 +105,21 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
             //set content
             title.setText(post.getTitle());
 //            videoView.setVideoPath(post.getVideoUrl());
+            likes.setText(String.valueOf(post.getLikes()));
+            comments.setText(String.valueOf(post.getComments()));
+            shares.setText(String.valueOf(post.getShares()));
+            //userName.setText(post.getVideoId());
+            //Toast.makeText(itemView.getContext(), post.getPosterData().toString(), Toast.LENGTH_SHORT).show();
 
+            //set avatar
+//            Uri avatarUri = Uri.parse(post.getPosterData().getAvatarData().getUrl().toString());
+
+
+//            Glide.with(itemView.getContext())
+//                    .load(post.getPosterData().getAvatarData().getUrl())
+//                    .into(avatar);
+
+            //control video
             MediaController mediaController = new MediaController(itemView.getContext());
             mediaController.setAnchorView(videoView);
             videoView.setMediaController(mediaController);
