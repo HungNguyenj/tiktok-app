@@ -1,9 +1,6 @@
 package com.example.tiktokapp.activity;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Handler;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -14,7 +11,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.bumptech.glide.Glide;
 import com.example.tiktokapp.Model.APIResponeList;
 import com.example.tiktokapp.Model.Post;
 import com.example.tiktokapp.R;
@@ -25,7 +21,6 @@ import java.util.List;
 
 import com.example.tiktokapp.services.PostService;
 import com.example.tiktokapp.utils.IntentUtil;
-import com.google.gson.Gson;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -63,7 +58,7 @@ public class HomeActivity extends AppCompatActivity {
         // Run sound disk
         uploadButton = findViewById(R.id.btnUpload);
         uploadButton.setOnClickListener(v -> {
-            IntentUtil.changeActivity(this, UploadActivity.class);
+            IntentUtil.changeActivity(this, ChooseVideoActivity.class);
             overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
         });
     }

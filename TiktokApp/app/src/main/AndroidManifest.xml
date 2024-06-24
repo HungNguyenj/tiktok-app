@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE " />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -12,16 +14,19 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.TiktokApp"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".activity.UploadActivity"
+            android:name=".activity.UploadPost"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ChooseVideoActivity"
             android:exported="false" />
         <activity
             android:name=".activity.HomeActivity"
             android:exported="false"
-            android:theme="@style/FullScreen"/>
+            android:theme="@style/FullScreen" />
         <activity
             android:name=".activity.MainActivity"
             android:exported="true">
