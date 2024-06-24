@@ -11,8 +11,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.tiktokapp.Model.APIResponeList;
-import com.example.tiktokapp.Model.Post;
+import com.example.tiktokapp.model.APIResponeList;
+import com.example.tiktokapp.model.Post;
 import com.example.tiktokapp.R;
 import com.example.tiktokapp.adapter.PostAdapter;
 
@@ -48,7 +48,6 @@ public class HomeActivity extends AppCompatActivity {
         postList = new ArrayList<>();
 
         //postList.add(new Post("Title 01","http://res.cloudinary.com/da5wewzih/video/upload/v1709014619/tiktok_video/xzzgbdzlxuo51eu9qz9q.mp4"));
-
         adapter = new PostAdapter(postList);
         viewPager2.setAdapter(adapter);
         init();

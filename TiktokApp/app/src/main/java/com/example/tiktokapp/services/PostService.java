@@ -1,12 +1,11 @@
 package com.example.tiktokapp.services;
 
-import com.example.tiktokapp.Model.APIResponeList;
-import com.example.tiktokapp.Model.Post;
-import com.example.tiktokapp.Model.SimpleAPIRespone;
+import com.example.tiktokapp.model.APIResponeList;
+import com.example.tiktokapp.model.Post;
+import com.example.tiktokapp.model.SimpleAPIRespone;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
