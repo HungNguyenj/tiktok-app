@@ -51,7 +51,6 @@ public class HomeActivity extends AppCompatActivity {
         viewPager2 = findViewById(R.id.viewPager2);
         // Initialize adapter with an empty list initially
         postList = new ArrayList<>();
-        postList.add(new Post("Title 01","http://res.cloudinary.com/da5wewzih/video/upload/v1709014619/tiktok_video/xzzgbdzlxuo51eu9qz9q.mp4"));
         adapter = new PostAdapter(postList);
         viewPager2.setAdapter(adapter);
         init();
