@@ -2,37 +2,47 @@ package com.example.tiktokapp.activity;
 
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.tiktokapp.Constant;
 import com.example.tiktokapp.R;
 import com.example.tiktokapp.adapter.FragmentViewPaggerAdapter;
-import com.example.tiktokapp.fragment.ImageFilesFragment;
-import com.example.tiktokapp.fragment.VideoAndImageFilesFragment;
 import com.example.tiktokapp.fragment.VideoFilesFragment;
+import com.example.tiktokapp.utils.MethodUtil;
+import com.example.tiktokapp.utils.StorageUtil;
+import com.google.android.material.color.utilities.Contrast;
 import com.google.android.material.tabs.TabLayout;
 
-public class UploadActivity extends AppCompatActivity {
+import java.io.File;
+import java.util.ArrayList;
+
+public class ChooseVideoActivity extends AppCompatActivity {
     private ImageView btnClose;
-    private ViewPager viewPager;
     private FragmentViewPaggerAdapter uploadtabAdapter;
-    private TabLayout tabLayout;
+    private File storage;
+    private String[] allPaths;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_upload);
+        setContentView(R.layout.activity_choose_file);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        loadFile();
         init();
+        addVideoFilesFragment();
         handleAction();
     }
     private void init() {
@@ -40,19 +50,25 @@ public class UploadActivity extends AppCompatActivity {
         btnClose.setOnClickListener(v -> {
             onBackPressed();
         });
-        viewPager = findViewById(R.id.viewPagger);
-        uploadtabAdapter = new FragmentViewPaggerAdapter(getSupportFragmentManager());
-        uploadtabAdapter.addFragment(new VideoAndImageFilesFragment(), "All");
-        uploadtabAdapter.addFragment(new VideoFilesFragment(), "Video");
-        uploadtabAdapter.addFragment(new ImageFilesFragment(), "Image");
-        viewPager.setAdapter(uploadtabAdapter);
-        tabLayout = findViewById(R.id.tabViewFiles);
-        tabLayout.setupWithViewPager(viewPager);
     }
     private void handleAction() {
 
     }
-
+    private void loadFile() {
+        Constant.allVideoFiles = new ArrayList<File>();
+        allPaths = StorageUtil.getStorageDirectories(this);
+        for (String path : allPaths) {
+            storage = new File(path);
+            MethodUtil.load_files(storage,0);
+        }
+    }
+    private void addVideoFilesFragment() {
+        VideoFilesFragment videoFilesFragment = new VideoFilesFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.layout_list_view, videoFilesFragment);
+        fragmentTransaction.commit();
+    }
     @Override
     public void onBackPressed() {
         super.onBackPressed();

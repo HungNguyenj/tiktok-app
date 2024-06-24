@@ -10,9 +10,7 @@ import android.view.ViewGroup;
 
 import com.example.tiktokapp.R;
 
-
-public class VideoAndImageFilesFragment extends Fragment {
-
+public class ItemFile extends Fragment {
 
 
     @Override
@@ -24,7 +22,6 @@ public class VideoAndImageFilesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_video_and_image_files, container, false);
+        return inflater.inflate(R.layout.fragment_item_file, container, false);
     }
 }
