@@ -21,7 +21,7 @@ import retrofit2.Response;
 
 public class SignUpActivity extends AppCompatActivity {
     EditText username, password, email, retypePassword, fullname;
-    MaterialButton btnLogin;
+    MaterialButton btnSignUp;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,15 +31,15 @@ public class SignUpActivity extends AppCompatActivity {
         retypePassword = findViewById(R.id.retype_password);
         email = findViewById(R.id.email);
         fullname = findViewById(R.id.fullname);
-        btnLogin = findViewById(R.id.log_in_btn);
+        btnSignUp = findViewById(R.id.sign_up);
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SignUpReq signUpReq = new SignUpReq();
                 signUpReq.setUsername(username.getText().toString());
                 signUpReq.setPassword(password.getText().toString());
-                signUpReq.setUsername(email.getText().toString());
+                signUpReq.setEmail(email.getText().toString());
                 signUpReq.setFullname(fullname.getText().toString());
                 Call<SignUpRes> res = APIClient.getUserService().userSignUp(signUpReq);
                 res.enqueue(new Callback<SignUpRes>() {
@@ -47,7 +47,7 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onResponse(Call<SignUpRes> call, Response<SignUpRes> response) {
                         if(response.isSuccessful()){
                             Toast.makeText(SignUpActivity.this, response.body().getMes(), Toast.LENGTH_LONG);
-                            startActivity(new Intent(this, LoginActivity.class));
+                            startActivity(new Intent(SignUpActivity.this, VerifyEmailActivity.class));
                         }
                     }
 

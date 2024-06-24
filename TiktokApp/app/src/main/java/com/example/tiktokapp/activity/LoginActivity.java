@@ -1,6 +1,7 @@
 package com.example.tiktokapp.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -22,10 +23,17 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
     EditText password, email;
     MaterialButton btnLogin;
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_sign_up);
+        setContentView(R.layout.fragment_login);
+        preferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        editor = preferences.edit();
+        if(preferences.contains("accessToken")){
+            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+        }
         password = findViewById(R.id.password);
         email = findViewById(R.id.email);
         btnLogin = findViewById(R.id.log_in_btn);
@@ -41,6 +49,11 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
                         if(response.isSuccessful()){
+                            editor.putString("accessToken", response.body().getAccessToken());
+                            editor.putString("username", response.body().getUserName());
+                            editor.putString("fullName", response.body().getFullName());
+                            editor.putString("email", response.body().getEmail());
+                            editor.commit();
                             Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_LONG);
                             startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                         }

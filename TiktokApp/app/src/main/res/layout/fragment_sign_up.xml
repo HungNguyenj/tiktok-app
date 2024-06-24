@@ -128,14 +128,14 @@
         app:layout_constraintTop_toBottomOf="@+id/username" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/log_in_btn"
+        android:id="@+id/sign_up"
         android:layout_width="0dp"
         android:layout_height="@dimen/_45sdp"
         android:layout_marginTop="@dimen/_8sdp"
         android:paddingStart="@dimen/_6sdp"
         android:paddingEnd="@dimen/_6sdp"
         android:fontFamily="@font/cabin_medium"
-        android:text="Login"
+        android:text="Sign up"
         android:textAllCaps="false"
         android:textColor="@color/white"
         app:backgroundTint="@color/pinkBtnBackground"
