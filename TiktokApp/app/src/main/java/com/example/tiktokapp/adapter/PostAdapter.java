@@ -3,10 +3,13 @@ package com.example.tiktokapp.adapter;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
@@ -75,12 +78,33 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
 
         // Khai báo TextView amountLike
         TextView amountLike;
+        ImageButton btnPause;
+        CountDownTimer countDownTimer;
 
         public PostHolder(@NonNull View itemView) {
             super(itemView);
 
             //post element
+            //progressbar
+            progressBar = itemView.findViewById(R.id.progress_bar);
+
+            //pause button
+            btnPause = itemView.findViewById(R.id.btnPause);
+            btnPause.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    togglePause();
+                }
+            });
             videoView = itemView.findViewById(R.id.videoView);
+
+            videoView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    toggleControlsVisibility(true);
+                    return false;
+                }
+            });
             title = itemView.findViewById(R.id.videoContent);
             likes = itemView.findViewById(R.id.amountLike);
             comments = itemView.findViewById(R.id.amountComment);
@@ -108,21 +132,19 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
             likes.setText(String.valueOf(post.getLikes()));
             comments.setText(String.valueOf(post.getComments()));
             shares.setText(String.valueOf(post.getShares()));
-            //userName.setText(post.getVideoId());
-            //Toast.makeText(itemView.getContext(), post.getPosterData().toString(), Toast.LENGTH_SHORT).show();
-
+            userName.setText(post.getPosterData().getUserName());
             //set avatar
-//            Uri avatarUri = Uri.parse(post.getPosterData().getAvatarData().getUrl().toString());
+            Uri avatarUri = Uri.parse(post.getPosterData().getAvatarData().getUrl().toString());
 
 
-//            Glide.with(itemView.getContext())
-//                    .load(post.getPosterData().getAvatarData().getUrl())
-//                    .into(avatar);
+            Glide.with(itemView.getContext())
+                    .load(post.getPosterData().getAvatarData().getUrl())
+                    .into(avatar);
 
             //control video
             MediaController mediaController = new MediaController(itemView.getContext());
             mediaController.setAnchorView(videoView);
-            videoView.setMediaController(mediaController);
+//            videoView.setMediaController(mediaController);
 
             Uri videoUri = Uri.parse(post.getVideoUrl());
             videoView.setVideoURI(videoUri);
@@ -211,7 +233,44 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                 }
             });
         }
+        private void togglePause() {
+            if (videoView.isPlaying()) {
+                videoView.pause();
+                btnPause.setImageResource(R.drawable.ic_media_play);
+            } else {
+                videoView.start();
+                btnPause.setImageResource(R.drawable.ic_media_pause);
+            }
+        }
 
+        private void toggleControlsVisibility(boolean resetTimer) {
+            if (btnPause.getVisibility() == View.VISIBLE) {
+                btnPause.setVisibility(View.INVISIBLE);
+            } else {
+                btnPause.setVisibility(View.VISIBLE);
+            }
+
+            if (resetTimer) {
+                startTimer();
+            }
+        }
+
+        private void startTimer() {
+            if (countDownTimer != null) {
+                countDownTimer.cancel();
+            }
+            countDownTimer = new CountDownTimer(5000, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+
+                }
+
+                @Override
+                public void onFinish() {
+                    toggleControlsVisibility(false);
+                }
+            }.start();
+        }
         // Hàm gọi api và xử lý sự kiện unlike
         private void unlikePost(Post post, Context context) {
             PostService.excute.unlikePost(post.getId()).enqueue(new Callback<SimpleAPIRespone>() {
