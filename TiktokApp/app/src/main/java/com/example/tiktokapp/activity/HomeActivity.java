@@ -32,6 +32,7 @@ public class HomeActivity extends AppCompatActivity {
     private List<Post> postList;
     private ViewPager2 viewPager2;
     private PostAdapter adapter;
+    private ImageView btnProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,10 @@ public class HomeActivity extends AppCompatActivity {
 
     private void init() {
         // Run sound disk
+        btnProfile = findViewById(R.id.btnProfile);
+        btnProfile.setOnClickListener(v ->
+            IntentUtil.changeActivity(this, Profile.class)
+        );
         uploadButton = findViewById(R.id.btnUpload);
         uploadButton.setOnClickListener(v -> {
             IntentUtil.changeActivity(this, ChooseVideoActivity.class);
