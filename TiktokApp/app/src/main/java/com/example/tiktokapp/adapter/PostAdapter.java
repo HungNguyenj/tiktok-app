@@ -1,10 +1,15 @@
 package com.example.tiktokapp.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
@@ -18,8 +23,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.tiktokapp.Model.Post;
 import com.example.tiktokapp.R;
+import com.example.tiktokapp.activity.CommentActivity;
 
 import java.util.List;
+import java.util.logging.Handler;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -61,6 +68,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
 
         CircleImageView avatar;
 
+        ImageButton btnPause;
+        CountDownTimer countDownTimer;
+
         ProgressBar progressBar;
 
         public PostHolder(@NonNull View itemView) {
@@ -80,6 +90,36 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
             //progressbar
             progressBar = itemView.findViewById(R.id.progress_bar);
 
+            //pause button
+            btnPause = itemView.findViewById(R.id.btnPause);
+            btnPause.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    togglePause();
+                }
+            });
+            // Comment icon
+            View commentIcon = itemView.findViewById(R.id.btnComment);
+            commentIcon.setOnClickListener(v -> {
+                Context context = itemView.getContext();
+                int position = getBindingAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    Post post = postList.get(position);
+                    Intent intent = new Intent(context, CommentActivity.class);
+                    intent.putExtra("postId", post.getId()); // Pass the post ID to CommentActivity
+                    context.startActivity(intent);
+                }
+            });
+
+            //handle when touching screen
+            videoView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    toggleControlsVisibility(true);
+                    return false;
+                }
+            });
+
         }
 
         public void setPostData(Post post) {
@@ -91,21 +131,21 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
             likes.setText(String.valueOf(post.getLikes()));
             comments.setText(String.valueOf(post.getComments()));
             shares.setText(String.valueOf(post.getShares()));
-            //userName.setText(post.getVideoId());
-            //Toast.makeText(itemView.getContext(), post.getPosterData().toString(), Toast.LENGTH_SHORT).show();
+            userName.setText(post.getPosterData().getUserName());
 
             //set avatar
-//            Uri avatarUri = Uri.parse(post.getPosterData().getAvatarData().getUrl().toString());
+            Uri avatarUri = Uri.parse(post.getPosterData().getAvatarData().getUrl().toString());
 
 
-//            Glide.with(itemView.getContext())
-//                    .load(post.getPosterData().getAvatarData().getUrl())
-//                    .into(avatar);
+            Glide.with(itemView.getContext())
+                    .load(post.getPosterData().getAvatarData().getUrl())
+                    .into(avatar);
 
             //control video
             MediaController mediaController = new MediaController(itemView.getContext());
-//            mediaController.setAnchorView(videoView); disable controller
-            videoView.setMediaController(mediaController);
+           mediaController.setAnchorView(videoView);
+//            videoView.setMediaController(mediaController);
+
 
             Uri videoUri = Uri.parse(post.getVideoUrl());
             videoView.setVideoURI(videoUri);
@@ -114,6 +154,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
                     progressBar.setVisibility(View.GONE);
+                    btnPause.setImageResource(R.drawable.ic_media_pause);
 
 
                     //kich thuoc cua video
@@ -150,10 +191,49 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
             videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
-
+                    //loop video
                     mp.start();
                 }
             });
+        }
+
+        private void togglePause() {
+            if (videoView.isPlaying()) {
+                videoView.pause();
+                btnPause.setImageResource(R.drawable.ic_media_play);
+            } else {
+                videoView.start();
+                btnPause.setImageResource(R.drawable.ic_media_pause);
+            }
+        }
+
+        private void toggleControlsVisibility(boolean resetTimer) {
+            if (btnPause.getVisibility() == View.VISIBLE) {
+                btnPause.setVisibility(View.INVISIBLE);
+            } else {
+                btnPause.setVisibility(View.VISIBLE);
+            }
+
+            if (resetTimer) {
+                startTimer();
+            }
+        }
+
+        private void startTimer() {
+            if (countDownTimer != null) {
+                countDownTimer.cancel();
+            }
+            countDownTimer = new CountDownTimer(5000, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+
+                }
+
+                @Override
+                public void onFinish() {
+                    toggleControlsVisibility(false);
+                }
+            }.start();
         }
     }
 }

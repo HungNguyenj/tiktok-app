@@ -10,7 +10,6 @@
         android:id="@+id/commentModal"
         android:layout_width="match_parent"
         android:layout_height="450dp"
-        android:background="@drawable/rounded_edittext_background_commentsection"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -20,7 +19,7 @@
             android:id="@+id/commentHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#93DC5C"
+            android:background="@drawable/rounded_edittext_background_commentsection"
             android:padding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
