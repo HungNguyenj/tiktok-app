@@ -12,10 +12,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.tiktokapp.model.APIResponeList;
-import com.example.tiktokapp.model.Post;
+import com.example.tiktokapp.responseModel.APIResponeList;
+import com.example.tiktokapp.responseModel.Post;
 import com.example.tiktokapp.R;
-import com.example.tiktokapp.model.SimpleAPIRespone;
+import com.example.tiktokapp.responseModel.SimpleAPIRespone;
 import com.example.tiktokapp.utils.HttpUtil;
 import com.example.tiktokapp.utils.IntentUtil;
 import com.example.tiktokapp.adapter.PostAdapter;
@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.tiktokapp.services.PostService;
-import com.example.tiktokapp.utils.IntentUtil;
 
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -1,4 +1,4 @@
-package com.example.tiktokapp.req_res;
+package com.example.tiktokapp.requestModel;
 
 public class SignUpReq {
     private String username;

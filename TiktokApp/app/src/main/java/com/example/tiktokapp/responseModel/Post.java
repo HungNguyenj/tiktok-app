@@ -1,4 +1,4 @@
-package com.example.tiktokapp.model;
+package com.example.tiktokapp.responseModel;
 
 import com.google.gson.annotations.SerializedName;
 

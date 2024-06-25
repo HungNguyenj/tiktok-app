@@ -1,9 +1,9 @@
 package com.example.tiktokapp.services;
 
-import com.example.tiktokapp.model.APIResponeList;
-import com.example.tiktokapp.model.FollowAPIRespone;
-import com.example.tiktokapp.model.Post;
-import com.example.tiktokapp.model.SimpleAPIRespone;
+import com.example.tiktokapp.responseModel.APIResponeList;
+import com.example.tiktokapp.responseModel.FollowAPIRespone;
+import com.example.tiktokapp.responseModel.Post;
+import com.example.tiktokapp.responseModel.SimpleAPIRespone;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

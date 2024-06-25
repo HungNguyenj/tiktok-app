@@ -10,9 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tiktokapp.R;
-import com.example.tiktokapp.req_res.SignUpReq;
-import com.example.tiktokapp.req_res.SignUpRes;
-import com.example.tiktokapp.services.APIClient;
+import com.example.tiktokapp.requestModel.SignUpReq;
+import com.example.tiktokapp.requestModel.SignUpRes;
 import com.example.tiktokapp.services.AuthService;
 import com.google.android.material.button.MaterialButton;
 

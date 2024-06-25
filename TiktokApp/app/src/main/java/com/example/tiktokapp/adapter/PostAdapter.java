@@ -12,7 +12,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
@@ -25,11 +24,11 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.tiktokapp.model.FollowAPIRespone;
-import com.example.tiktokapp.model.Post;
-import com.example.tiktokapp.model.SimpleAPIRespone;
+import com.example.tiktokapp.responseModel.FollowAPIRespone;
+import com.example.tiktokapp.responseModel.Post;
+import com.example.tiktokapp.responseModel.SimpleAPIRespone;
 import com.example.tiktokapp.R;
-import com.example.tiktokapp.model.User;
+import com.example.tiktokapp.responseModel.User;
 import com.example.tiktokapp.services.PostService;
 import com.example.tiktokapp.utils.HttpUtil;
 
@@ -151,6 +150,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
 
             //load thumbnail
             Uri thumbnailUri = Uri.parse(post.getThumnailUrl().toString());
+//            Glide.with(itemView.getContext()).load(post.getVideoUrl()).into(preThumbnail);
             Glide.with(itemView.getContext())
                     .load(thumbnailUri)
                     .into(preThumbnail);

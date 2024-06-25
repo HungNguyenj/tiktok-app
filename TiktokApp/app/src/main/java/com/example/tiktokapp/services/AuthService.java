@@ -1,11 +1,11 @@
 package com.example.tiktokapp.services;
 
-import com.example.tiktokapp.model.User;
-import com.example.tiktokapp.req_res.LoginReq;
-import com.example.tiktokapp.req_res.SignUpReq;
-import com.example.tiktokapp.req_res.SignUpRes;
-import com.example.tiktokapp.req_res.VerifyEmailReq;
-import com.example.tiktokapp.req_res.VerifyEmailRes;
+import com.example.tiktokapp.responseModel.User;
+import com.example.tiktokapp.requestModel.LoginReq;
+import com.example.tiktokapp.requestModel.SignUpReq;
+import com.example.tiktokapp.requestModel.SignUpRes;
+import com.example.tiktokapp.requestModel.VerifyEmailReq;
+import com.example.tiktokapp.requestModel.VerifyEmailRes;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
