@@ -1,7 +1,7 @@
-package com.example.tiktokapp.Model;
+package com.example.tiktokapp.model;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

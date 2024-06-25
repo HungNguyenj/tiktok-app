@@ -1,4 +1,4 @@
-package com.example.tiktokapp.Model;
+package com.example.tiktokapp.model;
 
 import java.sql.Timestamp;
 import lombok.AllArgsConstructor;

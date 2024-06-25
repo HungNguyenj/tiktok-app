@@ -18,17 +18,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-<<<<<<< HEAD
-            android:name=".activity.CommentActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.UploadActivity"
-=======
             android:name=".activity.UploadPost"
             android:exported="false" />
         <activity
             android:name=".activity.ChooseVideoActivity"
->>>>>>> 6ca0b0037eb16832b32e6aabfa3a72e26a4df848
             android:exported="false" />
         <activity
             android:name=".activity.HomeActivity"

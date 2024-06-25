@@ -1,7 +1,5 @@
 package com.example.tiktokapp.adapter;
 
-import android.content.Context;
-import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.CountDownTimer;
@@ -23,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.tiktokapp.Model.Post;
 import com.example.tiktokapp.R;
-import com.example.tiktokapp.activity.CommentActivity;
 
 import java.util.List;
 import java.util.logging.Handler;
@@ -96,18 +93,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                 @Override
                 public void onClick(View v) {
                     togglePause();
-                }
-            });
-            // Comment icon
-            View commentIcon = itemView.findViewById(R.id.btnComment);
-            commentIcon.setOnClickListener(v -> {
-                Context context = itemView.getContext();
-                int position = getBindingAdapterPosition();
-                if (position != RecyclerView.NO_POSITION) {
-                    Post post = postList.get(position);
-                    Intent intent = new Intent(context, CommentActivity.class);
-                    intent.putExtra("postId", post.getId()); // Pass the post ID to CommentActivity
-                    context.startActivity(intent);
                 }
             });
 
