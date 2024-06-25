@@ -13,6 +13,7 @@ import com.example.tiktokapp.R;
 import com.example.tiktokapp.req_res.SignUpReq;
 import com.example.tiktokapp.req_res.SignUpRes;
 import com.example.tiktokapp.services.APIClient;
+import com.example.tiktokapp.services.AuthService;
 import com.google.android.material.button.MaterialButton;
 
 import retrofit2.Call;
@@ -41,7 +42,7 @@ public class SignUpActivity extends AppCompatActivity {
                 signUpReq.setPassword(password.getText().toString());
                 signUpReq.setEmail(email.getText().toString());
                 signUpReq.setFullname(fullname.getText().toString());
-                Call<SignUpRes> res = APIClient.getUserService().userSignUp(signUpReq);
+                Call<SignUpRes> res = AuthService.excute.register(signUpReq);
                 res.enqueue(new Callback<SignUpRes>() {
                     @Override
                     public void onResponse(Call<SignUpRes> call, Response<SignUpRes> response) {

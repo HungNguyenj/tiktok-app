@@ -50,7 +50,7 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/_45sdp"
         android:layout_marginTop="@dimen/_12sdp"
-        android:text="Email"
+        android:hint="Email or username"
         android:textAllCaps="false"
         android:textColor="@color/dark_black"
         app:cornerRadius="@dimen/_4sdp"
@@ -68,7 +68,8 @@
         android:layout_height="@dimen/_45sdp"
         android:layout_marginTop="@dimen/_8sdp"
 
-        android:text="Password"
+        android:hint="Password"
+        android:inputType="textPassword"
         android:textAllCaps="false"
         app:backgroundTint="#4267B2"
         app:iconPadding="@dimen/_12sdp"
@@ -133,5 +134,7 @@
             app:layout_constraintStart_toEndOf="@+id/log_in_already_have_account_plain_text"
             app:layout_constraintTop_toTopOf="@+id/log_in_already_have_account_plain_text" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

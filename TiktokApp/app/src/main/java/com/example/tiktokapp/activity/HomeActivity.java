@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.tiktokapp.R;
+import com.example.tiktokapp.utils.IntentUtil;
 
 public class HomeActivity extends AppCompatActivity {
     private ImageView soundDisk;

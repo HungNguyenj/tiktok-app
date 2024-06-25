@@ -14,6 +14,7 @@ import com.example.tiktokapp.req_res.SignUpRes;
 import com.example.tiktokapp.req_res.VerifyEmailReq;
 import com.example.tiktokapp.req_res.VerifyEmailRes;
 import com.example.tiktokapp.services.APIClient;
+import com.example.tiktokapp.services.AuthService;
 import com.google.android.material.button.MaterialButton;
 
 import retrofit2.Call;
@@ -36,7 +37,7 @@ public class VerifyEmailActivity extends AppCompatActivity {
             VerifyEmailReq verifyEmailReq = new VerifyEmailReq();
             verifyEmailReq.setOtp(otp.getText().toString());
             verifyEmailReq.setEmail(email.getText().toString());
-            Call<VerifyEmailRes> res = APIClient.getUserService().userVerifyEmail(verifyEmailReq);
+            Call<VerifyEmailRes> res = AuthService.excute.vertifyEmail(verifyEmailReq);
             res.enqueue(new Callback<VerifyEmailRes>() {
                @Override
                public void onResponse(Call<VerifyEmailRes> call, Response<VerifyEmailRes> response) {

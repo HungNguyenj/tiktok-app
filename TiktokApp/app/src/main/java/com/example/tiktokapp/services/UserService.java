@@ -13,10 +13,5 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface UserService {
-    @POST("auth/login/")
-    Call<User> userLogin(@Body LoginReq loginReq);
-    @POST("auth/register/")
-    Call<SignUpRes> userSignUp(@Body SignUpReq signUpReq);
-    @POST("auth/verify-email/")
-    Call<VerifyEmailRes> userVerifyEmail(@Body VerifyEmailReq verifyEmailReq);
+
 }

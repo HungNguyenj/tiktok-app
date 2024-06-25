@@ -1,17 +1,16 @@
 package com.example.tiktokapp.req_res;
 
 public class LoginReq {
-    private String email;
+    private String emailOrUsername;
     private String password;
 
 
-
-    public String getEmail() {
-        return email;
+    public String getEmailOrUsername() {
+        return emailOrUsername;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEmailOrUsername(String emailOrUsername) {
+        this.emailOrUsername = emailOrUsername;
     }
 
     public String getPassword() {

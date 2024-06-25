@@ -15,6 +15,7 @@ import com.example.tiktokapp.R;
 import com.example.tiktokapp.req_res.LoginReq;
 
 import com.example.tiktokapp.services.APIClient;
+import com.example.tiktokapp.services.AuthService;
 import com.google.android.material.button.MaterialButton;
 
 import retrofit2.Call;
@@ -42,10 +43,17 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String emailInput = email.getText().toString().trim();
+                String passwordInput = password.getText().toString().trim();
+
+                if (emailInput.isEmpty() || passwordInput.isEmpty()) {
+                    Toast.makeText(LoginActivity.this, "Email and Password are required", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 LoginReq loginReq = new LoginReq();
-                loginReq.setPassword(password.getText().toString());
-                loginReq.setEmail(email.getText().toString());
-                Call<User> res = APIClient.getUserService().userLogin(loginReq);
+                loginReq.setPassword(passwordInput);
+                loginReq.setEmailOrUsername(emailInput);
+                Call<User> res = AuthService.excute.login(loginReq);
                 res.enqueue(new Callback<User>() {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
@@ -62,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<User> call, Throwable t) {
-
+                        Toast.makeText(LoginActivity.this, "Login error! Please try again", Toast.LENGTH_LONG);
                     }
                 });
             }
