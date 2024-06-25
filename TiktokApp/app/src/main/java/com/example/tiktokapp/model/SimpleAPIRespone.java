@@ -9,4 +9,6 @@ import lombok.RequiredArgsConstructor;
 public class SimpleAPIRespone {
     private int err;
     private String mes;
+
+
 }

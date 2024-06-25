@@ -1,5 +1,10 @@
 package com.example.tiktokapp.adapter;
 
+import static com.example.tiktokapp.utils.SharePreferncesUtil.clear;
+import static com.example.tiktokapp.utils.SharePreferncesUtil.isLike;
+import static com.example.tiktokapp.utils.SharePreferncesUtil.like;
+import static com.example.tiktokapp.utils.SharePreferncesUtil.unlike;
+
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -22,6 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.tiktokapp.model.FollowAPIRespone;
 import com.example.tiktokapp.model.Post;
 import com.example.tiktokapp.model.SimpleAPIRespone;
 import com.example.tiktokapp.R;
@@ -207,14 +213,22 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
             // Set dữ liệu cho TextView amountLike
             amountLike.setText(String.valueOf(post.getLikes()));
 
+
+            //render heartbtn phụ thuộc vào đã like hay  chưa
+            clear(itemView.getContext());
+            if(isLike(itemView.getContext(), String.valueOf(post.getId()))){
+                heartButton.setColorFilter(0xfffc1605);
+            }
+
             // Xử lý sự kiện click cho ImageView heartButton
             heartButton.setOnClickListener((view) -> {
-                if (post.isLiked()) {
+                if (isLike(itemView.getContext(), String.valueOf(post.getId()))) {
                     unlikePost(post, itemView.getContext());
                 } else {
                     likePost(post, itemView.getContext());
                 }
             });
+
 
             // Kiểm tra xem đã follow hay chưa.
             boolean isFollowed = false;
@@ -236,18 +250,26 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
             PostService.excute.likePost(post.getId()).enqueue(new Callback<SimpleAPIRespone>() {
                 @Override
                 public void onResponse(Call<SimpleAPIRespone> call, Response<SimpleAPIRespone> response) {
-                    SimpleAPIRespone apiResponse = response.body();
-                    if (apiResponse.getErr() == 0) {
-                        // Xử lý khi like thành công
-                        Log.i("likePost", "Like thành công");
-                        // Cập nhật màu của ImageView heartButton
-                        heartButton.setColorFilter(0xfffc1605);
-                        // Cập nhật số lượng like
-                        post.setLikes(post.getLikes() + 1);
-                        amountLike.setText(String.valueOf(post.getLikes()));
-                    } else {
-                        // Xử lý khi like video lỗi
-                        Toast.makeText(context, "Lỗi khi like post", Toast.LENGTH_SHORT).show();
+                    if(response.body() !=null){
+                        SimpleAPIRespone apiResponse = response.body();
+                        if ( apiResponse.getErr() == 0 ) {
+                            // Xử lý khi like thành công
+                            Log.i("likePost", "Like thành công");
+                            // Cập nhật màu của ImageView heartButton
+
+
+                            heartButton.setColorFilter(0xfffc1605);
+                            // Cập nhật số lượng like
+                            post.setLikes(post.getLikes() + 1);
+                            amountLike.setText(String.valueOf(post.getLikes()));
+                            like(context,String.valueOf(post.getId()));
+                        } else {
+                            // Xử lý khi like video lỗi
+                            Toast.makeText(context, "Lỗi khi like post", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else{
+                        System.out.println(response.toString());
                     }
                 }
 
@@ -308,10 +330,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                     if (apiResponse.getErr() == 0) {
                         // Xử lý khi unlike thành công
                         // Cập nhật màu của ImageView heartButton
-                        heartButton.setColorFilter(0xfffc1605);
+                        heartButton.clearColorFilter();
                         // Cập nhật số lượng like
                         post.setLikes(post.getLikes() - 1);
                         amountLike.setText(String.valueOf(post.getLikes()));
+                        unlike(context,String.valueOf(post.getId()));
                     } else {
                         Log.i("unlikePost", "Like thất bại");
                         // Xử lý khi unlike video lỗi
@@ -330,19 +353,24 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
 
         // Hàm gọi api và xử lý sự kiện follow
         private void follow(User user, Context context) {
-            PostService.excute.likePost(user.getId()).enqueue(new Callback<SimpleAPIRespone>() {
+            PostService.excute.follow(user.getId()).enqueue(new Callback<SimpleAPIRespone>() {
                 @Override
                 public void onResponse(Call<SimpleAPIRespone> call, Response<SimpleAPIRespone> response) {
-                    SimpleAPIRespone apiResponse = response.body();
-                    if (apiResponse.getErr() == 0) {
-                        // Xử lý khi like thành công
-                        Log.i("follow", "Folow thành công");
-                        // Cập nhật icon của cho userFollow
-                        userFollow.setImageResource(R.drawable.tick);
-                    } else {
-                        // Xử lý khi like video lỗi
-                        Toast.makeText(context, "Lỗi khi follow", Toast.LENGTH_SHORT).show();
-                    }
+                   if(response.isSuccessful()&& response!=null){
+                       SimpleAPIRespone apiResponse = response.body();
+                       if (apiResponse.getErr() == 0) {
+                           // Xử lý khi like thành công
+                           Log.i("follow", "Folow thành công");
+                           // Cập nhật icon của cho userFollow
+                           userFollow.setImageResource(R.drawable.tick);
+                       } else {
+                           // Xử lý khi like video lỗi
+                           Toast.makeText(context, "Lỗi khi follow", Toast.LENGTH_SHORT).show();
+                       }
+                   }
+                   else{
+                       System.out.println("*******************************"+response);
+                   }
                 }
 
                 @Override
@@ -356,9 +384,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
 
         // Hàm gọi api và xử lý sự kiện unfollow
         private void unFollow(User user, Context context) {
-            PostService.excute.unlikePost(user.getId()).enqueue(new Callback<SimpleAPIRespone>() {
+            PostService.excute.unFollow(user.getId()).enqueue(new Callback<FollowAPIRespone>() {
                 @Override
-                public void onResponse(Call<SimpleAPIRespone> call, Response<SimpleAPIRespone> response) {
+                public void onResponse(Call<FollowAPIRespone> call, Response<FollowAPIRespone> response) {
                     SimpleAPIRespone apiResponse = response.body();
                     if (apiResponse.getErr() == 0) {
                         // Xử lý khi unlike thành công
@@ -373,7 +401,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                 @Override
                   //  Toast.makeText(context,"Lỗi khi UnFollow",Toast.LENGTH_SHORT).show();
 
-                public void onFailure(Call<SimpleAPIRespone> call, Throwable t) {
+                public void onFailure(Call<FollowAPIRespone> call, Throwable t) {
                     // Xử lý khi call api thất bại
                     Log.i("UnFollow", "Call api thất bại");
                 }

@@ -1,6 +1,7 @@
 package com.example.tiktokapp.services;
 
 import com.example.tiktokapp.model.APIResponeList;
+import com.example.tiktokapp.model.FollowAPIRespone;
 import com.example.tiktokapp.model.Post;
 import com.example.tiktokapp.model.SimpleAPIRespone;
 
@@ -16,27 +17,27 @@ public interface PostService {
     Call<APIResponeList<Post>> getPosts();
 
     @Headers({
-            "Token: access token " /// Thêm access token ở đây
+            "Token:  Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJob2FuZ2h1eWRldkBnbWFpbC5jb20iLCJyb2xlVmFsdWUiOiJVc2VyIiwiaWF0IjoxNzE5MzA0OTAxLCJleHAiOjE3MTk0Nzc3MDF9.PoHkDr_QZkvN-plb-RKdCBHozX_RbL7zQkcmrV-TTHd_9y14dJ9fDBclmAwVqnncghL2damD_3T03DDFwskWxB1uu_3XrrhGbIQ6yqABK9OL55rCGsFdIHLCQmZkI-3hoPqV5vGIMXXB2XBlJ_Yd8EZRGCdiOIe4FFBGINCKsv_qFm6iRYm5jzNSwb3FBH1DyvDvY-A5qQIVH7emeKY9IIjcnMu3s3sciMTZsmMYcN4_sxGC6PM9UIe7INhnq8jetncMz6HEJ2hNGxmKGP3aGx3_t3jPeeAllNO6tdVPk7auYghmqByaaQ2h9DxWfdDXyThfgI-CU4Dj3MAsDtu_AA " /// Thêm access token ở đây
     })
-    @POST("/post/like")
+    @POST("post/like/{postId}")
     Call<SimpleAPIRespone> likePost(@Path("postId") int postId);
 
     @Headers({
-            "Token: access token " /// Thêm access token ở đây
+            "Token:  Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJob2FuZ2h1eWRldkBnbWFpbC5jb20iLCJyb2xlVmFsdWUiOiJVc2VyIiwiaWF0IjoxNzE5MzA0OTAxLCJleHAiOjE3MTk0Nzc3MDF9.PoHkDr_QZkvN-plb-RKdCBHozX_RbL7zQkcmrV-TTHd_9y14dJ9fDBclmAwVqnncghL2damD_3T03DDFwskWxB1uu_3XrrhGbIQ6yqABK9OL55rCGsFdIHLCQmZkI-3hoPqV5vGIMXXB2XBlJ_Yd8EZRGCdiOIe4FFBGINCKsv_qFm6iRYm5jzNSwb3FBH1DyvDvY-A5qQIVH7emeKY9IIjcnMu3s3sciMTZsmMYcN4_sxGC6PM9UIe7INhnq8jetncMz6HEJ2hNGxmKGP3aGx3_t3jPeeAllNO6tdVPk7auYghmqByaaQ2h9DxWfdDXyThfgI-CU4Dj3MAsDtu_AA " /// Thêm access token ở đây
     })
-    @POST("/post/unlike")
+    @POST("post/unlike/{postId}")
     Call<SimpleAPIRespone> unlikePost(@Path("postId") int postId);
     @Headers({
-            "Token: access token" /// Thêm access token ở đây
+            "Token:  Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJob2FuZ2h1eWRldkBnbWFpbC5jb20iLCJyb2xlVmFsdWUiOiJVc2VyIiwiaWF0IjoxNzE5MzA0OTAxLCJleHAiOjE3MTk0Nzc3MDF9.PoHkDr_QZkvN-plb-RKdCBHozX_RbL7zQkcmrV-TTHd_9y14dJ9fDBclmAwVqnncghL2damD_3T03DDFwskWxB1uu_3XrrhGbIQ6yqABK9OL55rCGsFdIHLCQmZkI-3hoPqV5vGIMXXB2XBlJ_Yd8EZRGCdiOIe4FFBGINCKsv_qFm6iRYm5jzNSwb3FBH1DyvDvY-A5qQIVH7emeKY9IIjcnMu3s3sciMTZsmMYcN4_sxGC6PM9UIe7INhnq8jetncMz6HEJ2hNGxmKGP3aGx3_t3jPeeAllNO6tdVPk7auYghmqByaaQ2h9DxWfdDXyThfgI-CU4Dj3MAsDtu_AA " /// Thêm access token ở đây
     })
-    @POST("/follow")
+    @POST("follow/{userId}")
     Call<SimpleAPIRespone> follow(@Path("userId") int userId);
 
     @Headers({
-            "Token: access token" /// Thêm access token ở đây
+            "Token:  Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJob2FuZ2h1eWRldkBnbWFpbC5jb20iLCJyb2xlVmFsdWUiOiJVc2VyIiwiaWF0IjoxNzE5MzA0OTAxLCJleHAiOjE3MTk0Nzc3MDF9.PoHkDr_QZkvN-plb-RKdCBHozX_RbL7zQkcmrV-TTHd_9y14dJ9fDBclmAwVqnncghL2damD_3T03DDFwskWxB1uu_3XrrhGbIQ6yqABK9OL55rCGsFdIHLCQmZkI-3hoPqV5vGIMXXB2XBlJ_Yd8EZRGCdiOIe4FFBGINCKsv_qFm6iRYm5jzNSwb3FBH1DyvDvY-A5qQIVH7emeKY9IIjcnMu3s3sciMTZsmMYcN4_sxGC6PM9UIe7INhnq8jetncMz6HEJ2hNGxmKGP3aGx3_t3jPeeAllNO6tdVPk7auYghmqByaaQ2h9DxWfdDXyThfgI-CU4Dj3MAsDtu_AA " /// Thêm access token ở đây
     })
-    @POST("/unfollow")
-    Call<SimpleAPIRespone> unFollow(@Path("userId") int userId);
+    @POST("unfollow/{userId}")
+    Call<FollowAPIRespone> unFollow(@Path("userId") int userId);
 
 
 }

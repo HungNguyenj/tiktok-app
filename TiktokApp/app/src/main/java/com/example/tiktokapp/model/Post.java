@@ -24,7 +24,7 @@ public class Post extends AbstractModel{
     @SerializedName("posterData")
     private User posterData;
     private boolean isFollow;
-     boolean isLiked;
+    private boolean isLiked;
     private boolean isMe;
 }
 
