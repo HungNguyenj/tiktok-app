@@ -65,13 +65,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
     }
 
     public class PostHolder extends RecyclerView.ViewHolder {
-
+        //Video content
         VideoView videoView;
         TextView title, likes, comments, shares, userName;
 
         CircleImageView avatar;
 
+        //pre-processing
         ProgressBar progressBar;
+        ImageView preThumbnail;
 
         // Khai báo ImageView heartButton
         ImageView heartButton;
@@ -85,8 +87,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
             super(itemView);
 
             //post element
-            //progressbar
-            progressBar = itemView.findViewById(R.id.progress_bar);
 
             //pause button
             btnPause = itemView.findViewById(R.id.btnPause);
@@ -116,6 +116,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
 
             //progressbar
             progressBar = itemView.findViewById(R.id.progress_bar);
+            preThumbnail = itemView.findViewById(R.id.preThumbnail);
             // Khởi tạo ImageView heartButton
             heartButton = itemView.findViewById(R.id.btnLike);
             // Khởi tạo TextView amountLike
@@ -125,6 +126,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
         public void setPostData(Post post) {
             //show progress bar
             progressBar.setVisibility(View.VISIBLE);
+            preThumbnail.setVisibility(View.VISIBLE);
+
+            //load thumbnail
+            Uri thumbnailUri = Uri.parse(post.getThumnailUrl().toString());
+            Glide.with(itemView.getContext())
+                    .load(thumbnailUri)
+                    .into(preThumbnail);
 
             //set content
             title.setText(post.getTitle());
@@ -136,9 +144,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
             //set avatar
             Uri avatarUri = Uri.parse(post.getPosterData().getAvatarData().getUrl().toString());
 
-
             Glide.with(itemView.getContext())
-                    .load(post.getPosterData().getAvatarData().getUrl())
+                    .load(avatarUri)
                     .into(avatar);
 
             //control video
@@ -153,6 +160,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
                     progressBar.setVisibility(View.GONE);
+                    preThumbnail.setVisibility(View.GONE);
 
                     //kich thuoc cua video
                     int videoWidth = mp.getVideoWidth();
