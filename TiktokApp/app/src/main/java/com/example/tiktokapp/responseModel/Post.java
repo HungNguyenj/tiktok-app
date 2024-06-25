@@ -1,4 +1,4 @@
-package com.example.tiktokapp.model;
+package com.example.tiktokapp.responseModel;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -23,8 +23,13 @@ public class Post extends AbstractModel{
     private int poster;
     @SerializedName("posterData")
     private User posterData;
-    private boolean isFollow;
-    private boolean isLiked;
-    private boolean isMe;
+    @SerializedName("isFollow")
+    private int isFollow;
+    @SerializedName("isLiked")
+    private int isLiked;
+    @SerializedName("isMe")
+    private int isMe;
+    @SerializedName("isFriend")
+    private int isFriend;
 }
 

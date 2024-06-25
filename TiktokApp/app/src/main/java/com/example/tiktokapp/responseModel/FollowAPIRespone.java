@@ -1,6 +1,4 @@
-package com.example.tiktokapp.model;
-
-import androidx.core.app.NotificationCompat;
+package com.example.tiktokapp.responseModel;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

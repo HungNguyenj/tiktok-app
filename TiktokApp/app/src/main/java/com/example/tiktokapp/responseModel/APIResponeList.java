@@ -1,4 +1,4 @@
-package com.example.tiktokapp.model;
+package com.example.tiktokapp.responseModel;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class APIResponeList<T extends AbstractModel> {
+public class APIResponeList<T> {
     private int err;
     private String mes;
     @SerializedName(value = "posts", alternate = {"users","followers","followings","comments"})

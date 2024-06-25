@@ -18,9 +18,7 @@ class UserController {
     }
     async me(req, res) {
         try {
-            console.log(1);
             const user = await userServices.findOne({ id: req.user.id });
-            console.log(user);
             if (!user) return notFound('User not found', res);
             user.password = '';
             return res.status(200).json({
