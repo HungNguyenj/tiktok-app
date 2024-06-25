@@ -1,8 +1,15 @@
-package com.example.tiktokapp.Model;
+package com.example.tiktokapp.model;
 
-import java.sql.Timestamp;
+import java.io.Serializable;
 
-public class User extends AbstractModel{
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@RequiredArgsConstructor
+public class User extends AbstractModel implements Serializable  {
     private String userName;
     private String fullName;
     private String peerId;

@@ -10,11 +10,10 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.tiktokapp.Model.User;
+import com.example.tiktokapp.model.User;
 import com.example.tiktokapp.R;
 import com.example.tiktokapp.req_res.LoginReq;
 
-import com.example.tiktokapp.services.APIClient;
 import com.example.tiktokapp.services.AuthService;
 import com.google.android.material.button.MaterialButton;
 

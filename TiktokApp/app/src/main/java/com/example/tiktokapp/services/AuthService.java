@@ -1,6 +1,6 @@
 package com.example.tiktokapp.services;
 
-import com.example.tiktokapp.Model.User;
+import com.example.tiktokapp.model.User;
 import com.example.tiktokapp.req_res.LoginReq;
 import com.example.tiktokapp.req_res.SignUpReq;
 import com.example.tiktokapp.req_res.SignUpRes;

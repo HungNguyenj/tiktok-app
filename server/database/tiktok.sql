@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 17, 2024 at 09:44 PM
+-- Generation Time: Jun 21, 2024 at 04:14 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -105,11 +105,18 @@ CREATE TABLE `commentspost` (
   `commenter` int(11) NOT NULL,
   `postId` int(11) NOT NULL,
   `content` varchar(255) NOT NULL DEFAULT '',
-  `likes` int(11) NOT NULL DEFAULT 0,
-  `replies` int(11) NOT NULL DEFAULT 0,
   `createdAt` timestamp NOT NULL DEFAULT current_timestamp(),
   `updatedAt` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `commentspost`
+--
+
+INSERT INTO `commentspost` (`id`, `commenter`, `postId`, `content`, `createdAt`, `updatedAt`) VALUES
+(3, 1, 7, 'Test edit comment', '2024-06-20 13:34:09', '2024-06-20 18:41:15'),
+(4, 1, 7, 'Comment post 1 test part 2', '2024-06-20 15:02:24', '2024-06-20 15:02:24'),
+(5, 6, 7, 'Test', '2024-06-20 15:02:24', '2024-06-20 15:02:24');
 
 -- --------------------------------------------------------
 
@@ -121,11 +128,19 @@ CREATE TABLE `commentsreply` (
   `id` int(11) NOT NULL,
   `responder` int(11) NOT NULL,
   `commentPostId` int(11) NOT NULL,
-  `likes` int(11) NOT NULL DEFAULT 0,
   `content` varchar(255) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT current_timestamp(),
   `updatedAt` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `commentsreply`
+--
+
+INSERT INTO `commentsreply` (`id`, `responder`, `commentPostId`, `content`, `createdAt`, `updatedAt`) VALUES
+(1, 1, 3, 'Im reply my comment id 3', '2024-06-20 13:37:30', '2024-06-20 13:37:30'),
+(2, 1, 4, 'Test edit commnet reply', '2024-06-20 15:02:38', '2024-06-20 18:41:40'),
+(3, 6, 4, 'Test edit commnet reply', '2024-06-20 15:02:38', '2024-06-20 18:41:40');
 
 -- --------------------------------------------------------
 
@@ -161,10 +176,22 @@ INSERT INTO `followers` (`id`, `follower`, `followee`, `createdAt`, `updatedAt`)
 CREATE TABLE `likescomment` (
   `id` int(11) NOT NULL,
   `liker` int(11) NOT NULL,
-  `commentPostId` int(11) NOT NULL,
+  `commentId` int(11) NOT NULL,
+  `isCommentPost` tinyint(1) DEFAULT NULL,
   `createdAt` timestamp NOT NULL DEFAULT current_timestamp(),
   `updatedAt` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `likescomment`
+--
+
+INSERT INTO `likescomment` (`id`, `liker`, `commentId`, `isCommentPost`, `createdAt`, `updatedAt`) VALUES
+(2, 1, 4, 1, '2024-06-20 14:57:17', '2024-06-20 14:57:17'),
+(3, 1, 3, 1, '2024-06-20 14:57:17', '2024-06-20 14:57:17'),
+(5, 1, 2, 0, '2024-06-20 18:56:57', '2024-06-20 18:56:57'),
+(6, 3, 3, 0, '2024-06-20 18:57:08', '2024-06-20 18:57:08'),
+(7, 1, 1, 0, '2024-06-20 18:59:19', '2024-06-20 18:59:19');
 
 -- --------------------------------------------------------
 
@@ -464,8 +491,7 @@ ALTER TABLE `followers`
 --
 ALTER TABLE `likescomment`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `liker` (`liker`),
-  ADD KEY `commentPostId` (`commentPostId`);
+  ADD KEY `liker` (`liker`);
 
 --
 -- Indexes for table `likespost`
@@ -574,13 +600,13 @@ ALTER TABLE `chatrooms`
 -- AUTO_INCREMENT for table `commentspost`
 --
 ALTER TABLE `commentspost`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `commentsreply`
 --
 ALTER TABLE `commentsreply`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `followers`
@@ -592,7 +618,7 @@ ALTER TABLE `followers`
 -- AUTO_INCREMENT for table `likescomment`
 --
 ALTER TABLE `likescomment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `likespost`
@@ -684,8 +710,7 @@ ALTER TABLE `followers`
 -- Constraints for table `likescomment`
 --
 ALTER TABLE `likescomment`
-  ADD CONSTRAINT `likescomment_ibfk_1` FOREIGN KEY (`liker`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `likescomment_ibfk_2` FOREIGN KEY (`commentPostId`) REFERENCES `commentspost` (`id`);
+  ADD CONSTRAINT `likescomment_ibfk_1` FOREIGN KEY (`liker`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `likespost`
