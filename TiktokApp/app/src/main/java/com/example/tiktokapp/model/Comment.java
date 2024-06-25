@@ -1,11 +1,14 @@
 package com.example.tiktokapp.model;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@RequiredArgsConstructor
+import java.sql.Timestamp;
+
+//import lombok.AllArgsConstructor;
+//import lombok.Data;
+//import lombok.RequiredArgsConstructor;
+//
+//@Data
+//@AllArgsConstructor
+//@RequiredArgsConstructor
 public class Comment extends AbstractModel{
     private final int commenter;
     private final int postId;
@@ -14,32 +17,42 @@ public class Comment extends AbstractModel{
     private final boolean isLiked;
     private User commenterData;
 
-    // Constructors
-    public Comment(int commenter, int postId, String content, int likes, boolean isLiked, User commenterData) {
-        this.postId = postId;
+    public Comment(int id, Timestamp createdAt, Timestamp updatedAt, int commenter, int postId, String content, int likes, boolean isLiked, User commenterData) {
+        super(id, createdAt, updatedAt);
         this.commenter = commenter;
+        this.postId = postId;
         this.content = content;
         this.likes = likes;
         this.isLiked = isLiked;
         this.commenterData = commenterData;
     }
 
-    public Comment(int commenter, int postId, String content) {
-        this.commenter = commenter;
-        this.postId = postId;
-        this.content = content;
+
+    public int getCommenter() {
+        return commenter;
     }
 
-
-    public User getCommenterId() {
-        return commenterData;
+    public int getPostId() {
+        return postId;
     }
 
     public String getContent() {
         return content;
     }
 
-    public int getTimestamp() {
-        return 1;
+    public int getLikes() {
+        return likes;
+    }
+
+    public boolean isLiked() {
+        return isLiked;
+    }
+
+    public User getCommenterData() {
+        return commenterData;
+    }
+
+    public void setCommenterData(User commenterData) {
+        this.commenterData = commenterData;
     }
 }

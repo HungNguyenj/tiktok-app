@@ -46,7 +46,7 @@ public class HomeActivity extends AppCompatActivity {
         viewPager2 = findViewById(R.id.viewPager2);
         // Initialize adapter with an empty list initially
         postList = new ArrayList<>();
-        adapter = new PostAdapter(postList);
+        adapter = new PostAdapter(postList, this);
         viewPager2.setAdapter(adapter);
         init();
         // Call API to get posts

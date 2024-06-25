@@ -1,5 +1,6 @@
 package com.example.tiktokapp.adapter;
 
+import android.annotation.SuppressLint;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.CountDownTimer;
@@ -12,15 +13,18 @@ import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.tiktokapp.Model.Post;
+import com.example.tiktokapp.model.Post;
 import com.example.tiktokapp.R;
+import com.example.tiktokapp.fragment.CommentBottomSheetFragment;
 
 import java.util.List;
 import java.util.logging.Handler;
@@ -30,9 +34,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
 
     private List<Post> postList;
+    private FragmentActivity context;
 
-    public PostAdapter(List<Post> postList) {
+    public PostAdapter(List<Post> postList, FragmentActivity context) {
         this.postList = postList;
+        this.context = context;
     }
 
     @NonNull
@@ -65,11 +71,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
 
         CircleImageView avatar;
 
+        ImageView btnCmt;
+
         ImageButton btnPause;
         CountDownTimer countDownTimer;
 
         ProgressBar progressBar;
 
+        @SuppressLint("ClickableViewAccessibility")
         public PostHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -79,6 +88,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
             likes = itemView.findViewById(R.id.amountLike);
             comments = itemView.findViewById(R.id.amountComment);
             shares = itemView.findViewById(R.id.amountShare);
+
+            btnCmt = itemView.findViewById(R.id.btnComment);
 
             userName = itemView.findViewById(R.id.videoUserName);
 
@@ -105,6 +116,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                 }
             });
 
+            //show comment section
+            btnCmt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CommentBottomSheetFragment bottomSheet = new CommentBottomSheetFragment();
+                    bottomSheet.show(context.getSupportFragmentManager(), "ModalBottomSheet");
+                }
+            });
         }
 
         public void setPostData(Post post) {
