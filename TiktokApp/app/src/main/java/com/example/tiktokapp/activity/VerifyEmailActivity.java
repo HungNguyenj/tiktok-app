@@ -12,7 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.tiktokapp.R;
 import com.example.tiktokapp.requestModel.VerifyEmailReq;
 import com.example.tiktokapp.requestModel.VerifyEmailRes;
+import com.example.tiktokapp.responseModel.SimpleAPIRespone;
 import com.example.tiktokapp.services.AuthService;
+import com.example.tiktokapp.utils.HttpUtil;
 import com.google.android.material.button.MaterialButton;
 
 import retrofit2.Call;
@@ -35,19 +37,25 @@ public class VerifyEmailActivity extends AppCompatActivity {
             VerifyEmailReq verifyEmailReq = new VerifyEmailReq();
             verifyEmailReq.setOtp(otp.getText().toString());
             verifyEmailReq.setEmail(email.getText().toString());
-            Call<VerifyEmailRes> res = AuthService.excute.vertifyEmail(verifyEmailReq);
-            res.enqueue(new Callback<VerifyEmailRes>() {
+            Call<SimpleAPIRespone> res = AuthService.execute.vertifyEmail(verifyEmailReq);
+            res.enqueue(new Callback<SimpleAPIRespone>() {
                @Override
-               public void onResponse(Call<VerifyEmailRes> call, Response<VerifyEmailRes> response) {
+               public void onResponse(Call<SimpleAPIRespone> call, Response<SimpleAPIRespone> response) {
                   if(response.isSuccessful()){
                      Toast.makeText(VerifyEmailActivity.this, response.body().getMes(), Toast.LENGTH_LONG);
                      startActivity(new Intent(VerifyEmailActivity.this, LoginActivity.class));
+                  } else {
+                     try {
+                        SimpleAPIRespone errResponse = HttpUtil.parseError(response, SimpleAPIRespone.class);
+                        Toast.makeText(v.getContext(), "Error: " + errResponse.getMes(), Toast.LENGTH_SHORT).show();
+                     } catch (Exception e) {
+                        e.printStackTrace();
+                     }
                   }
                }
-
                @Override
-               public void onFailure(Call<VerifyEmailRes> call, Throwable t) {
-
+               public void onFailure(Call<SimpleAPIRespone> call, Throwable t) {
+                  Toast.makeText(v.getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                }
             });
          }

@@ -1,5 +1,7 @@
 package com.example.tiktokapp.services;
 
+import com.example.tiktokapp.responseModel.APIRespone;
+import com.example.tiktokapp.responseModel.SimpleAPIRespone;
 import com.example.tiktokapp.responseModel.User;
 import com.example.tiktokapp.requestModel.LoginReq;
 import com.example.tiktokapp.requestModel.SignUpReq;
@@ -12,11 +14,11 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 public interface AuthService {
-    AuthService excute =APIClient.getClient().create(AuthService.class);
+    AuthService execute =APIClient.getClient().create(AuthService.class);
     @POST("auth/login/")
-    Call<User> login(@Body LoginReq loginReq);
+    Call<APIRespone<User>> login(@Body LoginReq loginReq);
     @POST("auth/register/")
-    Call<SignUpRes> register(@Body SignUpReq signUpReq);
+    Call<APIRespone<User>> register(@Body SignUpReq signUpReq);
     @POST("auth/verify-email/")
-    Call<VerifyEmailRes> vertifyEmail(@Body VerifyEmailReq verifyEmailReq);
+    Call<SimpleAPIRespone> vertifyEmail(@Body VerifyEmailReq verifyEmailReq);
 }

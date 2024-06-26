@@ -24,17 +24,22 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.tiktokapp.responseModel.APIRespone;
+import com.example.tiktokapp.responseModel.Follow;
 import com.example.tiktokapp.responseModel.FollowAPIRespone;
 import com.example.tiktokapp.responseModel.Post;
 import com.example.tiktokapp.responseModel.SimpleAPIRespone;
 import com.example.tiktokapp.R;
 import com.example.tiktokapp.responseModel.User;
+import com.example.tiktokapp.services.FollowService;
 import com.example.tiktokapp.services.PostService;
+import com.example.tiktokapp.services.UserService;
 import com.example.tiktokapp.utils.HttpUtil;
 
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import kr.co.prnd.readmore.ReadMoreTextView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -74,7 +79,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
     public class PostHolder extends RecyclerView.ViewHolder {
         //Video content
         VideoView videoView;
-        TextView title, likes, comments, shares, userName;
+        ReadMoreTextView title;
+        TextView likes, comments, shares, userName;
 
         CircleImageView avatar;
         private boolean isLiked;
@@ -253,6 +259,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                     follow(post.getPosterData(), itemView.getContext());
                 }
             });
+            // Kiểm tra xem có phải là bản thân không
+            boolean isMe = post.getIsMe()==1;
+            if (isMe) {
+                userFollow.setVisibility(View.GONE);
+            }
         }
 
 
@@ -298,7 +309,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
         }
         // Hàm gọi api và xử lý sự kiện like
         private void likePost(Post post, Context context) {
-            PostService.excute.likePost(post.getId()).enqueue(new Callback<SimpleAPIRespone>() {
+            PostService.execute.likePost(post.getId()).enqueue(new Callback<SimpleAPIRespone>() {
                 @Override
                 public void onResponse(Call<SimpleAPIRespone> call, Response<SimpleAPIRespone> response) {
                     if(response.body() !=null){
@@ -332,7 +343,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
         }
         // Hàm gọi api và xử lý sự kiện unlike
         private void unlikePost(Post post, Context context) {
-            PostService.excute.unlikePost(post.getId()).enqueue(new Callback<SimpleAPIRespone>() {
+            PostService.execute.unlikePost(post.getId()).enqueue(new Callback<SimpleAPIRespone>() {
                 @Override
                 public void onResponse(Call<SimpleAPIRespone> call, Response<SimpleAPIRespone> response) {
                     if (response.isSuccessful()) {
@@ -365,11 +376,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
 
         // Hàm gọi api và xử lý sự kiện follow
         private void follow(User user, Context context) {
-            PostService.excute.follow(user.getId()).enqueue(new Callback<SimpleAPIRespone>() {
+            FollowService.execute.follow(user.getId()).enqueue(new Callback<APIRespone<Follow>>() {
                 @Override
-                public void onResponse(Call<SimpleAPIRespone> call, Response<SimpleAPIRespone> response) {
+                public void onResponse(Call<APIRespone<Follow>> call, Response<APIRespone<Follow>> response) {
                    if(response.isSuccessful()&& response!=null){
-                       SimpleAPIRespone apiResponse = response.body();
+                       APIRespone<Follow> apiResponse = response.body();
                        if (apiResponse.getErr() == 0) {
                            // Xử lý khi like thành công
                            Log.i("follow", "Folow thành công");
@@ -390,7 +401,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                 }
 
                 @Override
-                public void onFailure(Call<SimpleAPIRespone> call, Throwable t) {
+                public void onFailure(Call<APIRespone<Follow>> call, Throwable t) {
                     // Xử lý khi call api thất bại
                     Toast.makeText(context, "Lỗi khi follow", Toast.LENGTH_SHORT).show();
                     Log.i("follow", "Call api thất bại");
@@ -400,9 +411,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
 
         // Hàm gọi api và xử lý sự kiện unfollow
         private void unFollow(User user, Context context) {
-            PostService.excute.unFollow(user.getId()).enqueue(new Callback<FollowAPIRespone>() {
+            FollowService.execute.unFollow(user.getId()).enqueue(new Callback<SimpleAPIRespone>() {
                 @Override
-                public void onResponse(Call<FollowAPIRespone> call, Response<FollowAPIRespone> response) {
+                public void onResponse(Call<SimpleAPIRespone> call, Response<SimpleAPIRespone> response) {
                     if (response.isSuccessful()) {
                         SimpleAPIRespone apiResponse = response.body();
                         // Xử lý khi unlike thành công
@@ -420,7 +431,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                     }
                 }
                 @Override
-                public void onFailure(Call<FollowAPIRespone> call, Throwable t) {
+                public void onFailure(Call<SimpleAPIRespone> call, Throwable t) {
                     // Xử lý khi call api thất bại
                     Log.i("UnFollow", "Call api thất bại");
                 }

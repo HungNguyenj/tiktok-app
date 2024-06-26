@@ -45,6 +45,7 @@ android {
 }
 
 dependencies {
+    implementation("kr.co.prnd:readmore-textview:1.0.0")
     implementation("androidx.datastore:datastore-core-android:1.1.1")
     implementation("org.projectlombok:lombok:1.18.32")
     compileOnly("org.projectlombok:lombok:1.18.32")

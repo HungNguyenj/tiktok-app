@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -15,9 +14,9 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.tiktokapp.R;
 import com.example.tiktokapp.fragment.ProfileInfoFragment;
 import com.example.tiktokapp.fragment.ProfileLoginFragment;
-import com.example.tiktokapp.utils.Auth;
+import com.example.tiktokapp.utils.AuthUtil;
 
-public class Profile extends AppCompatActivity {
+public class ProfileActivity extends BaseActivity {
     private LinearLayout layoutProfile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +28,9 @@ public class Profile extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        initNavbar(this);
         layoutProfile = findViewById(R.id.fragment_layout_profile);
-        if (Auth.getCurrentUser() != null) {
+        if (AuthUtil.loggedIn(this)) {
             addFragment(new ProfileInfoFragment());
         } else {
             addFragment(new ProfileLoginFragment());
@@ -40,7 +40,7 @@ public class Profile extends AppCompatActivity {
     private void addFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.layout_list_view, fragment);
+        fragmentTransaction.replace(R.id.fragment_layout_profile, fragment);
         fragmentTransaction.commit();
     }
 }
