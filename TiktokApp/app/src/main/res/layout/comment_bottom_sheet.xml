@@ -7,52 +7,56 @@
         android:gravity="center_horizontal"
         android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-        android:background="#fff">
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_comment_header"
+        android:padding="8dp"
+        >
+
+        <TextView
+            android:id="@+id/amountComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10 bình luận"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/exitComment"
+            android:layout_width="19dp"
+            android:layout_height="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/baseline_close_24" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="409dp"
-        android:layout_height="450dp">
+        android:layout_width="match_parent"
+        android:layout_height="510dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout9"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#93DC5C"
-            android:padding="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/amountComment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="10 bình luận"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageButton
-                android:id="@+id/exitComment"
-                android:layout_width="19dp"
-                android:layout_height="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/baseline_close_24" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ScrollView
             android:id="@+id/scrollView2"
-            android:layout_width="411dp"
-            android:layout_height="400dp"
+            android:layout_width="match_parent"
+            android:layout_height="700dp"
             android:background="#FFFF66"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout9"
-            tools:layout_editor_absoluteX="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints">
 
             <LinearLayout
@@ -69,7 +73,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#FFFF66"
-                    android:padding="8dp">
+                    android:padding="4dp">
 
 
                     <!-- Avatar -->
@@ -78,6 +82,7 @@
                         android:layout_width="46dp"
                         android:layout_height="49dp"
                         android:layout_alignParentStart="true"
+                        android:layout_marginStart="12dp"
                         android:src="@drawable/avatar"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -90,10 +95,12 @@
 
                     <TextView
                         android:id="@+id/commenterUsername"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginStart="66dp"
+                        android:layout_marginEnd="32dp"
                         android:text="ABCal"
+                        android:textColor="#757575"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -102,12 +109,14 @@
 
                     <TextView
                         android:id="@+id/commentContent"
-                        android:layout_width="337dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="66dp"
                         android:layout_marginTop="4dp"
+                        android:layout_marginEnd="32dp"
                         android:text="This is a comment"
                         android:textColor="@android:color/black"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/commenterUsername"
                         app:layout_constraintStart_toStartOf="@+id/commenterUsername"
                         app:layout_constraintTop_toBottomOf="@+id/commenterUsername" />
 
@@ -115,9 +124,11 @@
                         android:id="@+id/commentTimestamp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:text="2 giờ trước"
-                        app:layout_constraintStart_toStartOf="@+id/commentContent"
+                        android:textColor="#757575"
+                        app:layout_constraintStart_toEndOf="@+id/commenterAvatar"
                         app:layout_constraintTop_toBottomOf="@+id/commentContent" />
 
                     <ImageButton
@@ -125,7 +136,7 @@
                         android:layout_width="26dp"
                         android:layout_height="19dp"
                         android:layout_marginTop="8dp"
-                        android:layout_marginEnd="32dp"
+                        android:layout_marginEnd="40dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/commentContent"
                         app:srcCompat="@drawable/baseline_favorite_border_24" />
@@ -146,7 +157,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/commentInput"
-            android:layout_width="407dp"
+            android:layout_width="match_parent"
             android:layout_height="80dp"
             android:background="#93DC5C"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -159,7 +170,7 @@
                 android:layout_width="46dp"
                 android:layout_height="49dp"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:src="@drawable/avatar"
@@ -173,21 +184,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
                 android:layout_marginStart="70dp"
-                android:layout_marginEnd="24dp"
+                android:layout_marginEnd="16dp"
                 android:layout_weight="1"
+                android:background="@drawable/rounded_comment_chat"
                 android:hint="Thêm bình luận..."
-                android:padding="8dp"
+                android:padding="10dp"
+                android:textColor="@android:color/black"
+                android:textColorHint="#757575"
                 app:layout_constraintBottom_toBottomOf="@+id/userAvatar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/userAvatar"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/userAvatar" />
 
             <ImageButton
                 android:id="@+id/sendComment"
                 android:layout_width="54dp"
                 android:layout_height="35dp"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/editTextComment"
                 app:layout_constraintEnd_toEndOf="@+id/editTextComment"
                 app:layout_constraintTop_toTopOf="@+id/editTextComment"
                 app:srcCompat="@drawable/baseline_arrow_circle_up_24" />
