@@ -10,24 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.tiktokapp.model.Post;
 import com.example.tiktokapp.R;
-import com.example.tiktokapp.fragment.CommentBottomSheetFragment;
+import com.example.tiktokapp.model.Post;
 
 import java.util.List;
-import java.util.logging.Handler;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -35,16 +30,25 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
 
     private List<Post> postList;
     private FragmentActivity context;
+    private OnItemClickListener onItemClickListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int postId);
+    }
 
     public PostAdapter(List<Post> postList, FragmentActivity context) {
         this.postList = postList;
         this.context = context;
     }
 
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+    }
+
     @NonNull
     @Override
     public PostHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_main , parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_main, parent, false);
         ImageView soundDisk = view.findViewById(R.id.soundDisk);
         Glide.with(view.getContext()).load(R.drawable.disk).into(soundDisk);
         return new PostHolder(view);
@@ -54,6 +58,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
     public void onBindViewHolder(@NonNull PostHolder holder, int position) {
         holder.setPostData(postList.get(position));
     }
+
     public void setData(List<Post> postList) {
         this.postList = postList;
         notifyDataSetChanged();
@@ -68,38 +73,28 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
 
         VideoView videoView;
         TextView title, likes, comments, shares, userName;
-
         CircleImageView avatar;
-
         ImageView btnCmt;
-
         ImageButton btnPause;
         CountDownTimer countDownTimer;
-
         ProgressBar progressBar;
 
         @SuppressLint("ClickableViewAccessibility")
         public PostHolder(@NonNull View itemView) {
             super(itemView);
 
-            //post element
+            // post element
             videoView = itemView.findViewById(R.id.videoView);
             title = itemView.findViewById(R.id.videoContent);
             likes = itemView.findViewById(R.id.amountLike);
             comments = itemView.findViewById(R.id.amountComment);
             shares = itemView.findViewById(R.id.amountShare);
-
             btnCmt = itemView.findViewById(R.id.btnComment);
-
             userName = itemView.findViewById(R.id.videoUserName);
-
             avatar = itemView.findViewById(R.id.userAvatar);
-
-            //progressbar
             progressBar = itemView.findViewById(R.id.progress_bar);
-
-            //pause button
             btnPause = itemView.findViewById(R.id.btnPause);
+
             btnPause.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -107,7 +102,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                 }
             });
 
-            //handle when touching screen
             videoView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -116,41 +110,34 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                 }
             });
 
-            //show comment section
             btnCmt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    CommentBottomSheetFragment bottomSheet = new CommentBottomSheetFragment();
-                    bottomSheet.show(context.getSupportFragmentManager(), "ModalBottomSheet");
+                    if (onItemClickListener != null) {
+                        onItemClickListener.onItemClick(postList.get(getAdapterPosition()).getId());
+                    }
                 }
             });
         }
 
         public void setPostData(Post post) {
-            //show progress bar
+            // show progress bar
             progressBar.setVisibility(View.VISIBLE);
 
-            //set content
+            // set content
             title.setText(post.getTitle());
             likes.setText(String.valueOf(post.getLikes()));
             comments.setText(String.valueOf(post.getComments()));
             shares.setText(String.valueOf(post.getShares()));
             userName.setText(post.getPosterData().getUserName());
 
-            //set avatar
+            // set avatar
             Uri avatarUri = Uri.parse(post.getPosterData().getAvatarData().getUrl().toString());
-
-
             Glide.with(itemView.getContext())
                     .load(post.getPosterData().getAvatarData().getUrl())
                     .into(avatar);
 
-            //control video
-            MediaController mediaController = new MediaController(itemView.getContext());
-           mediaController.setAnchorView(videoView);
-//            videoView.setMediaController(mediaController);
-
-
+            // control video
             Uri videoUri = Uri.parse(post.getVideoUrl());
             videoView.setVideoURI(videoUri);
 
@@ -160,16 +147,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                     progressBar.setVisibility(View.GONE);
                     btnPause.setImageResource(R.drawable.ic_media_pause);
 
-
-                    //kich thuoc cua video
+                    // set video scale
                     int videoWidth = mp.getVideoWidth();
                     int videoHeight = mp.getVideoHeight();
-
-                    // Lấy kích thước của VideoView
                     int videoViewWidth = videoView.getWidth();
                     int videoViewHeight = videoView.getHeight();
-
-                    // Kiểm tra xem có thể tính toán tỷ lệ không
                     if (videoWidth != 0 && videoHeight != 0 && videoViewWidth != 0 && videoViewHeight != 0) {
                         float videoRatio = (float) videoWidth / videoHeight;
                         float viewRatio = (float) videoViewWidth / videoViewHeight;
@@ -178,10 +160,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                         float scaleY = 1f;
 
                         if (videoRatio >= viewRatio) {
-                            // Video có tỷ lệ rộng hơn hoặc bằng View
                             scaleX = videoRatio / viewRatio;
                         } else {
-                            // Video có tỷ lệ cao hơn View
                             scaleY = viewRatio / videoRatio;
                         }
                         videoView.setScaleX(scaleX);
@@ -195,7 +175,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
             videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
-                    //loop video
                     mp.start();
                 }
             });
@@ -230,7 +209,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
             countDownTimer = new CountDownTimer(5000, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
-
                 }
 
                 @Override

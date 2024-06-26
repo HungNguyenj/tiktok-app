@@ -11,24 +11,24 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.tiktokapp.model.APIResponeList;
-import com.example.tiktokapp.model.Post;
 import com.example.tiktokapp.R;
 import com.example.tiktokapp.adapter.PostAdapter;
+import com.example.tiktokapp.fragment.CommentBottomSheetFragment;
+import com.example.tiktokapp.model.APIResponeList;
+import com.example.tiktokapp.model.Post;
+import com.example.tiktokapp.services.PostService;
+import com.example.tiktokapp.utils.IntentUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.example.tiktokapp.services.PostService;
-import com.example.tiktokapp.utils.IntentUtil;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity {
-    private ImageView uploadButton;
 
+    private ImageView uploadButton;
     private List<Post> postList;
     private ViewPager2 viewPager2;
     private PostAdapter adapter;
@@ -71,10 +71,15 @@ public class HomeActivity extends AppCompatActivity {
                     postList = apiResponse.getData();
                     adapter.setData(postList);
                     adapter.notifyDataSetChanged();
+                    adapter.setOnItemClickListener(postId -> {
+                        CommentBottomSheetFragment bottomSheet = new CommentBottomSheetFragment(postId);
+                        bottomSheet.show(getSupportFragmentManager(), "ModalBottomSheet");
+                    });
                 } else {
                     Toast.makeText(HomeActivity.this, apiResponse.getMes(), Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onFailure(Call<APIResponeList<Post>> call, Throwable t) {
                 Toast.makeText(HomeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
