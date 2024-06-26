@@ -1,37 +1,40 @@
 package com.example.tiktokapp.activity;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.tiktokapp.model.APIResponeList;
-import com.example.tiktokapp.model.Post;
+import com.example.tiktokapp.responseModel.APIResponeList;
+import com.example.tiktokapp.responseModel.Post;
 import com.example.tiktokapp.R;
+import com.example.tiktokapp.responseModel.SimpleAPIRespone;
+import com.example.tiktokapp.services.ServiceGenerator;
+import com.example.tiktokapp.utils.HttpUtil;
 import com.example.tiktokapp.adapter.PostAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.example.tiktokapp.services.PostService;
-import com.example.tiktokapp.utils.IntentUtil;
 
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HomeActivity extends AppCompatActivity {
-    private ImageView uploadButton;
-
+public class HomeActivity extends BaseActivity {
     private List<Post> postList;
     private ViewPager2 viewPager2;
     private PostAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,31 +51,31 @@ public class HomeActivity extends AppCompatActivity {
         postList = new ArrayList<>();
         adapter = new PostAdapter(postList, this);
         viewPager2.setAdapter(adapter);
-        init();
+        initNavbar(this);
         // Call API to get posts
-        getPosts();
+        getPosts(this);
+
     }
 
-    private void init() {
-        // Run sound disk
-        uploadButton = findViewById(R.id.btnUpload);
-        uploadButton.setOnClickListener(v -> {
-            IntentUtil.changeActivity(this, ChooseVideoActivity.class);
-            overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
-        });
-    }
 
-    private void getPosts() {
-        PostService.excute.getPosts().enqueue(new Callback<APIResponeList<Post>>() {
+
+
+    private void getPosts(Context context) {
+        ServiceGenerator.createPostService(HomeActivity.this).getPosts().enqueue(new retrofit2.Callback<APIResponeList<Post>>() {
             @Override
             public void onResponse(Call<APIResponeList<Post>> call, Response<APIResponeList<Post>> response) {
-                APIResponeList<Post> apiResponse = response.body();
-                if (apiResponse.getErr() == 0) {
+                if (response.isSuccessful()) {
+                    APIResponeList<Post> apiResponse = response.body();
                     postList = apiResponse.getData();
                     adapter.setData(postList);
                     adapter.notifyDataSetChanged();
-                } else {
-                    Toast.makeText(HomeActivity.this, apiResponse.getMes(), Toast.LENGTH_SHORT).show();
+                }else {
+                    try {
+                        SimpleAPIRespone errResponse = HttpUtil.parseError(response, SimpleAPIRespone.class,context);
+                        Toast.makeText(context, "Error: " + errResponse.getMes(), Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             @Override

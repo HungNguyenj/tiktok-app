@@ -1,4 +1,4 @@
-package com.example.tiktokapp.model;
+package com.example.tiktokapp.responseModel;
 
 import java.sql.Timestamp;
 

@@ -5,5 +5,8 @@
         <item name="android:textColor">@color/black</item> <!-- Change text color -->
         <item name="android:textStyle">bold</item> <!-- Change text style to bold -->
     </style>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:navigationBarColor">@android:color/black</item>
+    </style>
 
 </resources>
