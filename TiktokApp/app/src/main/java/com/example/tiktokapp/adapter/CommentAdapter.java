@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tiktokapp.R;
-import com.example.tiktokapp.model.Comment;
+import com.example.tiktokapp.responseModel.Comment;
 
 import java.util.List;
 

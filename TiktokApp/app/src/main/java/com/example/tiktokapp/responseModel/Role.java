@@ -1,8 +1,4 @@
 package com.example.tiktokapp.responseModel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-
 import java.sql.Timestamp;
 
 //import lombok.AllArgsConstructor;

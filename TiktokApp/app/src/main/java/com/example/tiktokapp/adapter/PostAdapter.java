@@ -2,10 +2,12 @@ package com.example.tiktokapp.adapter;
 
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,20 +16,32 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.tiktokapp.R;
-import com.example.tiktokapp.model.Post;
+import com.example.tiktokapp.activity.LoginActivity;
+import com.example.tiktokapp.fragment.CommentBottomSheetFragment;
+import com.example.tiktokapp.responseModel.APIRespone;
+import com.example.tiktokapp.responseModel.Follow;
+import com.example.tiktokapp.responseModel.Post;
+import com.example.tiktokapp.responseModel.SimpleAPIRespone;
+import com.example.tiktokapp.responseModel.User;
+import com.example.tiktokapp.services.ServiceGenerator;
+import com.example.tiktokapp.utils.AuthUtil;
+import com.example.tiktokapp.utils.HttpUtil;
+import com.example.tiktokapp.utils.IntentUtil;
 
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import kr.co.prnd.readmore.ReadMoreTextView;
+//import kr.co.prnd.readmore.ReadMoreTextView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -78,12 +92,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
     public class PostHolder extends RecyclerView.ViewHolder {
         //Video content
         VideoView videoView;
-        TextView title, likes, comments, shares, userName;
-        CircleImageView avatar;
-        ImageView btnCmt;
+        TextView title, likes, comments, shares, userName, amountLike;
+        CircleImageView avatar, userFollow;
+        ImageView btnCmt, heartButton, preThumbnail;
         ImageButton btnPause;
         CountDownTimer countDownTimer;
         ProgressBar progressBar;
+
+        private boolean isLiked;
+        private boolean isFollowed;
 
         @SuppressLint("ClickableViewAccessibility")
         public PostHolder(@NonNull View itemView) {
@@ -222,6 +239,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                     }
                 }
             });
+
+            btnCmt.setOnClickListener(v-> {
+                int id = post.getId();
+                CommentBottomSheetFragment bottomSheetFragment = new CommentBottomSheetFragment(id);
+                bottomSheetFragment.show(context.getSupportFragmentManager(), "ModalBottomSheet");
+            });
             // Kiểm tra xem đã follow hay chưa.
             isFollowed = post.getIsFollow()==1;
             // Set dữ liệu cho userFollow
@@ -247,7 +270,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                 userFollow.setVisibility(View.GONE);
             }
         }
-
 
 
 
@@ -288,6 +310,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                 }
             }.start();
         }
+
         // Hàm gọi api và xử lý sự kiện like
         private void likePost(Post post, Context context) {
             ServiceGenerator.createPostService(context).likePost(post.getId()).enqueue(new Callback<SimpleAPIRespone>() {

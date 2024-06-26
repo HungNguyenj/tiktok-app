@@ -4,9 +4,11 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
@@ -20,8 +22,8 @@ import com.example.tiktokapp.services.ServiceGenerator;
 import com.example.tiktokapp.utils.HttpUtil;
 import com.example.tiktokapp.adapter.PostAdapter;
 import com.example.tiktokapp.fragment.CommentBottomSheetFragment;
-import com.example.tiktokapp.model.APIResponeList;
-import com.example.tiktokapp.model.Post;
+import com.example.tiktokapp.responseModel.APIResponeList;
+import com.example.tiktokapp.responseModel.Post;
 import com.example.tiktokapp.services.PostService;
 import com.example.tiktokapp.utils.IntentUtil;
 
@@ -31,7 +33,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends BaseActivity  {
 
     private ImageView uploadButton;
     private List<Post> postList;
@@ -67,8 +69,9 @@ public class HomeActivity extends AppCompatActivity {
         ServiceGenerator.createPostService(HomeActivity.this).getPosts().enqueue(new retrofit2.Callback<APIResponeList<Post>>() {
             @Override
             public void onResponse(Call<APIResponeList<Post>> call, Response<APIResponeList<Post>> response) {
+                APIResponeList<Post> apiResponse = response.body();
                 if (response.isSuccessful()) {
-                    APIResponeList<Post> apiResponse = response.body();
+                    apiResponse = response.body();
                     postList = apiResponse.getData();
                     adapter.setData(postList);
                     adapter.notifyDataSetChanged();
@@ -77,7 +80,8 @@ public class HomeActivity extends AppCompatActivity {
                         bottomSheet.show(getSupportFragmentManager(), "ModalBottomSheet");
                     });
                 } else {
-                    Toast.makeText(HomeActivity.this, apiResponse.getMes(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HomeActivity.this, apiResponse.getMes(), Toast.LENGTH_SHORT).
+                    show();
                 }
             }
 

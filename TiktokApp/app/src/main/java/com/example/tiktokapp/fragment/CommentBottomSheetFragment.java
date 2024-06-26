@@ -1,6 +1,8 @@
 package com.example.tiktokapp.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tiktokapp.R;
 import com.example.tiktokapp.adapter.CommentAdapter;
-import com.example.tiktokapp.model.APIResponeList;
-import com.example.tiktokapp.model.Comment;
-import com.example.tiktokapp.services.CommentService;
+import com.example.tiktokapp.responseModel.APIResponeList;
+import com.example.tiktokapp.responseModel.Comment;
+import com.example.tiktokapp.services.ServiceGenerator;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.ArrayList;
@@ -48,27 +50,30 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment {
         commentAdapter = new CommentAdapter(commentList);
         recyclerView.setAdapter(commentAdapter);
 
-        getComments();
+        // Fetch comments
+        getComment(getContext());
 
         return view;
     }
 
-    private void getComments() {
-        CommentService.excute.getComments(postId).enqueue(new Callback<APIResponeList<Comment>>() {
+    private void getComment(Context context) {
+        ServiceGenerator.createCommentService(context).getComments(postId).enqueue(new Callback<APIResponeList<Comment>>() {
             @Override
             public void onResponse(Call<APIResponeList<Comment>> call, Response<APIResponeList<Comment>> response) {
-                APIResponeList<Comment> apiResponse = response.body();
-                if (apiResponse.getErr() == 0) {
+                if (response.isSuccessful() && response.body() != null) {
+                    APIResponeList<Comment> apiResponse = response.body();
                     commentList = apiResponse.getData();
-                    commentAdapter.setData(commentList); // Update data in adapter
+                    commentAdapter.setData(commentList);
+                    commentAdapter.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(getContext(), apiResponse.getMes(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Failed to load comments", Toast.LENGTH_SHORT).show();
+                    Log.d("data", response + "");
                 }
             }
 
             @Override
             public void onFailure(Call<APIResponeList<Comment>> call, Throwable t) {
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

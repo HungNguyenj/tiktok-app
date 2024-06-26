@@ -8,6 +8,9 @@ public class ServiceGenerator {
     public static PostService createPostService(Context context) {
         return APIClient.getClient(context).create(PostService.class);
     }
+    public static CommentService createCommentService(Context context) {
+        return APIClient.getClient(context).create(CommentService.class);
+    }
     public static UserService createUserService(Context context) {
         return APIClient.getClient(context).create(UserService.class);
     }

@@ -3,13 +3,13 @@ package com.example.tiktokapp.responseModel;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-
-@Data
-@AllArgsConstructor
-@RequiredArgsConstructor
+//import lombok.AllArgsConstructor;
+//import lombok.Data;
+//import lombok.RequiredArgsConstructor;
+//
+//@Data
+//@AllArgsConstructor
+//@RequiredArgsConstructor
 public class User implements Serializable  {
     private int id;
     private Timestamp createdAt;
@@ -26,7 +26,9 @@ public class User implements Serializable  {
     private boolean isVertified;
 
     public User(int id, Timestamp createdAt, Timestamp updatedAt, String userName, String fullName, String peerId, String accessToken, String email, String password, String association, Avatar avatarData, Role roleData, boolean isVertified) {
-        super(id, createdAt, updatedAt);
+        this.id = id;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
         this.userName = userName;
         this.fullName = fullName;
         this.peerId = peerId;
@@ -37,6 +39,30 @@ public class User implements Serializable  {
         this.avatarData = avatarData;
         this.roleData = roleData;
         this.isVertified = isVertified;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public String getUserName() {

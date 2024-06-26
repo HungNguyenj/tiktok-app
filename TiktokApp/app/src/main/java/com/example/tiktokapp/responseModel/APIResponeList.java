@@ -3,13 +3,13 @@ package com.example.tiktokapp.responseModel;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-
-@Data
-@AllArgsConstructor
-@RequiredArgsConstructor
+//import lombok.AllArgsConstructor;
+//import lombok.Data;
+//import lombok.RequiredArgsConstructor;
+//
+//@Data
+//@AllArgsConstructor
+//@RequiredArgsConstructor
 public class APIResponeList<T> {
     private int err;
     private String mes;
