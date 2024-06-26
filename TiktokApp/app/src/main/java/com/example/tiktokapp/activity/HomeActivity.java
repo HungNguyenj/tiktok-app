@@ -75,10 +75,10 @@ public class HomeActivity extends BaseActivity  {
                     postList = apiResponse.getData();
                     adapter.setData(postList);
                     adapter.notifyDataSetChanged();
-                    adapter.setOnItemClickListener(postId -> {
-                        CommentBottomSheetFragment bottomSheet = new CommentBottomSheetFragment(postId);
-                        bottomSheet.show(getSupportFragmentManager(), "ModalBottomSheet");
-                    });
+//                    adapter.setOnItemClickListener(postId -> {
+//                        CommentBottomSheetFragment bottomSheet = new CommentBottomSheetFragment(postId);
+//                        bottomSheet.show(getSupportFragmentManager(), "ModalBottomSheet");
+//                    });
                 } else {
                     Toast.makeText(HomeActivity.this, apiResponse.getMes(), Toast.LENGTH_SHORT).
                     show();

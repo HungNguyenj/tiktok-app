@@ -92,7 +92,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
     public class PostHolder extends RecyclerView.ViewHolder {
         //Video content
         VideoView videoView;
-        TextView title, likes, comments, shares, userName, amountLike;
+        TextView title, likes, comments, shares, userName, amountLike, amountComment;
         CircleImageView avatar, userFollow;
         ImageView btnCmt, heartButton, preThumbnail;
         ImageButton btnPause;
@@ -121,6 +121,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
             heartButton = itemView.findViewById(R.id.btnLike);
             // Khởi tạo TextView amountLike
             amountLike = itemView.findViewById(R.id.amountLike);
+            // Khởi tạo ImageView userFollow
+            amountComment = itemView.findViewById(R.id.amountComment);
             // Khởi tạo ImageView userFollow
             userFollow = itemView.findViewById(R.id.followIcon);
             btnPause.setOnClickListener(new View.OnClickListener() {
@@ -176,6 +178,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                     .load(avatarUri)
                     .into(avatar);
 
+            Log.d("post avatar", "setPostData: "+post.getPosterData().getAvatarData().getUrl().toString());
+
             // control video
             Uri videoUri = Uri.parse(post.getVideoUrl());
             videoView.setVideoURI(videoUri);
@@ -220,6 +224,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
 
             // Set dữ liệu cho TextView amountLike
             amountLike.setText(String.valueOf(post.getLikes()));
+            amountComment.setText(String.valueOf(post.getComments()));
 
 
             //render heartbtn phụ thuộc vào đã like hay  chưa

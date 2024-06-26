@@ -51,29 +51,32 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment {
         recyclerView.setAdapter(commentAdapter);
 
         // Fetch comments
-        getComment(getContext());
+        getComments(getContext());
 
         return view;
     }
 
-    private void getComment(Context context) {
+    private void getComments(Context context) {
         ServiceGenerator.createCommentService(context).getComments(postId).enqueue(new Callback<APIResponeList<Comment>>() {
             @Override
             public void onResponse(Call<APIResponeList<Comment>> call, Response<APIResponeList<Comment>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     APIResponeList<Comment> apiResponse = response.body();
-                    commentList = apiResponse.getData();
-                    commentAdapter.setData(commentList);
+                    commentList.clear(); // Clear the existing list before adding new comments
+                    commentList.addAll(apiResponse.getData());
                     commentAdapter.notifyDataSetChanged();
+                    Log.d("Comments", "Loaded comments for postId " + postId);
+                    Log.d("Comments", "Number of comments: " + commentList.size());
                 } else {
                     Toast.makeText(context, "Failed to load comments", Toast.LENGTH_SHORT).show();
-                    Log.d("data", response + "");
+                    Log.e("Comments", "Failed to load comments, response: " + response.errorBody());
                 }
             }
 
             @Override
             public void onFailure(Call<APIResponeList<Comment>> call, Throwable t) {
-                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("Comments", "Error loading comments", t);
             }
         });
     }

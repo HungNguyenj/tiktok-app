@@ -1,13 +1,17 @@
 package com.example.tiktokapp.adapter;
 
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.tiktokapp.R;
 import com.example.tiktokapp.responseModel.Comment;
 
@@ -30,7 +34,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
-        holder.bind(commentList.get(position));
+        holder.bind(commentList.get(position), commentList.size());
     }
 
     @Override
@@ -45,18 +49,28 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     static class CommentViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView commentUserName;
-        private TextView commentContent;
+        private TextView commentUserName, commentContent, amountComment;
+        private ImageView avatarCommenter;
 
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
+            avatarCommenter = itemView.findViewById(R.id.commenterAvatar);
             commentUserName = itemView.findViewById(R.id.commenterUsername);
             commentContent = itemView.findViewById(R.id.commentContent);
+            amountComment = itemView.findViewById(R.id.amountComment);
         }
 
-        public void bind(Comment comment) {
+        public void bind(Comment comment, int length) {
+            // set avatar
+            String link = comment.getCommenterData().getAvatarData().getUrl().toString();
+            Uri avatarUri = Uri.parse(link);
+            Glide.with(itemView.getContext())
+                    .load(avatarUri)
+                    .into(avatarCommenter);
             commentUserName.setText(comment.getCommenterData().getUserName());
             commentContent.setText(comment.getContent());
         }
+
+
     }
 }
