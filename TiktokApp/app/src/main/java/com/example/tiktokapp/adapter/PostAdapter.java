@@ -24,6 +24,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.tiktokapp.activity.LoginActivity;
 import com.example.tiktokapp.responseModel.APIRespone;
 import com.example.tiktokapp.responseModel.Follow;
 import com.example.tiktokapp.responseModel.FollowAPIRespone;
@@ -34,7 +35,9 @@ import com.example.tiktokapp.responseModel.User;
 import com.example.tiktokapp.services.FollowService;
 import com.example.tiktokapp.services.PostService;
 import com.example.tiktokapp.services.UserService;
+import com.example.tiktokapp.utils.AuthUtil;
 import com.example.tiktokapp.utils.HttpUtil;
+import com.example.tiktokapp.utils.IntentUtil;
 
 import java.util.List;
 
@@ -239,10 +242,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
             }
             // Xử lý sự kiện click cho ImageView heartButton
             heartButton.setOnClickListener((view) -> {
-                if (isLiked) {
-                    unlikePost(post, itemView.getContext());
+                if (!AuthUtil.loggedIn(itemView.getContext())) {
+                    IntentUtil.changeActivity(itemView.getContext(), LoginActivity.class);
                 } else {
-                    likePost(post, itemView.getContext());
+                    if (isLiked) {
+                        unlikePost(post, itemView.getContext());
+                    } else {
+                        likePost(post, itemView.getContext());
+                    }
                 }
             });
             // Kiểm tra xem đã follow hay chưa.
@@ -252,12 +259,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
             userFollow.setBackground(ContextCompat.getDrawable(itemView.getContext(), isFollowed ? R.drawable.circle_white : R.drawable.circle_primary));
 
             // Xử lý sự kiện click cho ImageView userFollow
-            userFollow.setOnClickListener((v) -> {
-                if (isFollowed) {
-                    unFollow(post.getPosterData(), itemView.getContext());
+            userFollow.setOnClickListener((view) -> {
+                if (!AuthUtil.loggedIn(itemView.getContext())) {
+                    IntentUtil.changeActivity(itemView.getContext(), LoginActivity.class);
                 } else {
-                    follow(post.getPosterData(), itemView.getContext());
+                    if (isFollowed) {
+                        unFollow(post.getPosterData(), itemView.getContext());
+                    } else {
+                        follow(post.getPosterData(), itemView.getContext());
+                    }
                 }
+
             });
             // Kiểm tra xem có phải là bản thân không
             boolean isMe = post.getIsMe()==1;
