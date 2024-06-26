@@ -74,19 +74,21 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/userAvatar"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="45dp"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="1dp"
+                android:layout_height="45dp"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="0dp"
                 android:src="@drawable/avatar" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/followIcon"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_below="@+id/userAvatar"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="-10dp"
+                android:layout_marginTop="-13dp"
                 android:background="@drawable/circle_white"
                 android:padding="3dp"
                 android:src="@drawable/tick" />
@@ -180,12 +182,15 @@
         app:layout_constraintEnd_toEndOf="@+id/videoContent"
         app:layout_constraintStart_toStartOf="@+id/videoContent" />
 
-    <TextView
+    <kr.co.prnd.readmore.ReadMoreTextView
         android:id="@+id/videoContent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="50dp"
+        app:readMoreColor="@color/white"
+        app:readMoreMaxLine="3"
+        app:readMoreText="...Xem thêm"
         android:text="This is demo title hehe This is demo title hehe This is demo title hehe This is demo title hehe This is demo title hehe This is demo title hehe"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/constraintLayout2"

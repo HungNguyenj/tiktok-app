@@ -50,7 +50,7 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/_45sdp"
         android:layout_marginTop="@dimen/_12sdp"
-        android:text="Email"
+        android:hint="Email"
         android:textAllCaps="false"
         android:textColor="@color/dark_black"
         app:cornerRadius="@dimen/_4sdp"
@@ -68,7 +68,7 @@
         android:layout_height="@dimen/_45sdp"
         android:layout_marginTop="@dimen/_8sdp"
 
-        android:text="Password"
+        android:hint="Password"
         android:textAllCaps="false"
         app:backgroundTint="#4267B2"
         app:iconPadding="@dimen/_12sdp"
@@ -84,7 +84,7 @@
         android:layout_height="@dimen/_45sdp"
         android:layout_marginTop="@dimen/_8sdp"
 
-        android:text="Retype Password"
+        android:hint="Retype Password"
         android:textAllCaps="false"
         app:backgroundTint="#4267B2"
         app:iconPadding="@dimen/_12sdp"
@@ -100,7 +100,7 @@
         android:layout_height="@dimen/_45sdp"
         android:layout_marginTop="@dimen/_8sdp"
 
-        android:text="Username"
+        android:hint="Username"
         android:textAllCaps="false"
         app:backgroundTint="#4267B2"
         app:iconPadding="@dimen/_12sdp"
@@ -109,13 +109,14 @@
         app:layout_constraintEnd_toEndOf="@+id/retype_password"
         app:layout_constraintStart_toStartOf="@+id/retype_password"
         app:layout_constraintTop_toBottomOf="@+id/retype_password" />
+
     <EditText
         android:id="@+id/fullname"
         android:layout_width="0dp"
         android:layout_height="@dimen/_45sdp"
         android:layout_marginTop="@dimen/_8sdp"
 
-        android:text="Fullname"
+        android:hint="Fullname"
         android:textAllCaps="false"
         app:backgroundTint="#4267B2"
         app:iconPadding="@dimen/_12sdp"

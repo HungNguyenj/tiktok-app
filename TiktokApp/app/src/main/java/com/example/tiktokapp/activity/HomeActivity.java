@@ -1,12 +1,14 @@
 package com.example.tiktokapp.activity;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -17,7 +19,6 @@ import com.example.tiktokapp.responseModel.Post;
 import com.example.tiktokapp.R;
 import com.example.tiktokapp.responseModel.SimpleAPIRespone;
 import com.example.tiktokapp.utils.HttpUtil;
-import com.example.tiktokapp.utils.IntentUtil;
 import com.example.tiktokapp.adapter.PostAdapter;
 
 import java.util.ArrayList;
@@ -26,14 +27,13 @@ import java.util.List;
 import com.example.tiktokapp.services.PostService;
 
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HomeActivity extends AppCompatActivity {
-    private ImageView uploadButton;
+public class HomeActivity extends BaseActivity {
     private List<Post> postList;
     private ViewPager2 viewPager2;
     private PostAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,22 +52,17 @@ public class HomeActivity extends AppCompatActivity {
         //postList.add(new Post("Title 01","http://res.cloudinary.com/da5wewzih/video/upload/v1709014619/tiktok_video/xzzgbdzlxuo51eu9qz9q.mp4"));
         adapter = new PostAdapter(postList);
         viewPager2.setAdapter(adapter);
-        init();
+        initNavbar(this);
         // Call API to get posts
         getPosts(this);
+
     }
 
-    private void init() {
-        // Run sound disk
-        uploadButton = findViewById(R.id.btnUpload);
-        uploadButton.setOnClickListener(v -> {
-            IntentUtil.changeActivity(this, ChooseVideoActivity.class);
-            overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
-        });
-    }
+
+
 
     private void getPosts(Context context) {
-        PostService.excute.getPosts().enqueue(new Callback<APIResponeList<Post>>() {
+        PostService.execute.getPosts().enqueue(new retrofit2.Callback<APIResponeList<Post>>() {
             @Override
             public void onResponse(Call<APIResponeList<Post>> call, Response<APIResponeList<Post>> response) {
                 if (response.isSuccessful()) {
