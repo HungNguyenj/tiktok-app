@@ -34,6 +34,7 @@ export const getCommentsByPostId = (
             if (userId) userQuery.id = userId;
             const commentQuery = {};
             if (content) commentQuery.content = { [Op.substring]: content };
+            commentQuery.postId = postId;
             const commonQuery = {
                 where: commentQuery,
                 include: [
