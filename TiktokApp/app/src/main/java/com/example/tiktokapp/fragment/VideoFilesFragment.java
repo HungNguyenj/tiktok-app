@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.tiktokapp.Constant;
 import com.example.tiktokapp.R;
@@ -32,5 +33,6 @@ public class VideoFilesFragment extends Fragment {
         videoAdapter = new FilePreviewAdapter(getContext(), Constant.allVideoFiles);
         recyclerView.setAdapter(videoAdapter);
         return view;
+
     }
 }

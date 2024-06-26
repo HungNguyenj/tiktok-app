@@ -12,34 +12,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.tiktokapp.activity.LoginActivity;
-import com.example.tiktokapp.responseModel.APIRespone;
-import com.example.tiktokapp.responseModel.Follow;
-import com.example.tiktokapp.responseModel.FollowAPIRespone;
-import com.example.tiktokapp.responseModel.Post;
-import com.example.tiktokapp.responseModel.SimpleAPIRespone;
 import com.example.tiktokapp.R;
-import com.example.tiktokapp.responseModel.User;
-import com.example.tiktokapp.services.FollowService;
-import com.example.tiktokapp.services.PostService;
-import com.example.tiktokapp.services.ServiceGenerator;
-import com.example.tiktokapp.services.UserService;
-import com.example.tiktokapp.utils.AuthUtil;
-import com.example.tiktokapp.utils.HttpUtil;
-import com.example.tiktokapp.utils.IntentUtil;
+import com.example.tiktokapp.model.Post;
 
 import java.util.List;
-import java.util.logging.Handler;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import kr.co.prnd.readmore.ReadMoreTextView;
@@ -51,10 +36,19 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
 
     private List<Post> postList;
     private FragmentActivity context;
+    private OnItemClickListener onItemClickListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int postId);
+    }
 
     public PostAdapter(List<Post> postList, FragmentActivity context) {
         this.postList = postList;
         this.context = context;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
     }
 
     @NonNull
@@ -84,48 +78,27 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
     public class PostHolder extends RecyclerView.ViewHolder {
         //Video content
         VideoView videoView;
-        ReadMoreTextView title;
-        TextView likes, comments, shares, userName;
-
+        TextView title, likes, comments, shares, userName;
         CircleImageView avatar;
-        private boolean isLiked;
-        private boolean isFollowed;
-
-
-        //pre-processing
-
-        ProgressBar progressBar;
-        ImageView preThumbnail;
-
-
+        ImageView btnCmt;
         ImageButton btnPause;
         CountDownTimer countDownTimer;
-        ImageView userFollow;
-
-
         ProgressBar progressBar;
 
         @SuppressLint("ClickableViewAccessibility")
         public PostHolder(@NonNull View itemView) {
             super(itemView);
 
-            //post element
+            // post element
             videoView = itemView.findViewById(R.id.videoView);
             title = itemView.findViewById(R.id.videoContent);
             likes = itemView.findViewById(R.id.amountLike);
             comments = itemView.findViewById(R.id.amountComment);
             shares = itemView.findViewById(R.id.amountShare);
-
             btnCmt = itemView.findViewById(R.id.btnComment);
-
             userName = itemView.findViewById(R.id.videoUserName);
-
             avatar = itemView.findViewById(R.id.userAvatar);
-
-            //progressbar
             progressBar = itemView.findViewById(R.id.progress_bar);
-
-            //pause button
             btnPause = itemView.findViewById(R.id.btnPause);
             // Khởi tạo ImageView heartButton
             heartButton = itemView.findViewById(R.id.btnLike);
@@ -140,7 +113,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                 }
             });
 
-            //handle when touching screen
             videoView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -163,7 +135,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
         }
 
         public void setPostData(Post post) {
-            //show progress bar
+            // show progress bar
             progressBar.setVisibility(View.VISIBLE);
             preThumbnail.setVisibility(View.VISIBLE);
 
@@ -174,26 +146,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                     .load(thumbnailUri)
                     .into(preThumbnail);
 
-            //set content
+            // set content
             title.setText(post.getTitle());
             likes.setText(String.valueOf(post.getLikes()));
             comments.setText(String.valueOf(post.getComments()));
             shares.setText(String.valueOf(post.getShares()));
             userName.setText(post.getPosterData().getUserName());
 
-            //set avatar
+            // set avatar
             Uri avatarUri = Uri.parse(post.getPosterData().getAvatarData().getUrl().toString());
-
             Glide.with(itemView.getContext())
                     .load(avatarUri)
                     .into(avatar);
 
-            //control video
-            MediaController mediaController = new MediaController(itemView.getContext());
-           mediaController.setAnchorView(videoView);
-//            videoView.setMediaController(mediaController);
-
-
+            // control video
             Uri videoUri = Uri.parse(post.getVideoUrl());
             videoView.setVideoURI(videoUri);
 
@@ -206,12 +172,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                     //kich thuoc cua video
                     int videoWidth = mp.getVideoWidth();
                     int videoHeight = mp.getVideoHeight();
-
-                    // Lấy kích thước của VideoView
                     int videoViewWidth = videoView.getWidth();
                     int videoViewHeight = videoView.getHeight();
-
-                    // Kiểm tra xem có thể tính toán tỷ lệ không
                     if (videoWidth != 0 && videoHeight != 0 && videoViewWidth != 0 && videoViewHeight != 0) {
                         float videoRatio = (float) videoWidth / videoHeight;
                         float viewRatio = (float) videoViewWidth / videoViewHeight;
@@ -220,10 +182,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                         float scaleY = 1f;
 
                         if (videoRatio >= viewRatio) {
-                            // Video có tỷ lệ rộng hơn hoặc bằng View
                             scaleX = videoRatio / viewRatio;
                         } else {
-                            // Video có tỷ lệ cao hơn View
                             scaleY = viewRatio / videoRatio;
                         }
                         videoView.setScaleX(scaleX);
@@ -237,7 +197,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
             videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
-                    //loop video
                     mp.start();
                 }
             });
@@ -321,7 +280,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
             countDownTimer = new CountDownTimer(5000, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
-
                 }
 
                 @Override

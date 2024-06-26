@@ -28,6 +28,8 @@ public class Comment extends AbstractModel{
     }
 
 
+
+
     public int getCommenter() {
         return commenter;
     }
@@ -55,4 +57,9 @@ public class Comment extends AbstractModel{
     public void setCommenterData(User commenterData) {
         this.commenterData = commenterData;
     }
+
+    public String setUsername(String name){
+        return commenterData.getUserName();
+    }
+
 }
