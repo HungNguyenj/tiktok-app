@@ -18,6 +18,7 @@ import com.example.tiktokapp.responseModel.APIResponeList;
 import com.example.tiktokapp.responseModel.Post;
 import com.example.tiktokapp.R;
 import com.example.tiktokapp.responseModel.SimpleAPIRespone;
+import com.example.tiktokapp.services.ServiceGenerator;
 import com.example.tiktokapp.utils.HttpUtil;
 import com.example.tiktokapp.adapter.PostAdapter;
 
@@ -62,7 +63,7 @@ public class HomeActivity extends BaseActivity {
 
 
     private void getPosts(Context context) {
-        PostService.execute.getPosts().enqueue(new retrofit2.Callback<APIResponeList<Post>>() {
+        ServiceGenerator.createPostService(HomeActivity.this).getPosts().enqueue(new retrofit2.Callback<APIResponeList<Post>>() {
             @Override
             public void onResponse(Call<APIResponeList<Post>> call, Response<APIResponeList<Post>> response) {
                 if (response.isSuccessful()) {
@@ -72,7 +73,7 @@ public class HomeActivity extends BaseActivity {
                     adapter.notifyDataSetChanged();
                 }else {
                     try {
-                        SimpleAPIRespone errResponse = HttpUtil.parseError(response, SimpleAPIRespone.class);
+                        SimpleAPIRespone errResponse = HttpUtil.parseError(response, SimpleAPIRespone.class,context);
                         Toast.makeText(context, "Error: " + errResponse.getMes(), Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
                         e.printStackTrace();

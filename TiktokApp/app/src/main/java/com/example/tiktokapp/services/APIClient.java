@@ -1,8 +1,11 @@
 package com.example.tiktokapp.services;
 
+import android.content.Context;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -16,12 +19,19 @@ public class APIClient {
 
     private static Retrofit retrofit = null;
 
-    public static Retrofit getClient() {
+    public static Retrofit getClient(Context context) {
+        if (context == null) {
+            throw new IllegalArgumentException("Context cannot be null");
+        }
         if (retrofit == null) {
             Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+            OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                    .addInterceptor(new TokenInterceptor(context))
+                    .build();
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create(gson))
+                    .client(okHttpClient)
                     .build();
         }
         return retrofit;

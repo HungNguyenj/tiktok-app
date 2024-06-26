@@ -9,8 +9,9 @@
     android:background="@android:color/white"
     tools:context=".activity.LoginActivity">
 
-    <ImageView
+    <ImageButton
         android:id="@+id/log_in_cancel_btn"
+        android:background="@android:color/transparent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/close_page"
@@ -48,6 +49,7 @@
     <EditText
         android:id="@+id/email"
         android:layout_width="0dp"
+        android:singleLine="true"
         android:layout_height="@dimen/_45sdp"
         android:layout_marginTop="@dimen/_12sdp"
         android:hint="Email or username"
@@ -67,7 +69,7 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/_45sdp"
         android:layout_marginTop="@dimen/_8sdp"
-
+        android:singleLine="true"
         android:hint="Password"
         android:inputType="textPassword"
         android:textAllCaps="false"
