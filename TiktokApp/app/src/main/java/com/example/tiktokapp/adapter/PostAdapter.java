@@ -34,6 +34,7 @@ import com.example.tiktokapp.R;
 import com.example.tiktokapp.responseModel.User;
 import com.example.tiktokapp.services.FollowService;
 import com.example.tiktokapp.services.PostService;
+import com.example.tiktokapp.services.ServiceGenerator;
 import com.example.tiktokapp.services.UserService;
 import com.example.tiktokapp.utils.AuthUtil;
 import com.example.tiktokapp.utils.HttpUtil;
@@ -321,7 +322,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
         }
         // Hàm gọi api và xử lý sự kiện like
         private void likePost(Post post, Context context) {
-            PostService.execute.likePost(post.getId()).enqueue(new Callback<SimpleAPIRespone>() {
+            ServiceGenerator.createPostService(context).likePost(post.getId()).enqueue(new Callback<SimpleAPIRespone>() {
                 @Override
                 public void onResponse(Call<SimpleAPIRespone> call, Response<SimpleAPIRespone> response) {
                     if(response.body() !=null){
@@ -337,7 +338,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                     }
                     else{
                         try {
-                            SimpleAPIRespone errResponse = HttpUtil.parseError(response, SimpleAPIRespone.class);
+                            SimpleAPIRespone errResponse = HttpUtil.parseError(response, SimpleAPIRespone.class,context);
                             Toast.makeText(context, "Error: " + errResponse.getMes(), Toast.LENGTH_SHORT).show();
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -355,7 +356,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
         }
         // Hàm gọi api và xử lý sự kiện unlike
         private void unlikePost(Post post, Context context) {
-            PostService.execute.unlikePost(post.getId()).enqueue(new Callback<SimpleAPIRespone>() {
+            ServiceGenerator.createPostService(context).unlikePost(post.getId()).enqueue(new Callback<SimpleAPIRespone>() {
                 @Override
                 public void onResponse(Call<SimpleAPIRespone> call, Response<SimpleAPIRespone> response) {
                     if (response.isSuccessful()) {
@@ -369,7 +370,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                         isLiked=false;
                     } else {
                         try {
-                            SimpleAPIRespone errResponse = HttpUtil.parseError(response, SimpleAPIRespone.class);
+                            SimpleAPIRespone errResponse = HttpUtil.parseError(response, SimpleAPIRespone.class,context);
                             Toast.makeText(context, "Error: " + errResponse.getMes(), Toast.LENGTH_SHORT).show();
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -388,7 +389,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
 
         // Hàm gọi api và xử lý sự kiện follow
         private void follow(User user, Context context) {
-            FollowService.execute.follow(user.getId()).enqueue(new Callback<APIRespone<Follow>>() {
+            ServiceGenerator.createFollowService(context).follow(user.getId()).enqueue(new Callback<APIRespone<Follow>>() {
                 @Override
                 public void onResponse(Call<APIRespone<Follow>> call, Response<APIRespone<Follow>> response) {
                    if(response.isSuccessful()&& response!=null){
@@ -404,7 +405,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                    }
                    else{
                        try {
-                           SimpleAPIRespone errResponse = HttpUtil.parseError(response, SimpleAPIRespone.class);
+                           SimpleAPIRespone errResponse = HttpUtil.parseError(response, SimpleAPIRespone.class,context);
                            Toast.makeText(context, "Error: " + errResponse.getMes(), Toast.LENGTH_SHORT).show();
                        } catch (Exception e) {
                            e.printStackTrace();
@@ -423,7 +424,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
 
         // Hàm gọi api và xử lý sự kiện unfollow
         private void unFollow(User user, Context context) {
-            FollowService.execute.unFollow(user.getId()).enqueue(new Callback<SimpleAPIRespone>() {
+            ServiceGenerator.createFollowService(context).unFollow(user.getId()).enqueue(new Callback<SimpleAPIRespone>() {
                 @Override
                 public void onResponse(Call<SimpleAPIRespone> call, Response<SimpleAPIRespone> response) {
                     if (response.isSuccessful()) {
@@ -435,7 +436,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                         isFollowed = false;
                     } else {
                         try {
-                            SimpleAPIRespone errResponse = HttpUtil.parseError(response, SimpleAPIRespone.class);
+                            SimpleAPIRespone errResponse = HttpUtil.parseError(response, SimpleAPIRespone.class,context);
                             Toast.makeText(context, "Error: " + errResponse.getMes(), Toast.LENGTH_SHORT).show();
                         } catch (Exception e) {
                             e.printStackTrace();

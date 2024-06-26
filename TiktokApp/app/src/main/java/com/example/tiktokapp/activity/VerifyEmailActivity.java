@@ -14,6 +14,7 @@ import com.example.tiktokapp.requestModel.VerifyEmailReq;
 import com.example.tiktokapp.requestModel.VerifyEmailRes;
 import com.example.tiktokapp.responseModel.SimpleAPIRespone;
 import com.example.tiktokapp.services.AuthService;
+import com.example.tiktokapp.services.ServiceGenerator;
 import com.example.tiktokapp.utils.HttpUtil;
 import com.google.android.material.button.MaterialButton;
 
@@ -37,7 +38,7 @@ public class VerifyEmailActivity extends AppCompatActivity {
             VerifyEmailReq verifyEmailReq = new VerifyEmailReq();
             verifyEmailReq.setOtp(otp.getText().toString());
             verifyEmailReq.setEmail(email.getText().toString());
-            Call<SimpleAPIRespone> res = AuthService.execute.vertifyEmail(verifyEmailReq);
+            Call<SimpleAPIRespone> res = ServiceGenerator.createAuthService(VerifyEmailActivity.this).vertifyEmail(verifyEmailReq);
             res.enqueue(new Callback<SimpleAPIRespone>() {
                @Override
                public void onResponse(Call<SimpleAPIRespone> call, Response<SimpleAPIRespone> response) {
@@ -46,7 +47,7 @@ public class VerifyEmailActivity extends AppCompatActivity {
                      startActivity(new Intent(VerifyEmailActivity.this, LoginActivity.class));
                   } else {
                      try {
-                        SimpleAPIRespone errResponse = HttpUtil.parseError(response, SimpleAPIRespone.class);
+                        SimpleAPIRespone errResponse = HttpUtil.parseError(response, SimpleAPIRespone.class,v.getContext());
                         Toast.makeText(v.getContext(), "Error: " + errResponse.getMes(), Toast.LENGTH_SHORT).show();
                      } catch (Exception e) {
                         e.printStackTrace();

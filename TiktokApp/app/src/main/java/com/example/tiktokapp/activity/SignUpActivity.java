@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import com.example.tiktokapp.responseModel.APIRespone;
 import com.example.tiktokapp.responseModel.SimpleAPIRespone;
 import com.example.tiktokapp.responseModel.User;
 import com.example.tiktokapp.services.AuthService;
+import com.example.tiktokapp.services.ServiceGenerator;
 import com.example.tiktokapp.utils.HttpUtil;
 import com.example.tiktokapp.utils.IntentUtil;
 import com.google.android.material.button.MaterialButton;
@@ -29,6 +31,7 @@ public class SignUpActivity extends AppCompatActivity {
     EditText username, password, email, retypePassword, fullname;
     MaterialButton btnSignUp;
     TextView loginPage;
+    ImageButton closeBtn;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,16 +51,16 @@ public class SignUpActivity extends AppCompatActivity {
                 signUpReq.setPassword(password.getText().toString());
                 signUpReq.setEmail(email.getText().toString());
                 signUpReq.setFullname(fullname.getText().toString());
-                Call<APIRespone<User>> res = AuthService.execute.register(signUpReq);
+                Call<APIRespone<User>> res = ServiceGenerator.createAuthService(v.getContext()).register(signUpReq);
                 res.enqueue(new Callback<APIRespone<User>>() {
                     @Override
                     public void onResponse(Call<APIRespone<User>> call, Response<APIRespone<User>> response) {
                         if(response.isSuccessful()){
-                            Toast.makeText(SignUpActivity.this, response.body().getMes(), Toast.LENGTH_LONG);
+                            Toast.makeText(v.getContext(), response.body().getMes(), Toast.LENGTH_LONG);
                             startActivity(new Intent(SignUpActivity.this, VerifyEmailActivity.class));
                         } else {
                             try {
-                                SimpleAPIRespone errResponse = HttpUtil.parseError(response, SimpleAPIRespone.class);
+                                SimpleAPIRespone errResponse = HttpUtil.parseError(response, SimpleAPIRespone.class,v.getContext());
                                 Toast.makeText(v.getContext(), "Error: " + errResponse.getMes(), Toast.LENGTH_SHORT).show();
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -74,5 +77,7 @@ public class SignUpActivity extends AppCompatActivity {
         });
         loginPage = findViewById(R.id.use_sign_up_btn);
         loginPage.setOnClickListener(v -> IntentUtil.changeActivity(this, LoginActivity.class));
+        closeBtn = findViewById(R.id.sign_up_cancel_btn);
+        closeBtn.setOnClickListener(v -> finish());
     }
 }

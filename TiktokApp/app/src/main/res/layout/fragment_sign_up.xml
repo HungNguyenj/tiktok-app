@@ -9,8 +9,9 @@
     android:background="@android:color/white"
     tools:context=".activity.SignUpActivity">
 
-    <ImageView
-        android:id="@+id/sign_up_text"
+    <ImageButton
+        android:id="@+id/sign_up_cancel_btn"
+        android:background="@android:color/transparent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/close_page"
@@ -52,6 +53,7 @@
         android:layout_marginTop="@dimen/_12sdp"
         android:hint="Email"
         android:textAllCaps="false"
+        android:singleLine="true"
         android:textColor="@color/dark_black"
         app:cornerRadius="@dimen/_4sdp"
         app:elevation="0dp"
@@ -67,7 +69,7 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/_45sdp"
         android:layout_marginTop="@dimen/_8sdp"
-
+        android:singleLine="true"
         android:hint="Password"
         android:textAllCaps="false"
         app:backgroundTint="#4267B2"
@@ -83,7 +85,7 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/_45sdp"
         android:layout_marginTop="@dimen/_8sdp"
-
+        android:singleLine="true"
         android:hint="Retype Password"
         android:textAllCaps="false"
         app:backgroundTint="#4267B2"
@@ -99,7 +101,7 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/_45sdp"
         android:layout_marginTop="@dimen/_8sdp"
-
+        android:singleLine="true"
         android:hint="Username"
         android:textAllCaps="false"
         app:backgroundTint="#4267B2"
@@ -115,7 +117,7 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/_45sdp"
         android:layout_marginTop="@dimen/_8sdp"
-
+        android:singleLine="true"
         android:hint="Fullname"
         android:textAllCaps="false"
         app:backgroundTint="#4267B2"

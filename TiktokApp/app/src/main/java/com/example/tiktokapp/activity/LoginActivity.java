@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import com.example.tiktokapp.R;
 import com.example.tiktokapp.requestModel.LoginReq;
 
 import com.example.tiktokapp.services.AuthService;
+import com.example.tiktokapp.services.ServiceGenerator;
 import com.example.tiktokapp.utils.IntentUtil;
 import com.google.android.material.button.MaterialButton;
 
@@ -30,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
     TextView signUpPage;
+    ImageButton closeBtn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
                 LoginReq loginReq = new LoginReq();
                 loginReq.setPassword(passwordInput);
                 loginReq.setEmailOrUsername(emailInput);
-                Call<APIRespone<User>> res = AuthService.execute.login(loginReq);
+                Call<APIRespone<User>> res = ServiceGenerator.createAuthService(LoginActivity.this).login(loginReq);
                 res.enqueue(new Callback<APIRespone<User>>() {
                     @Override
                     public void onResponse(Call<APIRespone<User>> call, Response<APIRespone<User>> response) {
@@ -80,5 +83,8 @@ public class LoginActivity extends AppCompatActivity {
         });
         signUpPage = findViewById(R.id.use_sign_up_btn);
         signUpPage.setOnClickListener(v -> IntentUtil.changeActivity(this, SignUpActivity.class));
+        closeBtn = findViewById(R.id.log_in_cancel_btn);
+        closeBtn.setOnClickListener(v -> finish());
+
     }
 }

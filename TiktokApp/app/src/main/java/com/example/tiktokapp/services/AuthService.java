@@ -14,11 +14,12 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 public interface AuthService {
-    AuthService execute =APIClient.getClient().create(AuthService.class);
     @POST("auth/login/")
     Call<APIRespone<User>> login(@Body LoginReq loginReq);
+
     @POST("auth/register/")
     Call<APIRespone<User>> register(@Body SignUpReq signUpReq);
+
     @POST("auth/verify-email/")
     Call<SimpleAPIRespone> vertifyEmail(@Body VerifyEmailReq verifyEmailReq);
 }
