@@ -74,7 +74,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     class CommentViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView commentUserName, commentContent, amountCommentLike;
+        private TextView commentUserName, commentContent, amountCommentLike, commentTimestamp;
         private ImageView avatarCommenter, likeComment;
         private ConstraintLayout cmtLayout;
 
@@ -85,6 +85,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             commentContent = itemView.findViewById(R.id.commentContent);
             likeComment = itemView.findViewById(R.id.likeComment);
             amountCommentLike = itemView.findViewById(R.id.amountCommentLike);
+            commentTimestamp = itemView.findViewById(R.id.commentTimestamp);
             cmtLayout = itemView.findViewById(R.id.commentItem);
         }
 
@@ -99,11 +100,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             commentUserName.setText(comment.getCommenterData().getUserName());
             commentContent.setText(comment.getContent());
             amountCommentLike.setText(String.valueOf(comment.getLikes()));
+            commentTimestamp.setText(comment.getCreatedAt().toString());
 
-            if (comment.getCommenterData().getId() != id) {
-                Toast.makeText(itemView.getContext(), "Đây không phải comment của bạn!", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            if (comment.getCommenterData().getId() == id) {
             cmtLayout.setOnLongClickListener(v-> {
                      Dialog dialog = new Dialog(v.getContext());
                     dialog.setContentView(R.layout.comment_change_dialog);

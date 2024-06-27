@@ -31,4 +31,9 @@ public class SharePreferncesUtil {
         return preferences.getInt("userID", -1); // Retrieve user ID
     }
 
+    public static String getAvatar(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+        return preferences.getString("avatar", "Nothing"); // Retrieve user ID
+    }
+
 }

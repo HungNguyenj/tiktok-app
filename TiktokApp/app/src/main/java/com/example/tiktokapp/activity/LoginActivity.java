@@ -68,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                             editor.putString("username", response.body().getData().getUserName());
                             editor.putString("fullName", response.body().getData().getFullName());
                             editor.putString("email", response.body().getData().getEmail());
+                            editor.putString("avatar", response.body().getData().getAvatarData().getUrl().toString());
                             editor.putInt("userID", response.body().getData().getId());
                             editor.commit();
                             Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_LONG);

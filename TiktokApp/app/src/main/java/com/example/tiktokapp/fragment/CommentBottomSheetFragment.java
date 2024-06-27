@@ -2,6 +2,7 @@ package com.example.tiktokapp.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.tiktokapp.R;
 import com.example.tiktokapp.activity.LoginActivity;
 import com.example.tiktokapp.adapter.CommentAdapter;
@@ -31,6 +33,7 @@ import com.example.tiktokapp.utils.IntentUtil;
 import com.example.tiktokapp.utils.SharePreferncesUtil;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +48,7 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment {
     private RecyclerView recyclerView;
     private CommentAdapter commentAdapter;
     private List<Comment> commentList;
-    private ImageView sendComment;
+    private ImageView sendComment, exitComment, userAvatar;
 
     public CommentBottomSheetFragment(int postId) {
         this.postId = postId;
@@ -58,14 +61,24 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment {
         View view = inflater.inflate(R.layout.comment_bottom_sheet, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerViewComments);
+        exitComment= view.findViewById(R.id.exitComment);
+
         amountComment = view.findViewById(R.id.amountComment);
         edtComment = view.findViewById(R.id.editTextComment);
         sendComment = view.findViewById(R.id.sendComment);
+        userAvatar = view.findViewById(R.id.userAvatar);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         int id = SharePreferncesUtil.getUserID(getContext());
+        String avatar = SharePreferncesUtil.getAvatar(getContext());
 
-        Log.d("USERID", "onCreateView: " + id);
+        Uri avatarUri = Uri.parse(avatar);
+        Glide.with(getContext())
+                .load(avatarUri)
+                .into(userAvatar);
+
+        Log.d("USERAVATARURL", "onCreateView: " + avatar);
         commentList = new ArrayList<>();
         commentAdapter = new CommentAdapter(commentList, getContext(), id);
         recyclerView.setAdapter(commentAdapter);
@@ -94,6 +107,11 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment {
 
         // Fetch comments
         getComments(getContext());
+
+        // Handle exit comment button click
+        exitComment.setOnClickListener(v -> {
+            dismiss();
+        });
 
         return view;
     }
