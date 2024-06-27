@@ -1,6 +1,7 @@
 package com.example.tiktokapp.activity;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
@@ -18,6 +19,8 @@ import com.example.tiktokapp.utils.AuthUtil;
 
 public class ProfileActivity extends BaseActivity {
     private LinearLayout layoutProfile;
+    private ImageView btnProfile;
+    private ImageView btnHome;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +33,10 @@ public class ProfileActivity extends BaseActivity {
         });
         initNavbar(this);
         layoutProfile = findViewById(R.id.fragment_layout_profile);
+        btnProfile = findViewById(R.id.btnProfile);
+        btnProfile.setImageResource(R.drawable.user_fill);
+        btnHome = findViewById(R.id.btnHome);
+        btnHome.setImageResource(R.drawable.home_outline);
         if (AuthUtil.loggedIn(this)) {
             addFragment(new ProfileInfoFragment());
         } else {

@@ -8,4 +8,9 @@ public class IntentUtil {
         Intent intent = new Intent(context, toActivity);
         context.startActivity(intent);
     }
+    public static void changeActivityAndPutString(Context context, Class<?> toActivity,String key, String value) {
+        Intent intent = new Intent(context, toActivity);
+        intent.putExtra(key, value);
+        context.startActivity(intent);
+    }
 }
