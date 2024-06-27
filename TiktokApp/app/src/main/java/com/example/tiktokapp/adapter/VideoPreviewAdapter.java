@@ -14,17 +14,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.tiktokapp.Constant;
 import com.example.tiktokapp.R;
+import com.example.tiktokapp.activity.UploadPost;
+import com.example.tiktokapp.utils.IntentUtil;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class FilePreviewAdapter extends RecyclerView.Adapter<FilePreviewAdapter.FileViewHolder> {
+public class VideoPreviewAdapter extends RecyclerView.Adapter<VideoPreviewAdapter.FileViewHolder> {
     private final List<File> files;
     private final Context context;
 
-    public FilePreviewAdapter(Context context, List<File> files) {
+    public VideoPreviewAdapter(Context context, List<File> files) {
         this.context = context;
         this.files = files;
     }
@@ -59,6 +61,9 @@ public class FilePreviewAdapter extends RecyclerView.Adapter<FilePreviewAdapter.
             holder.videoDuration.setText("");
         }
          Glide.with(context).load(videoFile).into(holder.videoThumbnail);
+        holder.itemView.setOnClickListener(v -> {
+            IntentUtil.changeActivityAndPutString(holder.itemView.getContext(), UploadPost.class,"video_path",videoFile.getAbsolutePath());
+        });
     }
 
     @Override

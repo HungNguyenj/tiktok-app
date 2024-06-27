@@ -6,6 +6,9 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class Constant {
+    public static final int VISIBILITY_POST_PUBLIC = 1;
+    public static final int VISIBILITY_POST_FRIEND = 1;
+    public static final int VISIBILITY_POST_PRIVATE = 1;
     public static final String[] videoExtensions = {".mp4",".mov"};
     public static final String[] imageExtensions = {".jpg",".jpeg",".png",".webm"};
     public static ArrayList<File> allVideoFiles = new ArrayList<>();

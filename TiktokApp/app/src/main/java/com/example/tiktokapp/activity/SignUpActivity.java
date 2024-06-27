@@ -47,17 +47,17 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 SignUpReq signUpReq = new SignUpReq();
-                signUpReq.setUsername(username.getText().toString());
+                signUpReq.setUserName(username.getText().toString());
                 signUpReq.setPassword(password.getText().toString());
                 signUpReq.setEmail(email.getText().toString());
-                signUpReq.setFullname(fullname.getText().toString());
+                signUpReq.setFullName(fullname.getText().toString());
                 Call<APIRespone<User>> res = ServiceGenerator.createAuthService(v.getContext()).register(signUpReq);
                 res.enqueue(new Callback<APIRespone<User>>() {
                     @Override
                     public void onResponse(Call<APIRespone<User>> call, Response<APIRespone<User>> response) {
                         if(response.isSuccessful()){
                             Toast.makeText(v.getContext(), response.body().getMes(), Toast.LENGTH_LONG);
-                            startActivity(new Intent(SignUpActivity.this, VerifyEmailActivity.class));
+                            IntentUtil.changeActivity(v.getContext(),VerifyEmailActivity.class);
                         } else {
                             try {
                                 SimpleAPIRespone errResponse = HttpUtil.parseError(response, SimpleAPIRespone.class,v.getContext());
