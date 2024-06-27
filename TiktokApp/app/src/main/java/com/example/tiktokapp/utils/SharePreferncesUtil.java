@@ -25,4 +25,10 @@ public class SharePreferncesUtil {
         editor.apply();
 
     }
+
+    public static int getUserID(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+        return preferences.getInt("userID", -1); // Retrieve user ID
+    }
+
 }

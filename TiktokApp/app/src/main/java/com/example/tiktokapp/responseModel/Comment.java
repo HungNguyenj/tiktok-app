@@ -19,10 +19,10 @@ public class Comment{
     private String content;
     private int likes;
     @SerializedName("isLiked")
-    private boolean isLiked;
+    private int isLiked;
     private User commenterData;
 
-    public Comment(int id, Timestamp createdAt, Timestamp updatedAt, int commenter, int postId, String content, int likes, boolean isLiked, User commenterData) {
+    public Comment(int id, Timestamp createdAt, Timestamp updatedAt, int commenter, int postId, String content, int likes, int isLiked, User commenterData) {
         this.id = id;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -90,12 +90,11 @@ public class Comment{
         this.likes = likes;
     }
 
-    public boolean isLiked() {
+    public int getIsLiked() {
         return isLiked;
     }
-
-    public void setLiked(boolean liked) {
-        isLiked = liked;
+    public void setIsLiked(int isLiked) {
+        this.isLiked = isLiked;
     }
 
     public User getCommenterData() {

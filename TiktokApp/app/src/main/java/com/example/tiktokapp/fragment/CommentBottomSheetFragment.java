@@ -1,11 +1,15 @@
 package com.example.tiktokapp.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,10 +18,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tiktokapp.R;
+import com.example.tiktokapp.activity.LoginActivity;
 import com.example.tiktokapp.adapter.CommentAdapter;
+import com.example.tiktokapp.requestModel.CommentReq;
 import com.example.tiktokapp.responseModel.APIResponeList;
 import com.example.tiktokapp.responseModel.Comment;
+import com.example.tiktokapp.responseModel.SimpleAPIRespone;
+import com.example.tiktokapp.services.CommentService;
 import com.example.tiktokapp.services.ServiceGenerator;
+import com.example.tiktokapp.utils.AuthUtil;
+import com.example.tiktokapp.utils.IntentUtil;
+import com.example.tiktokapp.utils.SharePreferncesUtil;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.ArrayList;
@@ -30,30 +41,105 @@ import retrofit2.Response;
 public class CommentBottomSheetFragment extends BottomSheetDialogFragment {
 
     private int postId;
+    private TextView amountComment, edtComment;
     private RecyclerView recyclerView;
     private CommentAdapter commentAdapter;
     private List<Comment> commentList;
+    private ImageView sendComment;
 
     public CommentBottomSheetFragment(int postId) {
         this.postId = postId;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.comment_bottom_sheet, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerViewComments);
+        amountComment = view.findViewById(R.id.amountComment);
+        edtComment = view.findViewById(R.id.editTextComment);
+        sendComment = view.findViewById(R.id.sendComment);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        int id = SharePreferncesUtil.getUserID(getContext());
+
+        Log.d("USERID", "onCreateView: " + id);
         commentList = new ArrayList<>();
-        commentAdapter = new CommentAdapter(commentList);
+        commentAdapter = new CommentAdapter(commentList, getContext(), id);
         recyclerView.setAdapter(commentAdapter);
+
+        edtComment.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        if (!AuthUtil.loggedIn(getContext())) {
+                            IntentUtil.changeActivity(getContext(), LoginActivity.class);
+                        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+
+                        break;
+                }
+                // Return true if the listener has consumed the event, false otherwise
+                return false;
+            }
+        });
+
+        sendComment.setOnClickListener(v->{
+            createCommet(edtComment.getText().toString());
+        });
 
         // Fetch comments
         getComments(getContext());
 
         return view;
+    }
+
+    public void createCommet(String text) {
+
+        if (!AuthUtil.loggedIn(getContext())) {
+            IntentUtil.changeActivity(getContext(), LoginActivity.class);
+        }
+
+        Log.d("TAG Comment", "createCommet: " + text);
+        if (text.trim().length() == 0) {
+            Toast.makeText(this.getContext(), "Please insert your commment", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        CommentReq cmtReq = new CommentReq(text);
+
+        // Call the Retrofit service to create the comment
+        ServiceGenerator.createCommentService(getContext())
+                .create(postId,cmtReq)
+                .enqueue(new Callback<SimpleAPIRespone>() {
+                    @Override
+                    public void onResponse(Call<SimpleAPIRespone> call, Response<SimpleAPIRespone> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            // Handle successful comment creation
+                            SimpleAPIRespone apiResponse = response.body();
+                            Toast.makeText(getContext(), "Comment created successfully", Toast.LENGTH_SHORT).show();
+                            edtComment.setText(""); // Clear the comment text field after successful creation
+                            // Refresh comments after creation
+                            getComments(getContext());
+                        } else {
+                            // Handle unsuccessful response
+                            Toast.makeText(getContext(), "Failed to create comment", Toast.LENGTH_SHORT).show();
+                            Log.e("CreateComment", "Failed to create comment, response: " + response.errorBody());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SimpleAPIRespone> call, Throwable t) {
+// Handle network errors or unexpected failures
+                        Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.e("CreateComment", "Error creating comment", t);
+                    }
+
+                });
     }
 
     private void getComments(Context context) {
@@ -65,6 +151,8 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment {
                     commentList.clear(); // Clear the existing list before adding new comments
                     commentList.addAll(apiResponse.getData());
                     commentAdapter.notifyDataSetChanged();
+
+                    amountComment.setText(commentList.size() + " Bình luận");
                     Log.d("Comments", "Loaded comments for postId " + postId);
                     Log.d("Comments", "Number of comments: " + commentList.size());
                 } else {
