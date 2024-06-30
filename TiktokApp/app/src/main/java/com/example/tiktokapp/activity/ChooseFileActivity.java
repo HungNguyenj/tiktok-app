@@ -2,7 +2,6 @@ package com.example.tiktokapp.activity;
 
 import android.os.Bundle;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,25 +10,23 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
 
 import com.example.tiktokapp.Constant;
 import com.example.tiktokapp.R;
 import com.example.tiktokapp.adapter.FragmentViewPaggerAdapter;
-import com.example.tiktokapp.fragment.VideoFilesFragment;
+import com.example.tiktokapp.fragment.PreviewFileFragment;
 import com.example.tiktokapp.utils.MethodUtil;
 import com.example.tiktokapp.utils.StorageUtil;
-import com.google.android.material.color.utilities.Contrast;
-import com.google.android.material.tabs.TabLayout;
 
 import java.io.File;
 import java.util.ArrayList;
 
-public class ChooseVideoActivity extends AppCompatActivity {
+public class ChooseFileActivity extends AppCompatActivity {
     private ImageView btnClose;
     private FragmentViewPaggerAdapter uploadtabAdapter;
     private File storage;
     private String[] allPaths;
+    private int requestCode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +37,7 @@ public class ChooseVideoActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        requestCode = getIntent().getIntExtra("requestCode", -1);
         loadFile();
         init();
         addVideoFilesFragment();
@@ -56,6 +54,7 @@ public class ChooseVideoActivity extends AppCompatActivity {
     }
     private void loadFile() {
         Constant.allVideoFiles = new ArrayList<File>();
+        Constant.allImageFiles = new ArrayList<File>();
         allPaths = StorageUtil.getStorageDirectories(this);
         for (String path : allPaths) {
             storage = new File(path);
@@ -63,10 +62,13 @@ public class ChooseVideoActivity extends AppCompatActivity {
         }
     }
     private void addVideoFilesFragment() {
-        VideoFilesFragment videoFilesFragment = new VideoFilesFragment();
+        PreviewFileFragment previewFileFragment = new PreviewFileFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("requestCode", requestCode);
+        previewFileFragment.setArguments(bundle);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.layout_list_view, videoFilesFragment);
+        fragmentTransaction.replace(R.id.layout_list_view, previewFileFragment);
         fragmentTransaction.commit();
     }
     @Override
