@@ -1,4 +1,4 @@
-import { Op, where } from 'sequelize';
+import { Op, literal, where } from 'sequelize';
 import db from '../models';
 import { pagingConfig } from '../utils/pagination';
 export const formatQueryUserWithAtrr = {
@@ -32,8 +32,7 @@ export const findUsers = ({
     pageSize,
     orderBy,
     orderDirection,
-    userName,
-    fullName,
+    name
 }) =>
     new Promise(async (resolve, reject) => {
         try {
@@ -43,11 +42,15 @@ export const findUsers = ({
                 orderBy,
                 orderDirection
             );
-            const query = {};
-            if (userName) query.userName = { [Op.substring]: userName };
-            if (fullName) query.fullName = { [Op.substring]: fullName };
+            
+            const whereClause = name ? {
+                [Op.or]: [
+                    { userName: { [Op.like]: `%${name}%` } },
+                    { fullName: { [Op.like]: `%${name}%` } }
+                ]
+            } : {};
             const { count, rows } = await db.User.findAndCountAll({
-                where: query,
+                where: whereClause,
                 attributes: ['id', 'userName', 'fullName'],
                 ...formatQueryUser,
                 ...queries,
@@ -72,6 +75,85 @@ export const findUsers = ({
             reject(error);
         }
     });
+export const getProfile = (partnerId,myId) => 
+    new Promise(async (resolve,reject) => {
+        try {
+            if(!partnerId) reject(false)
+            const attributes = {
+                include : [
+                    [
+                        literal(`(
+                            SELECT COUNT(*)
+                            FROM followers f
+                            WHERE f.followee = User.id
+                        )`),
+                        'followers',
+                    ],
+                    [
+                        literal(`(
+                            SELECT COUNT(*)
+                            FROM followers f
+                            WHERE f.follower = User.id
+                        )`),
+                        'followings',
+                    ],
+                    [
+                        literal(`(
+                            SELECT COUNT(*) 
+                            FROM likespost lp , posts p 
+                            WHERE lp.postId = p.id AND p.poster = User.id
+                        )`),
+                        'likes',
+                    ]
+                ]
+            }
+            if (myId) {
+                attributes.include.push(
+                    [
+                        literal(`(
+                            SELECT EXISTS (
+                                SELECT 1
+                                FROM followers f
+                                WHERE 
+                                    f.follower = ${myId} 
+                                    AND User.id = f.followee
+                            )
+                            )`),
+                        'isFollow',
+                    ],
+                    [
+                        literal(`(
+                            SELECT EXISTS (
+                              SELECT 1
+                                FROM followers f
+                                WHERE 
+                                    f.follower = ${myId} 
+                                    AND User.id = f.followee
+                            )
+                            AND EXISTS (
+                              SELECT 1
+                                FROM followers f
+                                WHERE 
+                                    f.followee = ${myId} 
+                                    AND User.id = f.follower
+                            )
+                          )`),
+                        'isFriend',
+                    ],
+                )
+            }
+            const user = await db.User.findOne({
+                where : {
+                    id : partnerId
+                },
+                attributes,
+                ...formatQueryUser
+            })
+            resolve(user);
+        } catch (error) {
+            reject(error)
+        }
+    })
 export const updateUser = (newDataUser, id) =>
     new Promise((resolve, reject) => {
         try {

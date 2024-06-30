@@ -270,10 +270,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
 
             });
             // Kiểm tra xem có phải là bản thân không
-            boolean isMe = post.getIsMe()==1;
-            if (isMe) {
-                userFollow.setVisibility(View.GONE);
-            }
+//            boolean isMe = post.getIsMe()==1;
+//            if (isMe) {
+//                userFollow.setVisibility(View.GONE);
+//            }
         }
 
 
