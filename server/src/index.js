@@ -19,7 +19,7 @@ const handleSocket = require('./socket');
 getConnection();
 app.use(
     cors({
-        origin: 'http://localhost:5173',
+        origin: 'http://localhost:8000',
         credentials: true,
     })
 );
@@ -34,6 +34,8 @@ app.use(
 const server = app.listen(port, function () {
     console.log('Server listening on port ' + port);
 });
+
+
 const io = new Server(server, {
     allowEIO3: true,
     cors: {

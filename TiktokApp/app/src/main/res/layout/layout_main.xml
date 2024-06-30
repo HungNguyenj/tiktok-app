@@ -52,6 +52,8 @@
         app:layout_constraintStart_toStartOf="@+id/videoView"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+
     <!--Left-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
@@ -199,3 +201,5 @@
     <!--Menu-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+

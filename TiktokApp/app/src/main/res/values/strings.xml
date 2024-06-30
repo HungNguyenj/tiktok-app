@@ -146,6 +146,7 @@
     <string name="log_in_description_text">Manage your account, check notifications, comment on videos, and more.</string>
     <string name="don_t_have_an_account">Don\'t have an account?</string>
     <string name="add_comment">Add comment...</string>
+    <string name="exit_comment">Exit comment...</string>
     <string name="hello_blank_fragment">Hello world</string>
     <string name="title_activity_sign_up">SignUpActivity</string>
 </resources>

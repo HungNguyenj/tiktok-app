@@ -5,6 +5,9 @@ const path = require('path');
 import * as postServices from '../services/post';
 import { uuidv4 } from 'uuid';
 import * as likePostService from '../services/likePost';
+import * as notificationService from '../services/notification';
+import * as postService from '../services/post';
+
 import {
     VISIBILITY_POST_FRIEND,
     VISIBILITY_POST_PRIVATE,
@@ -15,6 +18,10 @@ class PostController {
     async likePost(req, res) {
         try {
             const { postId } = req.params;
+            const post = await postService.getOne(postId);
+            const userId = post.poster;
+            console.log("Poster ",userId)
+            // const notify = await notificationService.insertNotification(userId,"User "+ req.user.id + " liked your post")
             const likeData = { liker: req.user.id, postId };
             const isLiked = await likePostService.isLikedPost(likeData);
             if (isLiked) {

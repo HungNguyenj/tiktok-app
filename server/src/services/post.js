@@ -73,6 +73,15 @@ export const getPosts = (
                               )`),
                         'likes',
                     ],
+                    [
+                        literal(`(
+                            SELECT COUNT(*)
+                                  FROM commentsPost cp
+                                  WHERE
+                                    cp.postId = post.id
+                            )`),
+                            'comments'
+                    ]
                 ],
             };
 
