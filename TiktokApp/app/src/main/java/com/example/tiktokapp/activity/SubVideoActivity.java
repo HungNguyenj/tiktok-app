@@ -56,7 +56,7 @@ public class SubVideoActivity extends AppCompatActivity {
                 finish();
             }
         });
-        adapter = new PostAdapter(postList);
+        adapter = new PostAdapter(postList, this);
         viewPager2.setAdapter(adapter);
 
         //call api

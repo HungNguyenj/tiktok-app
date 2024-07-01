@@ -66,8 +66,6 @@ public class ProfileInfoFragment extends Fragment {
         });
 
         editProfile.setOnClickListener(v -> {
-            editor.clear();
-            editor.commit();
             IntentUtil.changeActivity(view.getContext(), EditProfileActivity.class);
         });
         getMyInfo(view.getContext(),view);

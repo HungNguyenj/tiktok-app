@@ -2,8 +2,10 @@ package com.example.tiktokapp.activity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -39,6 +41,7 @@ public class HomeActivity extends BaseActivity  {
     private List<Post> postList;
     private ViewPager2 viewPager2;
     private PostAdapter adapter;
+    private String username, fullname;
 
 
     @Override
@@ -62,8 +65,21 @@ public class HomeActivity extends BaseActivity  {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
 
+        loadPreferences();
+    }
 
+    private void loadPreferences() {
+        SharedPreferences preferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        username = preferences.getString("username", "");
+        fullname = preferences.getString("fullName", "");
+
+        Log.d("checkin", "username: " + username);
+        Log.d("checkin", "fullname: " + fullname);
+    }
 
     private void getPosts(Context context) {
         ServiceGenerator.createPostService(HomeActivity.this).getPosts().enqueue(new retrofit2.Callback<APIResponeList<Post>>() {
