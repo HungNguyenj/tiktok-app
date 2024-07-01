@@ -51,6 +51,14 @@ public class AuthUtil {
         String accessToken = preferences.getString("accessToken", null);
         return accessToken!= null && accessToken!="";
     }
+    public static int getUserId(Context context) {
+        if (context == null) {
+            throw new IllegalArgumentException("Context cannot be null");
+        }
+        SharedPreferences preferences = context.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+        int userId = preferences.getInt("userID", -1);
+        return userId;
+    }
     public static String getAccessToken(Context context) {
         if (context == null) {
             throw new IllegalArgumentException("Context cannot be null");

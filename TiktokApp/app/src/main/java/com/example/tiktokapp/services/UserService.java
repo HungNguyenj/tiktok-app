@@ -22,4 +22,6 @@ public interface UserService {
 
     @PUT("user/{userId}")
     Call<APIRespone<User>> updateUser(@Path("userId")int userId, @Body UpdateUserInforReq inforReq);
+    @GET("user/profile/{userId}")
+    Call<APIRespone<User>> getProfile(@Path("userId") int userId);
 }

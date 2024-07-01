@@ -52,9 +52,15 @@ public class BaseActivity extends AppCompatActivity {
             }
         });
         profileTab = findViewById(R.id.profileTab);
-        profileTab.setOnClickListener(v -> IntentUtil.changeActivity(context, ProfileActivity.class));
+        profileTab.setOnClickListener(v -> {
+            IntentUtil.changeActivity(context, ProfileActivity.class);
+            finish();
+        });
         homeTab = findViewById(R.id.homeTab);
-        homeTab.setOnClickListener(v -> IntentUtil.changeActivity(context, HomeActivity.class));
+        homeTab.setOnClickListener(v -> {
+            IntentUtil.changeActivity(context, HomeActivity.class);
+            finish();
+        });
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
