@@ -34,6 +34,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
+                android:background="@android:color/transparent"
                 android:id="@+id/exitComment"
                 android:layout_width="19dp"
                 android:layout_height="16dp"
@@ -49,9 +50,10 @@
             android:layout_width="411dp"
             android:layout_height="400dp"
             android:background="#FFFF66"
+            app:layout_constraintBottom_toBottomOf="@+id/commentInput"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout9"
-            tools:layout_editor_absoluteX="0dp"
-            tools:ignore="MissingConstraints">
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="0dp">
 
             <LinearLayout
                 android:id="@+id/linearCommentContainer"
@@ -124,6 +126,7 @@
                         android:layout_height="19dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="32dp"
+                        android:background="@android:color/transparent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/commentContent"
                         app:srcCompat="@drawable/baseline_favorite_border_24" />
@@ -185,6 +188,7 @@
                 android:layout_width="54dp"
                 android:layout_height="35dp"
                 android:layout_marginBottom="8dp"
+                android:background="@android:color/transparent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/editTextComment"
                 app:layout_constraintTop_toTopOf="@+id/editTextComment"

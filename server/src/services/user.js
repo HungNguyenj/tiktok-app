@@ -33,7 +33,7 @@ export const findUsers = ({
     orderBy,
     orderDirection,
     name
-}) =>
+},myId) =>
     new Promise(async (resolve, reject) => {
         try {
             const queries = pagingConfig(
@@ -49,9 +49,45 @@ export const findUsers = ({
                     { fullName: { [Op.like]: `%${name}%` } }
                 ]
             } : {};
+            const attributes = ['id', 'userName', 'fullName']
+            if (myId) {
+                attributes.include = [
+                    [
+                        literal(`(
+                            SELECT EXISTS (
+                                SELECT 1
+                                FROM followers f
+                                WHERE 
+                                    f.follower = ${myId} 
+                                    AND User.id = f.followee
+                            )
+                            )`),
+                        'isFollow',
+                    ],
+                    [
+                        literal(`(
+                            SELECT EXISTS (
+                              SELECT 1
+                                FROM followers f
+                                WHERE 
+                                    f.follower = ${myId} 
+                                    AND User.id = f.followee
+                            )
+                            AND EXISTS (
+                              SELECT 1
+                                FROM followers f
+                                WHERE 
+                                    f.followee = ${myId} 
+                                    AND User.id = f.follower
+                            )
+                          )`),
+                        'isFriend',
+                    ],
+                ]
+            }
             const { count, rows } = await db.User.findAndCountAll({
                 where: whereClause,
-                attributes: ['id', 'userName', 'fullName'],
+                attributes,
                 ...formatQueryUser,
                 ...queries,
             });

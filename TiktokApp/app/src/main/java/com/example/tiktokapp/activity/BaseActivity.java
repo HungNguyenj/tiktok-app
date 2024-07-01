@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -16,6 +17,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.example.tiktokapp.Constant;
 import com.example.tiktokapp.R;
 import com.example.tiktokapp.callback.Callback;
+import com.example.tiktokapp.utils.AuthUtil;
 import com.example.tiktokapp.utils.IntentUtil;
 import com.example.tiktokapp.utils.PermissionUtil;
 
@@ -75,7 +77,13 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
     protected void openUploadActivity(Context context) {
-        IntentUtil.changeActivity(context, ChooseVideoActivity.class);
-        overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
+        if (AuthUtil.loggedIn(context)) {
+            Bundle bundle = new Bundle();
+            bundle.putInt("requestCode", Constant.REQUEST_CODE_GET_VIDEO_LIST);
+            IntentUtil.changeActivityWithData(this, ChooseFileActivity.class,bundle);
+            overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
+        } else {
+            IntentUtil.changeActivity(this, LoginActivity.class);
+        }
     }
 }

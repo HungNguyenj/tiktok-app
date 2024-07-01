@@ -80,8 +80,7 @@ public class HomeActivity extends BaseActivity  {
 //                        bottomSheet.show(getSupportFragmentManager(), "ModalBottomSheet");
 //                    });
                 } else {
-                    Toast.makeText(HomeActivity.this, apiResponse.getMes(), Toast.LENGTH_SHORT).
-                    show();
+                    Toast.makeText(HomeActivity.this, apiResponse.getMes(), Toast.LENGTH_SHORT).show();
                 }
             }
 
