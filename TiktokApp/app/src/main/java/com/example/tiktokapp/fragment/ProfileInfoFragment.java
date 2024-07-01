@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.tiktokapp.R;
+import com.example.tiktokapp.activity.EditProfileActivity;
 import com.example.tiktokapp.activity.HomeActivity;
 import com.example.tiktokapp.activity.LoginActivity;
 import com.example.tiktokapp.responseModel.APIRespone;
@@ -37,7 +38,7 @@ import retrofit2.Response;
 public class ProfileInfoFragment extends Fragment {
     private CircleImageView avatar;
     private TextView username;
-    MaterialButton btnLogout;
+    MaterialButton btnLogout, editProfile;
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
     @Override
@@ -54,6 +55,8 @@ public class ProfileInfoFragment extends Fragment {
         avatar = view.findViewById(R.id.avatar);
         username = view.findViewById(R.id.username);
         preferences = view.getContext().getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        editProfile = view.findViewById(R.id.editProfile);
+
         editor = preferences.edit();
         btnLogout = view.findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(v -> {
@@ -61,8 +64,17 @@ public class ProfileInfoFragment extends Fragment {
             editor.commit();
             IntentUtil.changeActivity(view.getContext(), HomeActivity.class);
         });
+
+        editProfile.setOnClickListener(v -> {
+            editor.clear();
+            editor.commit();
+            IntentUtil.changeActivity(view.getContext(), EditProfileActivity.class);
+        });
         getMyInfo(view.getContext(),view);
         return view;
+
+
+
     }
     private void getMyInfo(Context context,View view) {
         ServiceGenerator.createUserService(context).me().enqueue(new Callback<APIRespone<User>>() {

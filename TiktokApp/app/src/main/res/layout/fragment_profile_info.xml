@@ -23,7 +23,7 @@
         android:layout_marginTop="12dp"
         android:maxWidth="150dp"
         android:maxHeight="50dp"
-        android:text="@username"
+        android:text="username"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/avatar"
         app:layout_constraintStart_toStartOf="@+id/avatar"
