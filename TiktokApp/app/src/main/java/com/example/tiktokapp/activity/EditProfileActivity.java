@@ -2,6 +2,7 @@ package com.example.tiktokapp.activity;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -18,11 +19,13 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
+import com.example.tiktokapp.Constant;
 import com.example.tiktokapp.R;
+import com.example.tiktokapp.utils.AuthUtil;
 import com.example.tiktokapp.utils.IntentUtil;
 
 public class EditProfileActivity extends AppCompatActivity {
-    private ImageView avatar, btnBack;
+    private ImageView avatar, btnBack, camera;
     private TextView txtUsername, tiktokID, copyID;
 
     private String username, fullname, avt;
@@ -45,6 +48,7 @@ public class EditProfileActivity extends AppCompatActivity {
         tiktokID = findViewById(R.id.tiktokID);
         btnBack = findViewById(R.id.btnBack);
         copyID = findViewById(R.id.copyID);
+        camera =findViewById(R.id.camera);
 
         txtUsername.setText(fullname);
         tiktokID.setText(username);
@@ -71,6 +75,10 @@ public class EditProfileActivity extends AppCompatActivity {
             intent.putExtra("username", username);
             intent.putExtra("subline", "www.tiktok.com/@" + username);
             startActivity(intent);
+        });
+
+        camera.setOnClickListener(v-> {
+            openUploadActivity(this);
         });
 
         btnBack.setOnClickListener(v -> {
@@ -116,5 +124,16 @@ public class EditProfileActivity extends AppCompatActivity {
 
         // Show a Toast message to inform the user that the ID has been copied
         Toast.makeText(this, "TikTok ID copied to clipboard", Toast.LENGTH_SHORT).show();
+    }
+
+    protected void openUploadActivity(Context context) {
+        if (AuthUtil.loggedIn(context)) {
+            Bundle bundle = new Bundle();
+            bundle.putInt("requestCode", Constant.REQUEST_GET_IMAGE_EDIT_AVATAR);
+            IntentUtil.changeActivityWithData(this, ChooseFileActivity.class,bundle);
+            overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
+        } else {
+            IntentUtil.changeActivity(this, LoginActivity.class);
+        }
     }
 }

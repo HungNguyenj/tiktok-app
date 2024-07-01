@@ -81,7 +81,7 @@ public class HomeActivity extends BaseActivity  {
         Log.d("checkin", "fullname: " + fullname);
     }
 
-    private void getPosts(Context context) {
+    public void getPosts(Context context) {
         ServiceGenerator.createPostService(HomeActivity.this).getPosts().enqueue(new retrofit2.Callback<APIResponeList<Post>>() {
             @Override
             public void onResponse(Call<APIResponeList<Post>> call, Response<APIResponeList<Post>> response) {

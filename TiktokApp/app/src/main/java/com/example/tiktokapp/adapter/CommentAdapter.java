@@ -44,7 +44,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     private int id;
 
     public CommentAdapter(List<Comment> commentList, Context context, int id
-                          ) {
+    ) {
         this.commentList = commentList;
         this.context = context;
         this.id = id;
@@ -103,75 +103,86 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             commentTimestamp.setText(comment.getCreatedAt().toString());
 
             if (comment.getCommenterData().getId() == id) {
-            cmtLayout.setOnLongClickListener(v-> {
-                     Dialog dialog = new Dialog(v.getContext());
+                cmtLayout.setOnLongClickListener(v -> {
+                    Dialog dialog = new Dialog(v.getContext());
                     dialog.setContentView(R.layout.comment_change_dialog);
 
                     TextView edit = dialog.findViewById(R.id.editComment);
-                TextView delete = dialog.findViewById(R.id.deleteComment);
+                    TextView delete = dialog.findViewById(R.id.deleteComment);
 
-                edit.setOnClickListener(view -> {
+                    edit.setOnClickListener(view -> {
 
-                    dialog.dismiss();
-                    // Create dialog for editing comment
-                    Dialog editDialog = new Dialog(itemView.getContext());
-                    editDialog.setContentView(R.layout.comment_edit_dialog);
+                        dialog.dismiss();
+                        // Create dialog for editing comment
+                        Dialog editDialog = new Dialog(itemView.getContext());
+                        editDialog.setContentView(R.layout.comment_edit_dialog);
 
-                    EditText editCommentText = editDialog.findViewById(R.id.editCommentText);
-                    Button saveButton = editDialog.findViewById(R.id.saveButton);
-                    Button cancelButton = editDialog.findViewById(R.id.cancelButton);
+                        EditText editCommentText = editDialog.findViewById(R.id.editCommentText);
+                        Button saveButton = editDialog.findViewById(R.id.saveButton);
+                        Button cancelButton = editDialog.findViewById(R.id.cancelButton);
 
-                    // Pre-fill the edit text with current comment content
-                    editCommentText.setText(comment.getContent());
+                        // Pre-fill the edit text with current comment content
+                        editCommentText.setText(comment.getContent());
 
-                    saveButton.setOnClickListener(saveView -> {
-                        String newCommentContent = editCommentText.getText().toString().trim();
-                        if (!newCommentContent.isEmpty()) {
-                            // Update comment locally (optional for immediate UI feedback)
-                            comment.setContent(newCommentContent);
-                            commentContent.setText(newCommentContent); // Update UI immediately
+                        saveButton.setOnClickListener(saveView -> {
+                            String newCommentContent = editCommentText.getText().toString().trim();
+                            if (!newCommentContent.isEmpty()) {
+                                // Update comment locally (optional for immediate UI feedback)
+                                comment.setContent(newCommentContent);
+                                commentContent.setText(newCommentContent); // Update UI immediately
 
-                            // Call API to update comment on server
-                            updateComment(comment, newCommentContent, itemView.getContext());
+                                // Call API to update comment on server
+                                updateComment(comment, newCommentContent, itemView.getContext());
 
-                            editDialog.dismiss();
-                        } else {
-                            Toast.makeText(itemView.getContext(), "Comment cannot be empty", Toast.LENGTH_SHORT).show();
-                        }
+                                editDialog.dismiss();
+                            } else {
+                                Toast.makeText(itemView.getContext(), "Comment cannot be empty", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        cancelButton.setOnClickListener(cancelView -> editDialog.dismiss());
+
+                        editDialog.show();
                     });
 
-                    cancelButton.setOnClickListener(cancelView -> editDialog.dismiss());
 
-                    editDialog.show();
-                });
+                    delete.setOnClickListener(view -> {
+                        deleteComment(comment, context, commentList);
+                        dialog.dismiss();
 
-
-                delete.setOnClickListener(view-> {
-                    deleteComment(comment,context,commentList);
-                    dialog.dismiss();
-
-                });
+                    });
                     dialog.show();
-                return false;
-            });}
+                    return false;
+                });
+            }
 
             // Set initial like status
             isLiked = comment.getIsLiked() == 1;
+            Log.d("LOGERROR 1", "bind: " + isLiked);
             updateLikeButtonUI();
+            Log.d("LOGERROR 2", "bind: " + isLiked);
 
             // Handle like/unlike button click
             likeComment.setOnClickListener(v -> {
+                Log.d("LOGERROR 3", "bind: " + isLiked);
+
                 if (!AuthUtil.loggedIn(itemView.getContext())) {
                     IntentUtil.changeActivity(itemView.getContext(), LoginActivity.class);
                 } else {
-                    if (isLiked) {
+                    Log.d("LOGERROR 4", "bind: " + isLiked);
+
+                    if (!isLiked) {
                         unlikeComment(comment, itemView.getContext());
+                        Log.d("LOGERROR 5", "bind: " + isLiked);
+
                     } else {
                         likeComment(comment, itemView.getContext());
+                        Log.d("LOGERROR 6", "bind: " + isLiked);
+
                     }
                     // Toggle isLiked state after action
-                    isLiked = !isLiked;
                     updateLikeButtonUI();
+                    isLiked = !isLiked;
                 }
             });
         }
@@ -241,7 +252,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 public void onResponse(Call<SimpleAPIRespone> call, Response<SimpleAPIRespone> response) {
                     if (response.body() != null) {
                         SimpleAPIRespone apiResponse = response.body();
-                        Log.i("likePost", "Like successful " + comment.getLikes());
+                        Log.i("likePost", "Like successful " + comment.getIsLiked());
                         comment.setLikes(comment.getLikes() + 1);
                         amountCommentLike.setText(String.valueOf(comment.getLikes()));
                     } else {
@@ -269,7 +280,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 public void onResponse(Call<SimpleAPIRespone> call, Response<SimpleAPIRespone> response) {
                     if (response.isSuccessful()) {
                         SimpleAPIRespone apiResponse = response.body();
-                        Log.i("unlikePost", "unLike successful " + comment.getLikes());
+                        Log.i("unlikePost", "unLike successful " + comment.getIsLiked());
 
                         comment.setLikes(comment.getLikes() - 1);
                         amountCommentLike.setText(String.valueOf(comment.getLikes()));
@@ -291,7 +302,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             });
         }
     }
-
 
 
 }

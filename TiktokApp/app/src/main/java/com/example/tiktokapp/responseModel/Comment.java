@@ -22,4 +22,5 @@ public class Comment{
     private int isLiked;
     private User commenterData;
 
+
 }

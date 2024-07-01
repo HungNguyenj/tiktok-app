@@ -8,12 +8,15 @@ import com.example.tiktokapp.responseModel.FollowAPIRespone;
 import com.example.tiktokapp.responseModel.SimpleAPIRespone;
 import com.example.tiktokapp.responseModel.User;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface UserService {
@@ -22,6 +25,11 @@ public interface UserService {
 
     @PUT("user/{userId}")
     Call<APIRespone<User>> updateUser(@Path("userId")int userId, @Body UpdateUserInforReq inforReq);
+
+    @Multipart
+    @POST("user/avatar/{userId}")
+    Call<APIRespone<User>> updateAvatar(@Path("userId") int userId, @Part MultipartBody.Part avatar);
+
     @GET("user/profile/{userId}")
     Call<APIRespone<User>> getProfile(@Path("userId") int userId);
 }

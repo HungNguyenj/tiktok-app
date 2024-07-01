@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.example.tiktokapp.Constant;
 import com.example.tiktokapp.R;
 import com.example.tiktokapp.activity.ChooseFileActivity;
+import com.example.tiktokapp.activity.EditProfileActivity;
 import com.example.tiktokapp.activity.HomeActivity;
 import com.example.tiktokapp.activity.LoginActivity;
 import com.example.tiktokapp.responseModel.APIRespone;
@@ -43,9 +44,10 @@ import retrofit2.Response;
 public class ProfileInfoFragment extends Fragment {
     private CircleImageView avatar;
     private TextView username,followingCount,followerCount;
-    private MaterialButton btnLogout;
+    private MaterialButton btnLogout, editProfile;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
+    View view;
     private LinearLayout layoutListVideo;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,6 +87,13 @@ public class ProfileInfoFragment extends Fragment {
         addPreviewPostFragment();
         return view;
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getMyInfo(getContext(), view);
+    }
+
     private void addPreviewPostFragment() {
         PreviewFileFragment previewFileFragment = new PreviewFileFragment();
         Bundle bundle = new Bundle();

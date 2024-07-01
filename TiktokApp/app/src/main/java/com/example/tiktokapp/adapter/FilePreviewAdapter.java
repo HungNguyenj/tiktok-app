@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.tiktokapp.Constant;
 import com.example.tiktokapp.R;
+import com.example.tiktokapp.UploadAvatarActivity;
 import com.example.tiktokapp.activity.SubVideoActivity;
 import com.example.tiktokapp.activity.UploadPost;
 import com.example.tiktokapp.responseModel.Post;
@@ -59,8 +60,10 @@ public class FilePreviewAdapter extends RecyclerView.Adapter<FilePreviewAdapter.
                 }
                 break;
             case Constant.REQUEST_CODE_GET_IMAGE_LIST:
-            case Constant.REQUEST_GET_IMAGE_EDIT_AVATAR:
                 bindImageFile(holder, (File) item);
+                break;
+            case Constant.REQUEST_GET_IMAGE_EDIT_AVATAR:
+                bindImageAvatar(holder, (File) item);
                 break;
             case Constant.REQUEST_POST_LIST_FOR_PROFILE:
                 bindPost(holder, (Post) item);
@@ -99,6 +102,20 @@ public class FilePreviewAdapter extends RecyclerView.Adapter<FilePreviewAdapter.
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, UploadPost.class);
             intent.putExtra("video_path", Constant.videoPathUpload);
+            intent.putExtra("image_path", imageFile.getAbsolutePath());
+            context.startActivity(intent);
+            if (context instanceof Activity) {
+                ((Activity) context).finish(); // Finish the current activity
+            }
+        });
+    }
+
+    private void bindImageAvatar(@NonNull FileViewHolder holder, File imageFile) {
+        holder.videoDuration.setText("");
+        holder.videoDuration.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        Glide.with(context).load(imageFile).into(holder.videoThumbnail);
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, UploadAvatarActivity.class);
             intent.putExtra("image_path", imageFile.getAbsolutePath());
             context.startActivity(intent);
             if (context instanceof Activity) {
