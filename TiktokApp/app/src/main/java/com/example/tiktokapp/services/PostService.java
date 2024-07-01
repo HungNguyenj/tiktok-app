@@ -1,5 +1,6 @@
 package com.example.tiktokapp.services;
 
+import com.example.tiktokapp.responseModel.APIRespone;
 import com.example.tiktokapp.responseModel.APIResponeList;
 import com.example.tiktokapp.responseModel.FollowAPIRespone;
 import com.example.tiktokapp.responseModel.Post;
@@ -21,4 +22,7 @@ public interface PostService {
 
     @POST("post/unlike/{postId}")
     Call<SimpleAPIRespone> unlikePost(@Path("postId") int postId);
+
+    @GET("post/{postId}")
+    Call<APIRespone<Post>> getPostById(@Path("postId") int postId);
 }
