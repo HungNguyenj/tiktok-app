@@ -23,7 +23,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private ImageView avatar, btnBack;
     private TextView txtUsername, tiktokID, copyID;
 
-    private String username, fullname;
+    private String username, fullname, avt;
     private android.widget.Toast Toast;
 
     @Override
@@ -87,6 +87,7 @@ public class EditProfileActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
         username = preferences.getString("username", "");
         fullname = preferences.getString("fullName", "");
+        avt = preferences.getString("avatar", "");
 
         Log.d("checkin", "username: " + username);
         Log.d("checkin", "fullname: " + fullname);

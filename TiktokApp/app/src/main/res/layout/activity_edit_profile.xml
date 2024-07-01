@@ -12,8 +12,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sửa hồ sơ"
-        android:textStyle="bold"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/btnBack" />
@@ -29,16 +29,35 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/baseline_arrow_back_24" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/userAvatar"
-        android:layout_width="101dp"
-        android:layout_height="98dp"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="32dp"
-        android:src="@drawable/avatar"
+    <RelativeLayout
+        android:id="@+id/avatarContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/userAvatar"
+            android:layout_width="101dp"
+            android:layout_height="98dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/avatar" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/camera"
+            android:layout_width="101dp"
+            android:layout_height="98dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/background_container_avatar"
+            android:padding="25dp"
+            android:src="@drawable/camera" />
+
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/textView4"
@@ -49,7 +68,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userAvatar" />
+        app:layout_constraintTop_toBottomOf="@+id/avatarContainer" />
 
     <TextView
         android:id="@+id/textView3"
@@ -59,8 +78,8 @@
         android:layout_marginTop="24dp"
         android:text="Giới thiệu về bạn"
         android:textColor="#ACACAC"
-        android:textStyle="bold"
         android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
