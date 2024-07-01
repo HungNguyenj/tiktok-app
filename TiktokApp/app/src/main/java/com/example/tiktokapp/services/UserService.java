@@ -15,4 +15,7 @@ import retrofit2.http.Path;
 public interface UserService {
     @GET("user/me")
     Call<APIRespone<User>> me();
+
+    @GET("user/profile/{userId}")
+    Call<APIRespone<User>> getProfile(@Path("userId") int userId);
 }
