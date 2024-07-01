@@ -19,7 +19,7 @@ class UserController {
      */
     async findUser(req, res) {
         try {
-            let users = await userServices.findUsers(req.query);
+            let users = await userServices.findUsers(req.query,req.user?.id);
             return res.status(200).json({
                 err: 0,
                 mes: '',

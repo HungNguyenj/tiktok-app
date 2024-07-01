@@ -30,6 +30,7 @@
             android:exported="false" />
         <activity
             android:name=".activity.SignUpActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false"
             android:label="@string/title_activity_sign_up"
             android:theme="@style/Theme.TiktokApp" />
@@ -38,10 +39,11 @@
             android:name=".activity.ProfileActivity"
             android:exported="false" />
         <activity
+            android:windowSoftInputMode="adjustResize"
             android:name=".activity.UploadPost"
             android:exported="false" />
         <activity
-            android:name=".activity.ChooseVideoActivity"
+            android:name=".activity.ChooseFileActivity"
             android:exported="false" />
         <activity
             android:name=".activity.HomeActivity"
@@ -52,6 +54,7 @@
             android:exported="false" />
         <activity
             android:name=".activity.LoginActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".activity.MainActivity"
