@@ -8,15 +8,20 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.tiktokapp.Constant;
 import com.example.tiktokapp.R;
+import com.example.tiktokapp.activity.ChooseFileActivity;
 import com.example.tiktokapp.activity.HomeActivity;
 import com.example.tiktokapp.activity.LoginActivity;
 import com.example.tiktokapp.responseModel.APIRespone;
@@ -25,6 +30,7 @@ import com.example.tiktokapp.responseModel.Post;
 import com.example.tiktokapp.responseModel.SimpleAPIRespone;
 import com.example.tiktokapp.responseModel.User;
 import com.example.tiktokapp.services.ServiceGenerator;
+import com.example.tiktokapp.utils.AuthUtil;
 import com.example.tiktokapp.utils.HttpUtil;
 import com.example.tiktokapp.utils.IntentUtil;
 import com.google.android.material.button.MaterialButton;
@@ -36,10 +42,11 @@ import retrofit2.Response;
 
 public class ProfileInfoFragment extends Fragment {
     private CircleImageView avatar;
-    private TextView username;
-    MaterialButton btnLogout;
-    SharedPreferences preferences;
-    SharedPreferences.Editor editor;
+    private TextView username,followingCount,followerCount;
+    private MaterialButton btnLogout;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
+    private LinearLayout layoutListVideo;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +59,13 @@ public class ProfileInfoFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile_info, container, false);
         avatar = view.findViewById(R.id.avatar);
+//        avatar.setOnClickListener(v -> {
+//            Bundle bundle = new Bundle();
+//            bundle.putInt("requestCode", Constant.REQUEST_GET_IMAGE_EDIT_AVATAR);
+//            IntentUtil.changeActivityWithData(view.getContext(), ChooseFileActivity.class,bundle);
+//        });
+        followingCount = view.findViewById(R.id.followingCount);
+        followerCount = view.findViewById(R.id.followerCount);
         username = view.findViewById(R.id.username);
         preferences = view.getContext().getSharedPreferences("MyPreferences", MODE_PRIVATE);
         editor = preferences.edit();
@@ -62,7 +76,19 @@ public class ProfileInfoFragment extends Fragment {
             IntentUtil.changeActivity(view.getContext(), HomeActivity.class);
         });
         getMyInfo(view.getContext(),view);
+        addPreviewPostFragment();
         return view;
+    }
+    private void addPreviewPostFragment() {
+        PreviewFileFragment previewFileFragment = new PreviewFileFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("requestCode", Constant.REQUEST_POST_LIST_FOR_PROFILE);
+        bundle.putInt("userId", AuthUtil.getUserId(getContext()));
+        previewFileFragment.setArguments(bundle);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.layout_list_video, previewFileFragment);
+        fragmentTransaction.commit();
     }
     private void getMyInfo(Context context,View view) {
         ServiceGenerator.createUserService(context).me().enqueue(new Callback<APIRespone<User>>() {
@@ -76,6 +102,8 @@ public class ProfileInfoFragment extends Fragment {
                             .load(avatarUri)
                             .into(avatar);
                     username.setText(user.getUserName());
+                    followingCount.setText(user.getFollowings()+"");
+                    followerCount.setText(user.getFollowers()+"");
                 }else {
                     try {
                         SimpleAPIRespone errResponse = HttpUtil.parseError(response, SimpleAPIRespone.class,context);
