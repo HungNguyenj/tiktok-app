@@ -161,6 +161,7 @@ class PostController {
             if (!video) {
                 return badRequest('Please provide a video', res);
             }
+            console.log(video.mimetype)
             if (
                 !['video/mp4', 'video/m4v', 'video/mov'].includes(
                     video.mimetype
@@ -224,7 +225,7 @@ class PostController {
                 thumnailUrl: thumnailUpload.url,
             });
             const postUpdated = await postServices.getOne(post.id);
-            return res.json(postUpdated);
+            return res.status(200).json(postUpdated);
         } catch (error) {
             console.log(error);
             try {
