@@ -1,3 +1,4 @@
 /server/node_modules
 /TiktokApp/app/src/main/java/com/example/tiktokapp/services/APIClient.java
-/server/src/config/credentials.json
+server/src/config/credentials.json
+/server/src/config
