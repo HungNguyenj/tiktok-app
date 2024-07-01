@@ -91,7 +91,7 @@ public class ProfileInfoFragment extends Fragment {
         fragmentTransaction.commit();
     }
     private void getMyInfo(Context context,View view) {
-        ServiceGenerator.createUserService(context).me().enqueue(new Callback<APIRespone<User>>() {
+        ServiceGenerator.createUserService(context).getProfile(AuthUtil.getUserId(context)).enqueue(new Callback<APIRespone<User>>() {
             @Override
             public void onResponse(Call<APIRespone<User>> call, Response<APIRespone<User>> response) {
                 if (response.isSuccessful()) {
