@@ -21,6 +21,8 @@ public class Constant {
     public static final int REQUEST_CODE_PERMISSIONS_UPLOAD  = 1;
     public static final int REQUEST_CODE_GET_VIDEO_LIST = 804;
     public static final int REQUEST_CODE_GET_IMAGE_LIST = 805;
+    public static final int REQUEST_GET_IMAGE_EDIT_AVATAR = 1312;
+    public static final int REQUEST_POST_LIST_FOR_PROFILE = 1313;
     public static final int RESPONSE_CODE_GET_VIDEO_LIST = 804;
     public static final int RESPONSE_CODE_GET_IMAGE_LIST = 805;
     public static final int VISIBILITY_POST_PUBLIC = 1;

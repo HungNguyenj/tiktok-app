@@ -24,6 +24,9 @@ public interface PostService {
     @POST("post/like/{postId}")
     Call<SimpleAPIRespone> likePost(@Path("postId") int postId);
 
+    @GET("post/user/{userId}")
+    Call<APIResponeList<Post>> getPostsByUserId(@Path("userId") int userId);
+
     @POST("post/unlike/{postId}")
     Call<SimpleAPIRespone> unlikePost(@Path("postId") int postId);
 
