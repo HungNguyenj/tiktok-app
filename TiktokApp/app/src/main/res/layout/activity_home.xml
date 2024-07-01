@@ -20,6 +20,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5" />
 
+    <ImageView
+        android:id="@+id/search_icon"
+        android:layout_width="34dp"
+        android:layout_height="38dp"
+        android:layout_gravity="end"
+        android:layout_weight="1"
+        android:scaleType="centerCrop"
+        android:src="@drawable/search"
+        app:layout_constraintEnd_toEndOf="parent" />
 <!--    <include layout="@layout/layout_main" />-->
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -30,7 +30,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity {
-    private ImageView uploadButton;
+    private ImageView uploadButton, searchButton;
     private List<Post> postList;
     private ViewPager2 viewPager2;
     private PostAdapter adapter;
@@ -63,6 +63,10 @@ public class HomeActivity extends AppCompatActivity {
         uploadButton.setOnClickListener(v -> {
             IntentUtil.changeActivity(this, ChooseVideoActivity.class);
             overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
+        });
+        searchButton = findViewById(R.id.search_icon);
+        searchButton.setOnClickListener(v -> {
+            IntentUtil.changeActivity(this, SearchActivity.class);
         });
     }
 

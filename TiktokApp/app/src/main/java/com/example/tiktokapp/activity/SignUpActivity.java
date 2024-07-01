@@ -47,7 +47,7 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onResponse(Call<SignUpRes> call, Response<SignUpRes> response) {
                         if(response.isSuccessful()){
                             Toast.makeText(SignUpActivity.this, response.body().getMes(), Toast.LENGTH_LONG);
-                            startActivity(new Intent(SignUpActivity.this, VerifyEmailActivity.class));
+                            startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
                         }
                     }
 
