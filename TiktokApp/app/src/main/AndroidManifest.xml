@@ -20,6 +20,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".activity.ProfileOtherUserActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.SubVideoActivity"
             android:exported="false" />
         <activity
@@ -27,17 +30,17 @@
             android:exported="false" />
         <activity
             android:name=".activity.SignUpActivity"
-            android:windowSoftInputMode="adjustResize"
             android:exported="false"
             android:label="@string/title_activity_sign_up"
-            android:theme="@style/Theme.TiktokApp" />
+            android:theme="@style/Theme.TiktokApp"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.ProfileActivity"
             android:exported="false" />
         <activity
-            android:windowSoftInputMode="adjustResize"
             android:name=".activity.UploadPost"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.ChooseFileActivity"
             android:exported="false" />
@@ -50,8 +53,8 @@
             android:exported="false" />
         <activity
             android:name=".activity.LoginActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.MainActivity"
             android:exported="true">

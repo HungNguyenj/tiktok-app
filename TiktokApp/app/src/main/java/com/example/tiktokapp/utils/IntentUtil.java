@@ -19,6 +19,13 @@ public class IntentUtil {
         intent.putExtra(key, value);
         context.startActivity(intent);
     }
+    public static void changeActivityAndPutInt(Context context, Class<?> toActivity,String key, int value) {
+        Intent intent = new Intent(context, toActivity);
+        Bundle bundle = new Bundle();
+        bundle.putInt(key,value);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
+    }
     public static void changeActivityNoBackstack(Context context, Class<?> targetActivity) {
         Intent intent = new Intent(context, targetActivity);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);

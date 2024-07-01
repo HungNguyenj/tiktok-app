@@ -183,6 +183,7 @@
                 Bundle bundle = new Bundle();
                 bundle.putInt("requestCode", Constant.REQUEST_CODE_GET_IMAGE_LIST);
                 IntentUtil.changeActivityWithData(this, ChooseFileActivity.class,bundle);
+                finish();
             });
             visibilityIcon = findViewById(R.id.visibility);
             thumbnail = findViewById(R.id.thumbnail);

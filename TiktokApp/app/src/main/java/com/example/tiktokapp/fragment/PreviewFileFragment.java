@@ -19,6 +19,7 @@ import com.example.tiktokapp.responseModel.APIResponeList;
 import com.example.tiktokapp.responseModel.Post;
 import com.example.tiktokapp.responseModel.SimpleAPIRespone;
 import com.example.tiktokapp.services.ServiceGenerator;
+import com.example.tiktokapp.utils.AuthUtil;
 import com.example.tiktokapp.utils.HttpUtil;
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class PreviewFileFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             requestCode = getArguments().getInt("requestCode", -1);
-            userId = getArguments().getInt("userId", -1);
+            userId = getArguments().getInt("userId", AuthUtil.getUserId(getContext()));
         }
     }
 
