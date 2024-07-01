@@ -40,7 +40,6 @@
             android:layout_height="25dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:background="@android:color/transparent"
             app:layout_constraintTop_toTopOf="parent"
             android:contentDescription="@string/exit_comment"
             app:srcCompat="@drawable/baseline_close_24" />

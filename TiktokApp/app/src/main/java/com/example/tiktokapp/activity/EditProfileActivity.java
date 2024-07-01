@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -16,6 +17,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.tiktokapp.R;
 import com.example.tiktokapp.utils.IntentUtil;
 
@@ -24,6 +26,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private TextView txtUsername, tiktokID, copyID;
 
     private String username, fullname, avt;
+    private int userID;
     private android.widget.Toast Toast;
 
     @Override
@@ -46,11 +49,15 @@ public class EditProfileActivity extends AppCompatActivity {
         txtUsername.setText(fullname);
         tiktokID.setText(username);
 
+        loadPreferences();
+
         txtUsername.setOnClickListener(v -> {
             Intent intent = new Intent(this, EditInforActivity.class);
             intent.putExtra("title", "Tên");
             intent.putExtra("method", true);
-            intent.putExtra("edtValue", fullname);
+            intent.putExtra("id", userID);
+            intent.putExtra("fullname", fullname);
+            intent.putExtra("username", username);
             intent.putExtra("subline", "Tên");
             startActivity(intent);
         });
@@ -59,7 +66,9 @@ public class EditProfileActivity extends AppCompatActivity {
             Intent intent = new Intent(this, EditInforActivity.class);
             intent.putExtra("title", "Tiktok ID");
             intent.putExtra("method", false);
-            intent.putExtra("edtValue", username);
+            intent.putExtra("id", userID);
+            intent.putExtra("fullname", fullname);
+            intent.putExtra("username", username);
             intent.putExtra("subline", "www.tiktok.com/@" + username);
             startActivity(intent);
         });
@@ -80,7 +89,13 @@ public class EditProfileActivity extends AppCompatActivity {
         loadPreferences();
 
         txtUsername.setText(fullname);
+        copyID.setText(username);
         tiktokID.setText(username);
+
+        Uri avatarUri = Uri.parse(avt);
+        Glide.with(this)
+                .load(avatarUri)
+                .into(avatar);
     }
 
     private void loadPreferences() {
@@ -88,6 +103,7 @@ public class EditProfileActivity extends AppCompatActivity {
         username = preferences.getString("username", "");
         fullname = preferences.getString("fullName", "");
         avt = preferences.getString("avatar", "");
+        userID = preferences.getInt("userID", -1);
 
         Log.d("checkin", "username: " + username);
         Log.d("checkin", "fullname: " + fullname);

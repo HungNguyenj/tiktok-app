@@ -41,6 +41,7 @@ public class ProfileInfoFragment extends Fragment {
     MaterialButton btnLogout, editProfile;
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
+    View view;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +52,7 @@ public class ProfileInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_profile_info, container, false);
+        view = inflater.inflate(R.layout.fragment_profile_info, container, false);
         avatar = view.findViewById(R.id.avatar);
         username = view.findViewById(R.id.username);
         preferences = view.getContext().getSharedPreferences("MyPreferences", MODE_PRIVATE);
@@ -70,11 +71,15 @@ public class ProfileInfoFragment extends Fragment {
         });
         getMyInfo(view.getContext(),view);
         return view;
-
-
-
     }
-    private void getMyInfo(Context context,View view) {
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getMyInfo(getContext(),view);
+    }
+
+    private void getMyInfo(Context context, View view) {
         ServiceGenerator.createUserService(context).me().enqueue(new Callback<APIRespone<User>>() {
             @Override
             public void onResponse(Call<APIRespone<User>> call, Response<APIRespone<User>> response) {
