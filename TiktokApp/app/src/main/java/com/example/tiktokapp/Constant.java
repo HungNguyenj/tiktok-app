@@ -18,6 +18,8 @@ public class Constant {
             Manifest.permission.READ_MEDIA_AUDIO,
             Manifest.permission.READ_MEDIA_VIDEO
     };
+    public static final int STATE_GET_FOLLOWERS  = 1;
+    public static final int STATE_GET_FOLLOWINGS  = 0;
     public static final int REQUEST_CODE_PERMISSIONS_UPLOAD  = 1;
     public static final int REQUEST_CODE_GET_VIDEO_LIST = 804;
     public static final int REQUEST_CODE_GET_IMAGE_LIST = 805;

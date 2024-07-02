@@ -70,7 +70,7 @@ public class PreviewFileFragment extends Fragment {
         }
     }
 
-    private void getPostsByUserId(Context context) {
+    public void getPostsByUserId(Context context) {
         ServiceGenerator.createPostService(context).getPostsByUserId(userId).enqueue(new Callback<APIResponeList<Post>>() {
             @Override
             public void onResponse(Call<APIResponeList<Post>> call, Response<APIResponeList<Post>> response) {

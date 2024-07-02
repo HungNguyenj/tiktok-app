@@ -40,11 +40,16 @@
         app:layout_constraintTop_toBottomOf="@+id/username">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutFollowing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
             android:layout_marginRight="15dp">
 
             <TextView
+                android:clickable="false"
+                android:focusable="false"
                 android:id="@+id/followingCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -54,21 +59,25 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:clickable="true"/>
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Đang Follow"
-                android:clickable="true"
+                android:clickable="false"
+                android:focusable="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/followingCount" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutFollower"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
             android:layout_marginLeft="15dp">
 
             <TextView
@@ -76,8 +85,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2.198"
+                android:clickable="false"
+                android:focusable="false"
                 android:textSize="18dp"
-                android:clickable="true"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -87,7 +97,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Follower"
-                android:clickable="true"
+                android:clickable="false"
+                android:focusable="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/followerCount" />

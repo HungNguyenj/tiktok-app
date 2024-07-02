@@ -1,5 +1,6 @@
 package com.example.tiktokapp.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,7 +19,9 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.tiktokapp.Constant;
 import com.example.tiktokapp.R;
+import com.example.tiktokapp.activity.LoginActivity;
 import com.example.tiktokapp.activity.ProfileOtherUserActivity;
 import com.example.tiktokapp.responseModel.APIRespone;
 import com.example.tiktokapp.responseModel.Follow;
@@ -26,7 +29,9 @@ import com.example.tiktokapp.responseModel.Post;
 import com.example.tiktokapp.responseModel.SimpleAPIRespone;
 import com.example.tiktokapp.responseModel.User;
 import com.example.tiktokapp.services.ServiceGenerator;
+import com.example.tiktokapp.utils.AuthUtil;
 import com.example.tiktokapp.utils.HttpUtil;
+import com.example.tiktokapp.utils.IntentUtil;
 
 import java.util.List;
 
@@ -37,9 +42,10 @@ import retrofit2.Response;
 
 public class FollowAdapter extends RecyclerView.Adapter<FollowAdapter.FollowViewHolder> {
     private List<Follow> followList;
-
-    public FollowAdapter(List<Follow> followList) {
+    private int state;
+    public FollowAdapter(List<Follow> followList, int state) {
         this.followList = followList;
+        this.state = state;
     }
 
     @NonNull
@@ -70,6 +76,7 @@ public class FollowAdapter extends RecyclerView.Adapter<FollowAdapter.FollowView
         TextView fullName, userName;
         Button btnFollow;
         LinearLayout linearLayout;
+        private boolean isFollowed;
 
         public FollowViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -81,54 +88,64 @@ public class FollowAdapter extends RecyclerView.Adapter<FollowAdapter.FollowView
         }
 
         public void setFollowData(Follow follow) {
-            Uri avatarUri = Uri.parse(follow.getFollowerData().getAvatarData().getUrl());
+            User followData = follow.getFollowData();
+            isFollowed = follow.getIsFollow()==1;
+            Uri avatarUri = Uri.parse(followData.getAvatarData().getUrl());
             Glide.with(itemView.getContext())
                     .load(avatarUri)
                     .into(avatar);
 
-            fullName.setText(follow.getFollowerData().getFullName() + "");
-            userName.setText(follow.getFollowerData().getUserName() + "");
-
+            fullName.setText(followData.getFullName() + "");
+            userName.setText(followData.getUserName() + "");
             avatar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //bấm vào để mở thông tin cá nhân của người được chọn
-                    Intent intent = new Intent(itemView.getContext(), ProfileOtherUserActivity.class);
-                    itemView.getContext().startActivity(intent);
+                    IntentUtil.changeActivityAndPutInt(itemView.getContext(), ProfileOtherUserActivity.class,"userId",followData.getId());
                 }
             });
             linearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //bấm vào để mở thông tin cá nhân của người được chọn
-                    Intent intent = new Intent(itemView.getContext(), ProfileOtherUserActivity.class);
-                    itemView.getContext().startActivity(intent);
+                    IntentUtil.changeActivityAndPutInt(itemView.getContext(), ProfileOtherUserActivity.class,"userId",followData.getId());
                 }
             });
-
-            if (follow.getIsFriend() == 1) {
-                btnFollow.setBackgroundColor(Color.rgb(68, 230, 9));
+            if (follow.getIsMe() == 1) {
+                btnFollow.setVisibility(View.GONE);
+            }
+            else if (follow.getIsFriend() == 1) {
+                btnFollow.setBackgroundColor(Color.rgb(242, 242, 242));
+                btnFollow.setTextColor(Color.parseColor("#000000"));
                 btnFollow.setText("Friend");
             } else if (follow.getIsFollow() == 1) {
-                btnFollow.setBackgroundColor(Color.rgb(237, 166, 190));
+                btnFollow.setBackgroundColor(Color.rgb(242, 242, 242));
+                btnFollow.setTextColor(Color.parseColor("#000000"));
                 btnFollow.setText("Following");
+            } else if (follow.getIsFollowee() == 1) {
+                btnFollow.setBackgroundColor(Color.rgb(233, 30, 99));
+                btnFollow.setTextColor(Color.parseColor("#FFFFFF"));
+                btnFollow.setText("Follow");
             }
 
             btnFollow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (follow.getIsFriend() == 1) {
-                        //xử lý khi nhấn vào nút bạn
-                    } else if (follow.getIsFollow() == 1) {
-                        //xử lý khi nhấn vào nút follow (-> chuyển thành unfollow)
+                    if (AuthUtil.loggedIn(itemView.getContext())) {
+                        if (isFollowed) {
+                            //xử lý khi nhấn vào nút hủy follow
+                            unFollow(followData, itemView.getContext());
 
-                        btnFollow.setBackgroundColor(Color.rgb(233, 30, 99));
-                        btnFollow.setText("Follow");
-                    } else if (follow.getIsFollowee() == 1) {
-                        //xử lý khi nhấn vào nút follow (-> chuyển thành unfollow)
+                        } else {
+                            //xử lý khi nhấn vào nút follow (-> chuyển thành unfollow)
+                            follow(followData, itemView.getContext());
 
-                        btnFollow.setBackgroundColor(Color.rgb(237, 166, 190));
-                        btnFollow.setText("Following");
+                        }
+                    } else {
+                        IntentUtil.changeActivity(itemView.getContext(), LoginActivity.class);
+                        if (itemView.getContext() instanceof Activity) {
+                            ((Activity) itemView.getContext()).finish();
+                        }
                     }
                 }
             });
@@ -144,9 +161,10 @@ public class FollowAdapter extends RecyclerView.Adapter<FollowAdapter.FollowView
                         if (apiResponse.getErr() == 0) {
                             // Xử lý khi like thành công
                             Log.i("follow", "Folow thành công");
-                            // Cập nhật icon của cho userFollow
-                            btnFollow.setBackgroundColor(Color.rgb(237, 166, 190));
+                            btnFollow.setBackgroundColor(Color.rgb(242, 242, 242));
+                            btnFollow.setTextColor(Color.parseColor("#000000"));
                             btnFollow.setText("Following");
+                            isFollowed = true;
                         }
                     }
                     else{
@@ -177,7 +195,10 @@ public class FollowAdapter extends RecyclerView.Adapter<FollowAdapter.FollowView
                         // Xử lý khi unlike thành công
                         // Cập nhật icon của cho userFollow
                         btnFollow.setBackgroundColor(Color.rgb(233, 30, 99));
+                        btnFollow.setTextColor(Color.parseColor("#FFFFFF"));
                         btnFollow.setText("Follow");
+                        isFollowed = false;
+
                     } else {
                         try {
                             SimpleAPIRespone errResponse = HttpUtil.parseError(response, SimpleAPIRespone.class,context);

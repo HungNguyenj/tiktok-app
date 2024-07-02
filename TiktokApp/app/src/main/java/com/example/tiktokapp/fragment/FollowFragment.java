@@ -12,10 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tiktokapp.Constant;
 import com.example.tiktokapp.R;
 import com.example.tiktokapp.activity.HomeActivity;
+import com.example.tiktokapp.activity.ViewFollowActivity;
 import com.example.tiktokapp.adapter.FollowAdapter;
 import com.example.tiktokapp.responseModel.APIResponeList;
 import com.example.tiktokapp.responseModel.Follow;
@@ -32,11 +35,10 @@ import retrofit2.Response;
 
 public class FollowFragment extends Fragment {
 
-    List<Follow> followList;
-    FollowAdapter adapter;
-    int userId, state;
-
-
+    private List<Follow> followList;
+    private FollowAdapter adapter;
+    private int userId, state;
+    private TextView f_userName;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,14 +55,13 @@ public class FollowFragment extends Fragment {
         Bundle bundle = getArguments();
         userId = bundle.getInt("userId");
         state = bundle.getInt("state");
-
+        f_userName = ((ViewFollowActivity)getActivity()).findViewById(R.id.f_userName);
         followList = new ArrayList<>();
-        adapter = new FollowAdapter(followList);
-
-        if (state == 0) {
-            getFollows(userId, getContext());
-        } else if (state == 1) {
-            getFollowees(userId, getContext());
+        adapter = new FollowAdapter(followList,state);
+        if (state == Constant.STATE_GET_FOLLOWINGS) {
+            getFollowing(userId, getContext());
+        } else if (state == Constant.STATE_GET_FOLLOWERS) {
+            getFollowers(userId, getContext());
         }
 
         rvFollows.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -68,7 +69,7 @@ public class FollowFragment extends Fragment {
         return view;
     }
 
-    public void getFollows(int userId ,Context context) {
+    public void getFollowing(int userId ,Context context) {
         ServiceGenerator.createFollowService(context).getListFollowById(userId).enqueue(new retrofit2.Callback<APIResponeList<Follow>>() {
             @Override
             public void onResponse(Call<APIResponeList<Follow>> call, Response<APIResponeList<Follow>> response) {
@@ -90,7 +91,7 @@ public class FollowFragment extends Fragment {
         });
     }
 
-    public void getFollowees(int userId ,Context context) {
+    public void getFollowers(int userId ,Context context) {
         ServiceGenerator.createFollowService(context).getListFollowerById(userId).enqueue(new retrofit2.Callback<APIResponeList<Follow>>() {
             @Override
             public void onResponse(Call<APIResponeList<Follow>> call, Response<APIResponeList<Follow>> response) {

@@ -73,7 +73,7 @@ public class ProfileActivity extends BaseActivity {
         bundle.putInt("userId", userId);
         fragment.setArguments(bundle);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_layout_profile, fragment);
+        fragmentTransaction.replace(R.id.fragment_layout_profile, fragment, "PREVIEW_FILE_FRAGMENT");
         fragmentTransaction.commit();
     }
 }

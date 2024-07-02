@@ -96,7 +96,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
             //Video content
             VideoView videoView;
             TextView title, likes, comments, shares, userName, amountLike, amountComment;
-            CircleImageView avatar, userFollow;
+            CircleImageView avatar, userFollow,followIcon;
             ImageView btnCmt, heartButton, preThumbnail;
             ImageButton btnPause;
             CountDownTimer countDownTimer;
@@ -104,7 +104,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
 
             private boolean isLiked;
             private boolean isFollowed;
-
+            private boolean isMe;
             @SuppressLint("ClickableViewAccessibility")
             public PostHolder(@NonNull View itemView) {
                 super(itemView);
@@ -118,7 +118,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                 btnCmt = itemView.findViewById(R.id.btnComment);
                 userName = itemView.findViewById(R.id.videoUserName);
                 avatar = itemView.findViewById(R.id.userAvatar);
-
+                followIcon = itemView.findViewById(R.id.followIcon);
                 progressBar = itemView.findViewById(R.id.progress_bar);
                 btnPause = itemView.findViewById(R.id.btnPause);
                 // Khởi tạo ImageView heartButton
@@ -159,7 +159,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                 // show progress bar
                 progressBar.setVisibility(View.VISIBLE);
                 preThumbnail.setVisibility(View.VISIBLE);
-
+                isMe = post.getIsMe()==1;
+                if (isMe) {
+                    followIcon.setVisibility(View.GONE);
+                } else {
+                    followIcon.setVisibility(View.VISIBLE);
+                }
                 //load thumbnail
                 Uri thumbnailUri = Uri.parse(post.getThumnailUrl().toString());
     //            Glide.with(itemView.getContext()).load(post.getVideoUrl()).into(preThumbnail);
@@ -170,9 +175,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                 avatar.setOnClickListener(v-> {
                     if (post.getPoster()==AuthUtil.getUserId(context)) {
                         IntentUtil.changeActivity(itemView.getContext(), ProfileActivity.class);
-                        if (itemView.getContext() instanceof Activity) {
-                            ((Activity) itemView.getContext()).finish();
-                        }
                     } else {
                         IntentUtil.changeActivityAndPutInt(itemView.getContext(), ProfileOtherUserActivity.class,"userId",post.getPoster());
                     }

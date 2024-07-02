@@ -77,8 +77,6 @@ public class HomeActivity extends BaseActivity  {
         username = preferences.getString("username", "");
         fullname = preferences.getString("fullName", "");
 
-        Log.d("checkin", "username: " + username);
-        Log.d("checkin", "fullname: " + fullname);
     }
 
     public void getPosts(Context context) {

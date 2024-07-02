@@ -1,5 +1,6 @@
 package com.example.tiktokapp.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -35,7 +36,7 @@ public class SubVideoActivity extends AppCompatActivity {
     private PostAdapter adapter;
 
     private ImageButton backBtn;
-    private int postId;
+    public int postId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,15 +67,19 @@ public class SubVideoActivity extends AppCompatActivity {
 
     }
 
-    private void getPostById(int postId, Context context) {
+    public void getPostById(int postId, Context context) {
         ServiceGenerator.createPostService(context).getPostById(postId).enqueue(new retrofit2.Callback<APIRespone<Post>>() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(Call<APIRespone<Post>> call, Response<APIRespone<Post>> response) {
                 if (response.isSuccessful()) {
                     APIRespone<Post> apiResponse = response.body();
                     Post post = apiResponse.getData();
-                    postList.add(post);
-                    adapter.setData(postList);
+                    postList.clear(); // Clear existing data
+                    postList.add(post); // Add new post
+                    adapter.setData(postList); // Update adapter data
+                    adapter.notifyDataSetChanged(); // Notify adapter
+                    Toast.makeText(context, "Update Success: ", Toast.LENGTH_SHORT).show();
                     adapter.notifyDataSetChanged();
                 } else {
                     try {

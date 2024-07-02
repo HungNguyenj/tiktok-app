@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.tiktokapp.Constant;
 import com.example.tiktokapp.R;
 import com.example.tiktokapp.adapter.FollowAdapter;
 import com.example.tiktokapp.fragment.FollowFragment;
@@ -35,12 +36,10 @@ import retrofit2.Response;
 public class ViewFollowActivity extends AppCompatActivity {
     private Button btnShowFollow, btnShowFollowee ;
     private ImageButton backBtn;
-
-    List<Follow> followList;
-    FollowAdapter adapter;
-    int userId;
-    TextView userName;
-
+    private int state;
+    private int userId;
+    private TextView userName;
+    private TextView f_userName;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,25 +55,16 @@ public class ViewFollowActivity extends AppCompatActivity {
 //        userId = AuthUtil.getUserId(this);
 //        userName = findViewById(R.id.f_userName);
 //        userName.setText(AuthUtil.getCurrentUser(this).getUserName());
-
-        followList = new ArrayList<>();
-        adapter = new FollowAdapter(followList);
-
-        btnShowFollow = findViewById(R.id.btnShowFollow);
-        btnShowFollow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                displayFragment(0,new FollowFragment());
-            }
-        });
-
-        btnShowFollowee = findViewById(R.id.btnShowFollowee);
-        btnShowFollowee.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                displayFragment(1,new FollowFragment());
-            }
-        });
+        userId = getIntent().getIntExtra("userId", -1);
+//      This state using to check if we want to show followers or followings
+        state = getIntent().getIntExtra("state", -1);
+        f_userName = findViewById(R.id.f_userName);
+        if (state== Constant.STATE_GET_FOLLOWINGS) {
+            f_userName.setText("Đang theo dõi");
+        } else if (state== Constant.STATE_GET_FOLLOWERS) {
+            f_userName.setText("Người theo dõi");
+        }
+        displayFragment(new FollowFragment());
 
         backBtn = findViewById(R.id.backBtnFollow);
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -85,16 +75,14 @@ public class ViewFollowActivity extends AppCompatActivity {
         });
     }
 
-    private void displayFragment(int state,Fragment fragment) {
+    private void displayFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         //set userId
         Bundle bundle = new Bundle();
-        int userId = 1;
         bundle.putInt("userId",userId);
         bundle.putInt("state", state);
         fragment.setArguments(bundle);
-
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
     }

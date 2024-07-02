@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -64,7 +65,7 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment {
         View view = inflater.inflate(R.layout.comment_bottom_sheet, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerViewComments);
-        exitComment= view.findViewById(R.id.exitComment);
+        exitComment = view.findViewById(R.id.exitComment);
 
         amountComment = view.findViewById(R.id.amountComment);
         edtComment = view.findViewById(R.id.editTextComment);
@@ -76,11 +77,19 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment {
         int id = SharePreferncesUtil.getUserID(getContext());
         String avatar = SharePreferncesUtil.getAvatar(getContext());
 
-        Uri avatarUri = Uri.parse(avatar);
-        Glide.with(getContext())
-                .load(avatarUri)
-                .into(userAvatar);
+        Log.d("Anh Dai Dien", "before if");
+        if(!avatar.isEmpty()){
+            Uri avatarUri = Uri.parse(avatar);
+            Glide.with(getContext())
+                    .load(avatarUri)
+                    .into(userAvatar);
+            Log.d("Anh Dai Dien", "in if: "+ avatar);
 
+        }else {
+            userAvatar.setImageResource(R.drawable.avatar);
+            Log.d("Anh Dai Dien", "in else: ");
+
+        }
         Log.d("USERAVATARURL", "onCreateView: " + avatar);
         commentList = new ArrayList<>();
         commentAdapter = new CommentAdapter(commentList, getContext(), id);
@@ -103,8 +112,7 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment {
                 return false;
             }
         });
-
-        sendComment.setOnClickListener(v->{
+        sendComment.setOnClickListener(v-> {
             createComment(edtComment.getText().toString());
         });
 
@@ -131,11 +139,9 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment {
         }
 
         CommentReq cmtReq = new CommentReq(text);
-
-
         // Call the Retrofit service to create the comment
         ServiceGenerator.createCommentService(getContext())
-                .create(postId,cmtReq)
+                .create(postId, cmtReq)
                 .enqueue(new Callback<SimpleAPIRespone>() {
                     @Override
                     public void onResponse(Call<SimpleAPIRespone> call, Response<SimpleAPIRespone> response) {
@@ -199,6 +205,24 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        ((HomeActivity) getActivity()).getPosts(getContext());
+        Log.d("CommentBottomSheet", "run detach");
+
+        if (getActivity() instanceof HomeActivity) {
+            Log.d("CommentBottomSheet", "in home");
+            ((HomeActivity) getActivity()).getPosts(getContext());
+            return;
+        }
+
+        Log.d("CommentBottomSheet", "not in home");
+
+        if (getActivity() instanceof SubVideoActivity) {
+            Log.d("CommentBottomSheet", "in SubVideoActivity");
+            SubVideoActivity subVideoActivity = (SubVideoActivity) getActivity();
+            subVideoActivity.getPostById(subVideoActivity.postId, getContext());
+            return;
+        }
+
+        Log.d("CommentBottomSheet", "not in profile");
+
     }
 }

@@ -171,10 +171,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 } else {
                     Log.d("LOGERROR 4", "bind: " + isLiked);
 
-                    if (!isLiked) {
+                    if (isLiked) {
                         unlikeComment(comment, itemView.getContext());
                         Log.d("LOGERROR 5", "bind: " + isLiked);
-
                     } else {
                         likeComment(comment, itemView.getContext());
                         Log.d("LOGERROR 6", "bind: " + isLiked);

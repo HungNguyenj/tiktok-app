@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -49,6 +50,8 @@ public class ProfileInfoFragment extends Fragment {
     private MaterialButton btnLogout, editProfile;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
+    private ConstraintLayout layoutFollowing,layoutFollower;
+
     View view;
     private LinearLayout layoutListVideo;
     private int userId;
@@ -71,14 +74,8 @@ public class ProfileInfoFragment extends Fragment {
 //            IntentUtil.changeActivityWithData(view.getContext(), ChooseFileActivity.class,bundle);
 //        });
         followingCount = view.findViewById(R.id.followingCount);
-        followingCount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getContext(), ViewFollowActivity.class);
-                startActivity(intent);
-            }
-        });
+        layoutFollowing = view.findViewById(R.id.layoutFollowing);
+        layoutFollower = view.findViewById(R.id.layoutFollower);
         followerCount = view.findViewById(R.id.followerCount);
         username = view.findViewById(R.id.username);
         preferences = view.getContext().getSharedPreferences("MyPreferences", MODE_PRIVATE);
@@ -130,7 +127,19 @@ public class ProfileInfoFragment extends Fragment {
                             .into(avatar);
                     username.setText(user.getUserName());
                     followingCount.setText(user.getFollowings()+"");
+                    layoutFollowing.setOnClickListener(v -> {
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("userId", user.getId());
+                        bundle.putInt("state", Constant.STATE_GET_FOLLOWINGS);
+                        IntentUtil.changeActivityWithData(context, ViewFollowActivity.class,bundle);
+                    });
                     followerCount.setText(user.getFollowers()+"");
+                    layoutFollower.setOnClickListener(v -> {
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("userId", user.getId());
+                        bundle.putInt("state", Constant.STATE_GET_FOLLOWERS);
+                        IntentUtil.changeActivityWithData(context, ViewFollowActivity.class,bundle);
+                    });
 
                 }else {
                     try {
