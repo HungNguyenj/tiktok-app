@@ -3,15 +3,10 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_horizontal"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
-
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout9"
         android:layout_width="match_parent"
@@ -46,21 +41,17 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="510dp">
-
-
+        android:orientation="vertical"
+        android:layout_height="400dp">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewComments"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_weight="1"
             android:background="#FEFEFE"
-            app:layout_constraintBottom_toTopOf="@+id/commentInput"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints">
+            >
 
 
         </androidx.recyclerview.widget.RecyclerView>
@@ -77,7 +68,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/commentInput"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="wrap_content"
             android:background="#FEFEFE"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -102,6 +93,7 @@
                 android:id="@+id/editTextComment"
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
+                android:singleLine="true"
                 android:layout_marginStart="70dp"
                 android:layout_marginEnd="16dp"
                 android:paddingRight="60dp"
@@ -132,6 +124,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </LinearLayout>
