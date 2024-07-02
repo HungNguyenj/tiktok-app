@@ -17,6 +17,7 @@ import com.example.tiktokapp.responseModel.Post;
 import com.example.tiktokapp.services.PostService;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -43,12 +44,12 @@ public class ListVideoFragment extends Fragment {
                             if(response.isSuccessful()){
                                 APIResponeList<Post> apiResponeList = response.body();
                                 List<Post> posts = apiResponeList.getData();
-                                List<File> postSearch = null;
-                                for (Post p: posts) {
-                                    postSearch.add(p.getVideoUrl());
-                                }
-                                ViewPager2 listViewVideo = findViewById(R.id.layout_list_video);
-                                listViewVideo.setAdapter(new FilePreviewAdapter(getContext(), postSearch));
+                                List<File> postSearch = new ArrayList<>();
+//                                for (Post p: posts) {
+//                                    postSearch.add(p.getVideoUrl());
+//                                }
+//                                ViewPager2 listViewVideo = findViewById(R.id.layout_list_video);
+//                                listViewVideo.setAdapter(new FilePreviewAdapter(getContext(), postSearch));
                             }
                         }
 

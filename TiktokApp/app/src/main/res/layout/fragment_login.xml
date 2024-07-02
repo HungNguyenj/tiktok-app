@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@android:color/white"
+    android:background="#F1F1FF"
     tools:context=".activity.LoginActivity">
 
     <ImageView
@@ -103,7 +103,7 @@
         android:id="@+id/constraintLayout"
         android:layout_width="0dp"
         android:layout_height="60dp"
-        android:background="#F1F1FF"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">

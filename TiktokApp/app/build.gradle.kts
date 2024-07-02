@@ -46,9 +46,9 @@ android {
 
 dependencies {
     implementation("androidx.datastore:datastore-core-android:1.1.1")
-    implementation("org.projectlombok:lombok:1.18.32")
-    compileOnly("org.projectlombok:lombok:1.18.32")
-    annotationProcessor("org.projectlombok:lombok:1.18.32")
+    implementation("org.projectlombok:lombok:1.16.22")
+    compileOnly("org.projectlombok:lombok:1.16.22")
+    annotationProcessor("org.projectlombok:lombok:1.16.22")
     implementation("com.intuit.ssp:ssp-android:1.0.5")
     implementation("com.intuit.sdp:sdp-android:1.0.5")
     implementation("de.hdodenhof:circleimageview:3.1.0")

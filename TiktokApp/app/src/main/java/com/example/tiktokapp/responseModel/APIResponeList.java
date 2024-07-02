@@ -16,4 +16,8 @@ public class APIResponeList<T> {
     @SerializedName(value = "posts", alternate = {"users","followers","followings","comments"})
     private List<T> data;
     private Pagination pagination;
+
+    public List<T> getData() {
+        return data;
+    }
 }

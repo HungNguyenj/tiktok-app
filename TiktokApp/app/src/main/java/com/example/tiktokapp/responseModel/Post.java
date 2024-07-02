@@ -31,5 +31,70 @@ public class Post extends AbstractModel{
     private int isMe;
     @SerializedName("isFriend")
     private int isFriend;
+
+
+    public String getTitle() {
+        return title;
+    }
+
+    public int getVisibility() {
+        return visibility;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public String getVideoId() {
+        return videoId;
+    }
+
+    public String getThumnailUrl() {
+        return thumnailUrl;
+    }
+
+    public String getThumnailId() {
+        return thumnailId;
+    }
+
+    public int getComments() {
+        return comments;
+    }
+
+    public int getViews() {
+        return views;
+    }
+
+    public int getShares() {
+        return shares;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public int getPoster() {
+        return poster;
+    }
+
+    public User getPosterData() {
+        return posterData;
+    }
+
+    public int getIsFollow() {
+        return isFollow;
+    }
+
+    public int getIsLiked() {
+        return isLiked;
+    }
+
+    public int getIsMe() {
+        return isMe;
+    }
+
+    public int getIsFriend() {
+        return isFriend;
+    }
 }
 

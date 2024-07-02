@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tiktokapp.R;
 import com.example.tiktokapp.requestModel.SignUpReq;
-import com.example.tiktokapp.requestModel.SignUpRes;
+import com.example.tiktokapp.responseModel.User;
 import com.example.tiktokapp.services.AuthService;
 import com.google.android.material.button.MaterialButton;
 
@@ -37,22 +37,23 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 SignUpReq signUpReq = new SignUpReq();
-                signUpReq.setUsername(username.getText().toString());
+                signUpReq.setUserName(username.getText().toString());
                 signUpReq.setPassword(password.getText().toString());
                 signUpReq.setEmail(email.getText().toString());
-                signUpReq.setFullname(fullname.getText().toString());
-                Call<SignUpRes> res = AuthService.excute.register(signUpReq);
-                res.enqueue(new Callback<SignUpRes>() {
+                signUpReq.setFullName(fullname.getText().toString());
+                signUpReq.setAssociation("");
+                Call<User> res = AuthService.excute.register(signUpReq);
+                res.enqueue(new Callback<User>() {
                     @Override
-                    public void onResponse(Call<SignUpRes> call, Response<SignUpRes> response) {
+                    public void onResponse(Call<User> call, Response<User> response) {
                         if(response.isSuccessful()){
-                            Toast.makeText(SignUpActivity.this, response.body().getMes(), Toast.LENGTH_LONG);
-                            startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
+                            Toast.makeText(SignUpActivity.this, "Registered successfully, Your otp has been sent to email address. OTP will be expired in 5 minutes", Toast.LENGTH_LONG);
+                            startActivity(new Intent(SignUpActivity.this, VerifyEmailActivity.class));
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<SignUpRes> call, Throwable t) {
+                    public void onFailure(Call<User> call, Throwable t) {
 
                     }
                 });

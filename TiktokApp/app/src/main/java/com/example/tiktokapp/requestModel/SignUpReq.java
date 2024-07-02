@@ -1,25 +1,26 @@
 package com.example.tiktokapp.requestModel;
 
 public class SignUpReq {
-    private String username;
-    private String password;
     private String email;
-    private String fullname;
+    private String fullName;
+    private String userName;
+    private String password;
+    private String association = "";
 
-    public String getFullname() {
-        return fullname;
+    public String getAssociation() {
+        return association;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setAssociation(String association) {
+        this.association = association;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
@@ -36,5 +37,13 @@ public class SignUpReq {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 }
