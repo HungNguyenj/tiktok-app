@@ -1,6 +1,7 @@
 import { Op, literal } from 'sequelize';
 import db from '../models';
 import { pagingConfig } from '../utils/pagination';
+import { formatQueryUser } from './user';
 export const getListFollower = (
     userId,
     myId,
@@ -89,6 +90,13 @@ export const getListFollower = (
                                 'peerId',
                             ],
                         },
+                        include: [
+                            {
+                                model: db.Avatar,
+                                as: 'avatarData',
+                                attributes: ['publicId', 'url'],
+                            }
+                        ],
                     },
                     {
                         model: db.User,
@@ -103,6 +111,13 @@ export const getListFollower = (
                                 'peerId',
                             ],
                         },
+                        include: [
+                            {
+                                model: db.Avatar,
+                                as: 'avatarData',
+                                attributes: ['publicId', 'url'],
+                            }
+                        ],
                         where: query,
                     },
                 ],
@@ -214,6 +229,13 @@ export const getListFollowing = (
                                 'peerId',
                             ],
                         },
+                        include: [
+                            {
+                                model: db.Avatar,
+                                as: 'avatarData',
+                                attributes: ['publicId', 'url'],
+                            }
+                        ],
                     },
                     {
                         model: db.User,
@@ -228,6 +250,13 @@ export const getListFollowing = (
                                 'peerId',
                             ],
                         },
+                        include: [
+                            {
+                                model: db.Avatar,
+                                as: 'avatarData',
+                                attributes: ['publicId', 'url'],
+                            }
+                        ],
                         where: query,
                     },
                 ],
