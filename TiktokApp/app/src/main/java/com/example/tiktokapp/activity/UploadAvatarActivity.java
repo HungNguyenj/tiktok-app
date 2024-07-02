@@ -19,6 +19,7 @@ import com.example.tiktokapp.R;
 import com.example.tiktokapp.responseModel.APIRespone;
 import com.example.tiktokapp.responseModel.User;
 import com.example.tiktokapp.services.ServiceGenerator;
+import com.example.tiktokapp.utils.IntentUtil;
 import com.google.android.material.button.MaterialButton;
 
 import java.io.File;
@@ -78,6 +79,8 @@ public class UploadAvatarActivity extends AppCompatActivity {
                     mProgressDialog.dismiss();
                     if (response.isSuccessful()) {
                         Toast.makeText(UploadAvatarActivity.this, "Avatar uploaded successfully", Toast.LENGTH_SHORT).show();
+                        IntentUtil.changeActivity(UploadAvatarActivity.this, EditProfileActivity.class);
+                        finish();
                     } else {
                         Toast.makeText(UploadAvatarActivity.this, "Error uploading avatar", Toast.LENGTH_SHORT).show();
                         Log.d("Avatar error", "onResponse: " + response.message());

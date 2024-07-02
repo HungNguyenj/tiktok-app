@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.example.tiktokapp.R;
 import com.example.tiktokapp.activity.HomeActivity;
 import com.example.tiktokapp.activity.LoginActivity;
+import com.example.tiktokapp.activity.MainActivity;
 import com.example.tiktokapp.activity.SubVideoActivity;
 import com.example.tiktokapp.adapter.CommentAdapter;
 import com.example.tiktokapp.requestModel.CommentReq;
