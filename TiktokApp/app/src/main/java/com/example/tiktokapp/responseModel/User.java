@@ -23,7 +23,6 @@ public class User implements Serializable  {
     private String association;
     private Avatar avatarData;
     private Role roleData;
-    private boolean isVertified;
     private int followers;
     private int followings;
 
