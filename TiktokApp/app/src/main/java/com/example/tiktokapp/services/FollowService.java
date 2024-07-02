@@ -22,4 +22,7 @@ public interface FollowService {
 
     @GET("follow/followings/{userId}")
     Call<APIResponeList<Follow>> getListFollowById(@Path("userId") int userId);
+
+    @GET("follow/followers/{userId}")
+    Call<APIResponeList<Follow>> getListFollowerById(@Path("userId") int userId);
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -32,12 +33,13 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class ViewFollowActivity extends AppCompatActivity {
-    private Button btnShowFragment;
+    private Button btnShowFollow, btnShowFollowee ;
     private ImageButton backBtn;
 
     List<Follow> followList;
     FollowAdapter adapter;
     int userId;
+    TextView userName;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -51,16 +53,29 @@ public class ViewFollowActivity extends AppCompatActivity {
             return insets;
         });
 
+//        userId = AuthUtil.getUserId(this);
+//        userName = findViewById(R.id.f_userName);
+//        userName.setText(AuthUtil.getCurrentUser(this).getUserName());
+
         followList = new ArrayList<>();
         adapter = new FollowAdapter(followList);
 
-        btnShowFragment = findViewById(R.id.btnShowFragment);
-        btnShowFragment.setOnClickListener(new View.OnClickListener() {
+        btnShowFollow = findViewById(R.id.btnShowFollow);
+        btnShowFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayFragment(new FollowFragment());
+                displayFragment(0,new FollowFragment());
             }
         });
+
+        btnShowFollowee = findViewById(R.id.btnShowFollowee);
+        btnShowFollowee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayFragment(1,new FollowFragment());
+            }
+        });
+
         backBtn = findViewById(R.id.backBtnFollow);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,38 +85,18 @@ public class ViewFollowActivity extends AppCompatActivity {
         });
     }
 
-    private void displayFragment(Fragment fragment) {
+    private void displayFragment(int state,Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         //set userId
         Bundle bundle = new Bundle();
         int userId = 1;
         bundle.putInt("userId",userId);
+        bundle.putInt("state", state);
         fragment.setArguments(bundle);
 
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
     }
 
-    public void getFollows(int userId ,Context context) {
-        ServiceGenerator.createFollowService(context).getListFollowById(userId).enqueue(new retrofit2.Callback<APIResponeList<Follow>>() {
-            @Override
-            public void onResponse(Call<APIResponeList<Follow>> call, Response<APIResponeList<Follow>> response) {
-                APIResponeList<Follow> apiResponse = response.body();
-                if (response.isSuccessful()) {
-                    apiResponse = response.body();
-                    followList = apiResponse.getData();
-                    adapter.setData(followList);
-                    adapter.notifyDataSetChanged();
-                }else {
-                    Toast.makeText(context, apiResponse.getMes(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<APIResponeList<Follow>> call, Throwable t) {
-                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 }

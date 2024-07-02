@@ -34,7 +34,7 @@ public class FollowFragment extends Fragment {
 
     List<Follow> followList;
     FollowAdapter adapter;
-    int userId;
+    int userId, state;
 
 
     @Override
@@ -52,11 +52,16 @@ public class FollowFragment extends Fragment {
 
         Bundle bundle = getArguments();
         userId = bundle.getInt("userId");
+        state = bundle.getInt("state");
 
         followList = new ArrayList<>();
         adapter = new FollowAdapter(followList);
 
-        getFollows(userId, getContext());
+        if (state == 0) {
+            getFollows(userId, getContext());
+        } else if (state == 1) {
+            getFollowees(userId, getContext());
+        }
 
         rvFollows.setLayoutManager(new LinearLayoutManager(getContext()));
         rvFollows.setAdapter(adapter);
@@ -65,6 +70,28 @@ public class FollowFragment extends Fragment {
 
     public void getFollows(int userId ,Context context) {
         ServiceGenerator.createFollowService(context).getListFollowById(userId).enqueue(new retrofit2.Callback<APIResponeList<Follow>>() {
+            @Override
+            public void onResponse(Call<APIResponeList<Follow>> call, Response<APIResponeList<Follow>> response) {
+                APIResponeList<Follow> apiResponse = response.body();
+                if (response.isSuccessful()) {
+                    apiResponse = response.body();
+                    followList = apiResponse.getData();
+                    adapter.setData(followList);
+                    adapter.notifyDataSetChanged();
+                }else {
+                    Toast.makeText(context, apiResponse.getMes(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<APIResponeList<Follow>> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void getFollowees(int userId ,Context context) {
+        ServiceGenerator.createFollowService(context).getListFollowerById(userId).enqueue(new retrofit2.Callback<APIResponeList<Follow>>() {
             @Override
             public void onResponse(Call<APIResponeList<Follow>> call, Response<APIResponeList<Follow>> response) {
                 APIResponeList<Follow> apiResponse = response.body();
