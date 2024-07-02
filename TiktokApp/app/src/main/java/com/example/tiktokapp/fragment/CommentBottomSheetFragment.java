@@ -77,11 +77,19 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment {
         int id = SharePreferncesUtil.getUserID(getContext());
         String avatar = SharePreferncesUtil.getAvatar(getContext());
 
-        Uri avatarUri = Uri.parse(avatar);
-        Glide.with(getContext())
-                .load(avatarUri)
-                .into(userAvatar);
+        Log.d("Anh Dai Dien", "before if");
+        if(!avatar.isEmpty()){
+            Uri avatarUri = Uri.parse(avatar);
+            Glide.with(getContext())
+                    .load(avatarUri)
+                    .into(userAvatar);
+            Log.d("Anh Dai Dien", "in if: "+ avatar);
 
+        }else {
+            userAvatar.setImageResource(R.drawable.avatar);
+            Log.d("Anh Dai Dien", "in else: ");
+
+        }
         Log.d("USERAVATARURL", "onCreateView: " + avatar);
         commentList = new ArrayList<>();
         commentAdapter = new CommentAdapter(commentList, getContext(), id);
@@ -104,8 +112,9 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment {
                 return false;
             }
         });
-
+        sendComment.setOnClickListener(v-> {
             createComment(edtComment.getText().toString());
+        });
 
         // Fetch comments
         getComments(getContext());
@@ -130,8 +139,6 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment {
         }
 
         CommentReq cmtReq = new CommentReq(text);
-
-
         // Call the Retrofit service to create the comment
         ServiceGenerator.createCommentService(getContext())
                 .create(postId, cmtReq)
@@ -198,13 +205,14 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        ((HomeActivity) getActivity()).getPosts(getContext());
         Log.d("CommentBottomSheet", "run detach");
+
         if (getActivity() instanceof HomeActivity) {
             Log.d("CommentBottomSheet", "in home");
             ((HomeActivity) getActivity()).getPosts(getContext());
             return;
         }
+
         Log.d("CommentBottomSheet", "not in home");
 
         if (getActivity() instanceof SubVideoActivity) {
@@ -214,7 +222,7 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment {
             return;
         }
 
-        Log.d("CommentBottomSheet", "not in SubVideoActivity");
+        Log.d("CommentBottomSheet", "not in profile");
 
     }
 }
