@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -32,6 +33,7 @@ import com.example.tiktokapp.responseModel.User;
 import com.example.tiktokapp.services.ServiceGenerator;
 import com.example.tiktokapp.utils.AuthUtil;
 import com.example.tiktokapp.utils.HttpUtil;
+import com.example.tiktokapp.utils.IntentUtil;
 import com.google.android.material.button.MaterialButton;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -45,6 +47,7 @@ public class ProfileOtherUserActivity extends AppCompatActivity {
     private MaterialButton btnLogout;
     private int userId;
     private ImageButton btnBack;
+    private ConstraintLayout layoutFollowing,layoutFollower;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +60,8 @@ public class ProfileOtherUserActivity extends AppCompatActivity {
         });
         userId = getIntent().getIntExtra("userId", -1);
         avatar = findViewById(R.id.avatar);
+        layoutFollowing = findViewById(R.id.layoutFollowing);
+        layoutFollower = findViewById(R.id.layoutFollower);
         followingCount = findViewById(R.id.followingCount);
         followerCount = findViewById(R.id.followerCount);
         username = findViewById(R.id.username);
@@ -91,7 +96,19 @@ public class ProfileOtherUserActivity extends AppCompatActivity {
                     username.setText(user.getUserName());
                     fullName.setText(user.getFullName());
                     followingCount.setText(user.getFollowings()+"");
+                    layoutFollowing.setOnClickListener(v -> {
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("userId", user.getId());
+                        bundle.putInt("state", Constant.STATE_GET_FOLLOWINGS);
+                        IntentUtil.changeActivityWithData(context, ViewFollowActivity.class,bundle);
+                    });
                     followerCount.setText(user.getFollowers()+"");
+                    layoutFollower.setOnClickListener(v -> {
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("userId", user.getId());
+                        bundle.putInt("state", Constant.STATE_GET_FOLLOWERS);
+                        IntentUtil.changeActivityWithData(context, ViewFollowActivity.class,bundle);
+                    });
                 }else {
                     try {
                         SimpleAPIRespone errResponse = HttpUtil.parseError(response, SimpleAPIRespone.class,context);

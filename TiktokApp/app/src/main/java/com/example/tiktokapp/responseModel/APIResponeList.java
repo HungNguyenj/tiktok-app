@@ -15,6 +15,8 @@ public class APIResponeList<T> {
     private String mes;
     @SerializedName(value = "posts", alternate = {"users","followers","followings","comments"})
     private List<T> data;
+    @SerializedName(value = "userData")
+    private User userData;
     private Pagination pagination;
 
 }

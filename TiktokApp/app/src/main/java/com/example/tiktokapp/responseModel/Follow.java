@@ -1,5 +1,7 @@
 package com.example.tiktokapp.responseModel;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.sql.Timestamp;
 
 import lombok.AllArgsConstructor;
@@ -15,7 +17,8 @@ public class Follow extends AbstractModel{
     private int isFollowee;
     private int isFollow;
     private int isFriend;
-    private User followerData;
-    private User followeeData;
+    private int isMe;
+    @SerializedName(value = "followerData", alternate = {"followeeData"})
+    private User followData;
 
 }

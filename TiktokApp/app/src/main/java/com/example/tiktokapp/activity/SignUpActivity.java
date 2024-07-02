@@ -57,7 +57,7 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onResponse(Call<APIRespone<User>> call, Response<APIRespone<User>> response) {
                         if(response.isSuccessful()){
                             Toast.makeText(v.getContext(), response.body().getMes(), Toast.LENGTH_LONG);
-                            IntentUtil.changeActivity(v.getContext(),VerifyEmailActivity.class);
+                            IntentUtil.changeActivity(SignUpActivity.this,VerifyEmailActivity.class);
                         } else {
                             try {
                                 SimpleAPIRespone errResponse = HttpUtil.parseError(response, SimpleAPIRespone.class,v.getContext());
