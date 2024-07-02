@@ -1,20 +1,11 @@
-package com.example.tiktokapp;
+package com.example.tiktokapp.activity;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
-import android.widget.ImageButton;
+import android.util.Log;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -24,18 +15,11 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
-import com.example.tiktokapp.activity.ChooseFileActivity;
-import com.example.tiktokapp.activity.HomeActivity;
+import com.example.tiktokapp.R;
 import com.example.tiktokapp.responseModel.APIRespone;
-import com.example.tiktokapp.responseModel.Post;
-import com.example.tiktokapp.responseModel.SimpleAPIRespone;
 import com.example.tiktokapp.responseModel.User;
-import com.example.tiktokapp.services.PostService;
 import com.example.tiktokapp.services.ServiceGenerator;
-import com.example.tiktokapp.utils.HttpUtil;
-import com.example.tiktokapp.utils.IntentUtil;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.File;
 
@@ -96,6 +80,7 @@ public class UploadAvatarActivity extends AppCompatActivity {
                         Toast.makeText(UploadAvatarActivity.this, "Avatar uploaded successfully", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(UploadAvatarActivity.this, "Error uploading avatar", Toast.LENGTH_SHORT).show();
+                        Log.d("Avatar error", "onResponse: " + response.message());
                     }
                 }
 

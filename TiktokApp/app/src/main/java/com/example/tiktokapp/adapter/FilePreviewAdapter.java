@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.tiktokapp.Constant;
 import com.example.tiktokapp.R;
-import com.example.tiktokapp.UploadAvatarActivity;
+import com.example.tiktokapp.activity.UploadAvatarActivity;
 import com.example.tiktokapp.activity.SubVideoActivity;
 import com.example.tiktokapp.activity.UploadPost;
 import com.example.tiktokapp.responseModel.Post;

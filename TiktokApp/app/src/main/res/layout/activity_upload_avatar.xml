@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".UploadAvatarActivity">
+    tools:context=".activity.UploadAvatarActivity">
 
     <TextView
         android:layout_width="wrap_content"
