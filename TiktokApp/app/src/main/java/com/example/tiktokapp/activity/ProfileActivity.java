@@ -29,6 +29,7 @@ public class ProfileActivity extends BaseActivity {
     private String accessToken, fullname, username;
 
     private SharedPreferences preferences;
+    private int userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +40,7 @@ public class ProfileActivity extends BaseActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        userId = getIntent().getIntExtra("userId", -1);
         initNavbar(this);
         layoutProfile = findViewById(R.id.fragment_layout_profile);
         btnProfile = findViewById(R.id.btnProfile);
@@ -67,6 +69,9 @@ public class ProfileActivity extends BaseActivity {
 
     private void addFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
+        Bundle bundle = new Bundle();
+        bundle.putInt("userId", userId);
+        fragment.setArguments(bundle);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_layout_profile, fragment);
         fragmentTransaction.commit();
