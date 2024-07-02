@@ -3,6 +3,7 @@ package com.example.tiktokapp.fragment;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,9 +22,13 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.tiktokapp.Constant;
 import com.example.tiktokapp.R;
+import com.example.tiktokapp.activity.ChooseFileActivity;
 import com.example.tiktokapp.activity.EditProfileActivity;
 import com.example.tiktokapp.activity.HomeActivity;
+import com.example.tiktokapp.activity.LoginActivity;
 import com.example.tiktokapp.responseModel.APIRespone;
+import com.example.tiktokapp.responseModel.APIResponeList;
+import com.example.tiktokapp.responseModel.Post;
 import com.example.tiktokapp.responseModel.SimpleAPIRespone;
 import com.example.tiktokapp.responseModel.User;
 import com.example.tiktokapp.services.ServiceGenerator;
@@ -44,8 +49,8 @@ public class ProfileInfoFragment extends Fragment {
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
     View view;
+    private LinearLayout layoutListVideo;
     private int userId;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +70,14 @@ public class ProfileInfoFragment extends Fragment {
 //            IntentUtil.changeActivityWithData(view.getContext(), ChooseFileActivity.class,bundle);
 //        });
         followingCount = view.findViewById(R.id.followingCount);
+        followingCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getContext(), ViewFollowActivity.class);
+                startActivity(intent);
+            }
+        });
         followerCount = view.findViewById(R.id.followerCount);
         username = view.findViewById(R.id.username);
         preferences = view.getContext().getSharedPreferences("MyPreferences", MODE_PRIVATE);
@@ -81,7 +94,7 @@ public class ProfileInfoFragment extends Fragment {
         editProfile.setOnClickListener(v -> {
             IntentUtil.changeActivity(view.getContext(), EditProfileActivity.class);
         });
-        getMyInfo(view.getContext(), view);
+        getMyInfo(view.getContext(),view);
         addPreviewPostFragment();
         return view;
     }
@@ -100,11 +113,10 @@ public class ProfileInfoFragment extends Fragment {
         previewFileFragment.setArguments(bundle);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.layout_list_video, previewFileFragment, "PREVIEW_FILE_FRAGMENT");
+        fragmentTransaction.replace(R.id.layout_list_video, previewFileFragment);
         fragmentTransaction.commit();
     }
-
-    private void getMyInfo(Context context, View view) {
+    private void getMyInfo(Context context,View view) {
         ServiceGenerator.createUserService(context).getProfile(userId).enqueue(new Callback<APIRespone<User>>() {
             @Override
             public void onResponse(Call<APIRespone<User>> call, Response<APIRespone<User>> response) {
@@ -116,11 +128,12 @@ public class ProfileInfoFragment extends Fragment {
                             .load(avatarUri)
                             .into(avatar);
                     username.setText(user.getUserName());
-                    followingCount.setText(user.getFollowings() + "");
-                    followerCount.setText(user.getFollowers() + "");
-                } else {
+                    followingCount.setText(user.getFollowings()+"");
+                    followerCount.setText(user.getFollowers()+"");
+
+                }else {
                     try {
-                        SimpleAPIRespone errResponse = HttpUtil.parseError(response, SimpleAPIRespone.class, context);
+                        SimpleAPIRespone errResponse = HttpUtil.parseError(response, SimpleAPIRespone.class,context);
                         Toast.makeText(context, "Error: " + errResponse.getMes(), Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
                         e.printStackTrace();

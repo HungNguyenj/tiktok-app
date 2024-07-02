@@ -66,4 +66,8 @@ public class AuthUtil {
         SharedPreferences preferences = context.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
         return preferences.getString("accessToken", null);
     }
+
+    public static int getUserId() {
+        return 0;
+    }
 }
