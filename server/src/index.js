@@ -2,7 +2,7 @@ const express = require('express');
 import cors from 'cors';
 const jwt = require('jsonwebtoken');
 const app = express();
-const port = 6000;
+const port = 8000;
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());

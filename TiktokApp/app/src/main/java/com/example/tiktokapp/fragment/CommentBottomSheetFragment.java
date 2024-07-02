@@ -23,12 +23,7 @@ import com.bumptech.glide.Glide;
 import com.example.tiktokapp.R;
 import com.example.tiktokapp.activity.HomeActivity;
 import com.example.tiktokapp.activity.LoginActivity;
-<<<<<<< Updated upstream
-import com.example.tiktokapp.activity.MainActivity;
-=======
-import com.example.tiktokapp.activity.ProfileActivity;
 import com.example.tiktokapp.activity.SubVideoActivity;
->>>>>>> Stashed changes
 import com.example.tiktokapp.adapter.CommentAdapter;
 import com.example.tiktokapp.requestModel.CommentReq;
 import com.example.tiktokapp.responseModel.APIResponeList;
@@ -109,14 +104,7 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment {
             }
         });
 
-<<<<<<< Updated upstream
-        sendComment.setOnClickListener(v->{
             createComment(edtComment.getText().toString());
-=======
-        sendComment.setOnClickListener(v -> {
-            createCommet(edtComment.getText().toString());
->>>>>>> Stashed changes
-        });
 
         // Fetch comments
         getComments(getContext());
@@ -209,9 +197,7 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment {
     @Override
     public void onDetach() {
         super.onDetach();
-<<<<<<< Updated upstream
         ((HomeActivity) getActivity()).getPosts(getContext());
-=======
         Log.d("CommentBottomSheet", "run detach");
         if (getActivity() instanceof HomeActivity) {
             Log.d("CommentBottomSheet", "in home");
@@ -229,6 +215,5 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment {
 
         Log.d("CommentBottomSheet", "not in SubVideoActivity");
 
->>>>>>> Stashed changes
     }
 }

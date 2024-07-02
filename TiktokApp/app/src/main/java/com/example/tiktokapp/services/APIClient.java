@@ -12,11 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class APIClient {
     //    Sửa cái ip này thành ip của mình
 //    Connect chung wifi giữa máy chạy server và điện thoại test
-<<<<<<< Updated upstream
-    private static final String BASE_URL = "http://192.168.1.8:8000/api/v1/";
-=======
     private static final String BASE_URL = "http://192.168.1.6:8000/api/v1/";
->>>>>>> Stashed changes
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient(Context context) {

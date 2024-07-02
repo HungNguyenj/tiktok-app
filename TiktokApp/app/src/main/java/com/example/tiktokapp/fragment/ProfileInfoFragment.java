@@ -14,17 +14,14 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.tiktokapp.Constant;
 import com.example.tiktokapp.R;
-<<<<<<< Updated upstream
-import com.example.tiktokapp.activity.ChooseFileActivity;
 import com.example.tiktokapp.activity.EditProfileActivity;
-=======
->>>>>>> Stashed changes
 import com.example.tiktokapp.activity.HomeActivity;
 import com.example.tiktokapp.responseModel.APIRespone;
 import com.example.tiktokapp.responseModel.SimpleAPIRespone;
@@ -42,17 +39,11 @@ import retrofit2.Response;
 
 public class ProfileInfoFragment extends Fragment {
     private CircleImageView avatar;
-<<<<<<< Updated upstream
     private TextView username,followingCount,followerCount;
     private MaterialButton btnLogout, editProfile;
-=======
-    private TextView username, followingCount, followerCount;
-    private MaterialButton btnLogout;
->>>>>>> Stashed changes
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
     View view;
-    private LinearLayout layoutListVideo;
     private int userId;
 
     @Override
@@ -80,28 +71,21 @@ public class ProfileInfoFragment extends Fragment {
             editor.commit();
             IntentUtil.changeActivity(view.getContext(), HomeActivity.class);
         });
-<<<<<<< Updated upstream
 
         editProfile.setOnClickListener(v -> {
             IntentUtil.changeActivity(view.getContext(), EditProfileActivity.class);
         });
-        getMyInfo(view.getContext(),view);
-=======
         getMyInfo(view.getContext(), view);
->>>>>>> Stashed changes
         addPreviewPostFragment();
         return view;
     }
 
-<<<<<<< Updated upstream
     @Override
     public void onStart() {
         super.onStart();
         getMyInfo(getContext(), view);
     }
 
-=======
->>>>>>> Stashed changes
     private void addPreviewPostFragment() {
         PreviewFileFragment previewFileFragment = new PreviewFileFragment();
         Bundle bundle = new Bundle();
