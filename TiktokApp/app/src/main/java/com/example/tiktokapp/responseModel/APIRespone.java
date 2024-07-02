@@ -16,5 +16,4 @@ public class APIRespone<T> {
     private T data;
     private String accessToken;
     private Pagination pagination;
-
 }

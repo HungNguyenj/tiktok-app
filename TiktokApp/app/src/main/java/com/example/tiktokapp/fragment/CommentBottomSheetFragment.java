@@ -20,7 +20,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.tiktokapp.R;
+import com.example.tiktokapp.activity.HomeActivity;
 import com.example.tiktokapp.activity.LoginActivity;
+import com.example.tiktokapp.activity.MainActivity;
+import com.example.tiktokapp.activity.SubVideoActivity;
 import com.example.tiktokapp.adapter.CommentAdapter;
 import com.example.tiktokapp.requestModel.CommentReq;
 import com.example.tiktokapp.responseModel.APIResponeList;
@@ -102,7 +105,7 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment {
         });
 
         sendComment.setOnClickListener(v->{
-            createCommet(edtComment.getText().toString());
+            createComment(edtComment.getText().toString());
         });
 
         // Fetch comments
@@ -116,19 +119,19 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment {
         return view;
     }
 
-    public void createCommet(String text) {
+    public void createComment(String text) {
 
         if (!AuthUtil.loggedIn(getContext())) {
             IntentUtil.changeActivity(getContext(), LoginActivity.class);
         }
 
-        Log.d("TAG Comment", "createCommet: " + text);
         if (text.trim().length() == 0) {
             Toast.makeText(this.getContext(), "Please insert your commment", Toast.LENGTH_SHORT).show();
             return;
         }
 
         CommentReq cmtReq = new CommentReq(text);
+
 
         // Call the Retrofit service to create the comment
         ServiceGenerator.createCommentService(getContext())
@@ -140,9 +143,11 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment {
                             // Handle successful comment creation
                             SimpleAPIRespone apiResponse = response.body();
                             Toast.makeText(getContext(), "Comment created successfully", Toast.LENGTH_SHORT).show();
+                            Log.d("ResponseCreateCMT", "onResponse: " + response.message());
                             edtComment.setText(""); // Clear the comment text field after successful creation
                             // Refresh comments after creation
                             getComments(getContext());
+
                         } else {
                             // Handle unsuccessful response
                             Toast.makeText(getContext(), "Failed to create comment", Toast.LENGTH_SHORT).show();
@@ -171,8 +176,12 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment {
                     commentAdapter.notifyDataSetChanged();
 
                     amountComment.setText(commentList.size() + " Bình luận");
-                    Log.d("Comments", "Loaded comments for postId " + postId);
-                    Log.d("Comments", "Number of comments: " + commentList.size());
+                    for (int i = 0; i < commentList.size(); i++) {
+                        Log.d("Comments", "ID Comment " + commentList.get(i).getId());
+                        Log.d("Comments", "Content: " + commentList.get(i).getContent());
+                        Log.d("Comments", "Likes:" + commentList.get(i).getIsLiked());
+                    }
+
                 } else {
                     Toast.makeText(context, "Failed to load comments", Toast.LENGTH_SHORT).show();
                     Log.e("Comments", "Failed to load comments, response: " + response.errorBody());
@@ -185,5 +194,11 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment {
                 Log.e("Comments", "Error loading comments", t);
             }
         });
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        ((HomeActivity) getActivity()).getPosts(getContext());
     }
 }

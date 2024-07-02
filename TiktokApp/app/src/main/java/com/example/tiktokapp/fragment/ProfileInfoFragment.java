@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.example.tiktokapp.Constant;
 import com.example.tiktokapp.R;
 import com.example.tiktokapp.activity.ChooseFileActivity;
+import com.example.tiktokapp.activity.EditProfileActivity;
 import com.example.tiktokapp.activity.HomeActivity;
 import com.example.tiktokapp.activity.LoginActivity;
 import com.example.tiktokapp.responseModel.APIRespone;
@@ -43,9 +44,11 @@ import retrofit2.Response;
 public class ProfileInfoFragment extends Fragment {
     private CircleImageView avatar;
     private TextView username,followingCount,followerCount;
-    private MaterialButton btnLogout;
+    private MaterialButton btnLogout, editProfile;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
+    View view;
+    private LinearLayout layoutListVideo;
     private int userId;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,8 +60,9 @@ public class ProfileInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_profile_info, container, false);
+        view = inflater.inflate(R.layout.fragment_profile_info, container, false);
         avatar = view.findViewById(R.id.avatar);
+
 //        avatar.setOnClickListener(v -> {
 //            Bundle bundle = new Bundle();
 //            bundle.putInt("requestCode", Constant.REQUEST_GET_IMAGE_EDIT_AVATAR);
@@ -68,6 +72,8 @@ public class ProfileInfoFragment extends Fragment {
         followerCount = view.findViewById(R.id.followerCount);
         username = view.findViewById(R.id.username);
         preferences = view.getContext().getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        editProfile = view.findViewById(R.id.editProfile);
+
         editor = preferences.edit();
         btnLogout = view.findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(v -> {
@@ -75,10 +81,21 @@ public class ProfileInfoFragment extends Fragment {
             editor.commit();
             IntentUtil.changeActivity(view.getContext(), HomeActivity.class);
         });
+
+        editProfile.setOnClickListener(v -> {
+            IntentUtil.changeActivity(view.getContext(), EditProfileActivity.class);
+        });
         getMyInfo(view.getContext(),view);
         addPreviewPostFragment();
         return view;
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getMyInfo(getContext(), view);
+    }
+
     private void addPreviewPostFragment() {
         PreviewFileFragment previewFileFragment = new PreviewFileFragment();
         Bundle bundle = new Bundle();
@@ -104,6 +121,7 @@ public class ProfileInfoFragment extends Fragment {
                     username.setText(user.getUserName());
                     followingCount.setText(user.getFollowings()+"");
                     followerCount.setText(user.getFollowers()+"");
+
                 }else {
                     try {
                         SimpleAPIRespone errResponse = HttpUtil.parseError(response, SimpleAPIRespone.class,context);

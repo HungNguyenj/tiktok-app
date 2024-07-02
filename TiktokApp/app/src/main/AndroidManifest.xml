@@ -20,13 +20,19 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".activity.UploadAvatarActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.ProfileOtherUserActivity"
             android:exported="false" />
         <activity
             android:name=".activity.SubVideoActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.SubLayoutVideoActivity"
+            android:name=".activity.EditInforActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.EditProfileActivity"
             android:exported="false" />
         <activity
             android:name=".activity.SignUpActivity"

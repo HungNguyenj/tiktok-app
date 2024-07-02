@@ -1,6 +1,9 @@
 package com.example.tiktokapp.activity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Display;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -16,11 +19,16 @@ import com.example.tiktokapp.R;
 import com.example.tiktokapp.fragment.ProfileInfoFragment;
 import com.example.tiktokapp.fragment.ProfileLoginFragment;
 import com.example.tiktokapp.utils.AuthUtil;
+import com.example.tiktokapp.utils.SharePreferncesUtil;
 
 public class ProfileActivity extends BaseActivity {
     private LinearLayout layoutProfile;
     private ImageView btnProfile;
     private ImageView btnHome;
+
+    private String accessToken, fullname, username;
+
+    private SharedPreferences preferences;
     private int userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +52,19 @@ public class ProfileActivity extends BaseActivity {
         } else {
             addFragment(new ProfileLoginFragment());
         }
+        preferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        username = preferences.getString("username", "");
+        accessToken = preferences.getString("accessToken", "");
+        fullname = preferences.getString("fullName", "");
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("checkin", "username: " + username);
+        Log.d("checkin", "accessToken: " + accessToken);
+        Log.d("checkin", "fullname: " + fullname);
     }
 
     private void addFragment(Fragment fragment) {

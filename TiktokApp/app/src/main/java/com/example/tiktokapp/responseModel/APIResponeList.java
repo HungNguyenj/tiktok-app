@@ -17,5 +17,4 @@ public class APIResponeList<T> {
     private List<T> data;
     private Pagination pagination;
 
-
 }

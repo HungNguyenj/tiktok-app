@@ -13,5 +13,4 @@ abstract class AbstractModel {
      private Timestamp createdAt;
      private Timestamp updatedAt;
 
-
 }

@@ -10,5 +10,4 @@ import lombok.NoArgsConstructor;
 public class FollowAPIRespone extends SimpleAPIRespone {
     private Follow follow;
 
-
 }

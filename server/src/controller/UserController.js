@@ -88,7 +88,9 @@ class UserController {
                     });
                 });
             else return badRequest('Cannot update peer id', res);
-        } catch (error) {}
+        } catch (error) {
+            console.log(error);
+        }
     }
     async updateAvatar(req, res) {
         try {

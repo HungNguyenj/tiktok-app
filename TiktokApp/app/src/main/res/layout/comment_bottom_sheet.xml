@@ -54,8 +54,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewComments"
             android:layout_width="match_parent"
-            android:layout_height="700dp"
+            android:layout_height="0dp"
             android:background="#FEFEFE"
+            app:layout_constraintBottom_toTopOf="@+id/commentInput"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -125,7 +126,9 @@
                 app:layout_constraintBottom_toBottomOf="@+id/editTextComment"
                 app:layout_constraintEnd_toEndOf="@+id/editTextComment"
                 app:layout_constraintTop_toTopOf="@+id/editTextComment"
-                app:srcCompat="@drawable/baseline_arrow_circle_up_24" />
+                app:srcCompat="@drawable/baseline_arrow_circle_up_24"
+                app:tint="#FB2B4E"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
