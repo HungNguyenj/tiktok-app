@@ -35,6 +35,7 @@ public class SubVideoActivity extends AppCompatActivity {
     private PostAdapter adapter;
 
     private ImageButton backBtn;
+    private int postId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +61,8 @@ public class SubVideoActivity extends AppCompatActivity {
         viewPager2.setAdapter(adapter);
 
         //call api
-        int id = 7;
-        getPostById(id, this);
+        postId = getIntent().getIntExtra("postId", -1);
+        getPostById(postId, this);
 
     }
 
