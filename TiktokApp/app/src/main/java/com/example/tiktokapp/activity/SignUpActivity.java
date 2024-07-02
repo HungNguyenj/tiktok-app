@@ -61,7 +61,7 @@ public class SignUpActivity extends AppCompatActivity {
                         } else {
                             try {
                                 SimpleAPIRespone errResponse = HttpUtil.parseError(response, SimpleAPIRespone.class,v.getContext());
-                                Toast.makeText(v.getContext(), "Error: " + errResponse.getMes(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SignUpActivity.this, "Error: " + errResponse.getMes(), Toast.LENGTH_SHORT).show();
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
