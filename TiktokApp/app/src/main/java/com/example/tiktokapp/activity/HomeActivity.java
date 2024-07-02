@@ -77,10 +77,13 @@ public class HomeActivity extends BaseActivity  {
         username = preferences.getString("username", "");
         fullname = preferences.getString("fullName", "");
 
+<<<<<<< Updated upstream
         Log.d("checkin", "username: " + username);
         Log.d("checkin", "fullname: " + fullname);
     }
 
+=======
+>>>>>>> Stashed changes
     public void getPosts(Context context) {
         ServiceGenerator.createPostService(HomeActivity.this).getPosts().enqueue(new retrofit2.Callback<APIResponeList<Post>>() {
             @Override

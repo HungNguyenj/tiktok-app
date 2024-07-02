@@ -14,20 +14,19 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.tiktokapp.Constant;
 import com.example.tiktokapp.R;
+<<<<<<< Updated upstream
 import com.example.tiktokapp.activity.ChooseFileActivity;
 import com.example.tiktokapp.activity.EditProfileActivity;
+=======
+>>>>>>> Stashed changes
 import com.example.tiktokapp.activity.HomeActivity;
-import com.example.tiktokapp.activity.LoginActivity;
 import com.example.tiktokapp.responseModel.APIRespone;
-import com.example.tiktokapp.responseModel.APIResponeList;
-import com.example.tiktokapp.responseModel.Post;
 import com.example.tiktokapp.responseModel.SimpleAPIRespone;
 import com.example.tiktokapp.responseModel.User;
 import com.example.tiktokapp.services.ServiceGenerator;
@@ -43,13 +42,19 @@ import retrofit2.Response;
 
 public class ProfileInfoFragment extends Fragment {
     private CircleImageView avatar;
+<<<<<<< Updated upstream
     private TextView username,followingCount,followerCount;
     private MaterialButton btnLogout, editProfile;
+=======
+    private TextView username, followingCount, followerCount;
+    private MaterialButton btnLogout;
+>>>>>>> Stashed changes
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
     View view;
     private LinearLayout layoutListVideo;
     private int userId;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,11 +67,6 @@ public class ProfileInfoFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_profile_info, container, false);
         avatar = view.findViewById(R.id.avatar);
-//        avatar.setOnClickListener(v -> {
-//            Bundle bundle = new Bundle();
-//            bundle.putInt("requestCode", Constant.REQUEST_GET_IMAGE_EDIT_AVATAR);
-//            IntentUtil.changeActivityWithData(view.getContext(), ChooseFileActivity.class,bundle);
-//        });
         followingCount = view.findViewById(R.id.followingCount);
         followerCount = view.findViewById(R.id.followerCount);
         username = view.findViewById(R.id.username);
@@ -80,21 +80,28 @@ public class ProfileInfoFragment extends Fragment {
             editor.commit();
             IntentUtil.changeActivity(view.getContext(), HomeActivity.class);
         });
+<<<<<<< Updated upstream
 
         editProfile.setOnClickListener(v -> {
             IntentUtil.changeActivity(view.getContext(), EditProfileActivity.class);
         });
         getMyInfo(view.getContext(),view);
+=======
+        getMyInfo(view.getContext(), view);
+>>>>>>> Stashed changes
         addPreviewPostFragment();
         return view;
     }
 
+<<<<<<< Updated upstream
     @Override
     public void onStart() {
         super.onStart();
         getMyInfo(getContext(), view);
     }
 
+=======
+>>>>>>> Stashed changes
     private void addPreviewPostFragment() {
         PreviewFileFragment previewFileFragment = new PreviewFileFragment();
         Bundle bundle = new Bundle();
@@ -103,10 +110,11 @@ public class ProfileInfoFragment extends Fragment {
         previewFileFragment.setArguments(bundle);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.layout_list_video, previewFileFragment);
+        fragmentTransaction.replace(R.id.layout_list_video, previewFileFragment, "PREVIEW_FILE_FRAGMENT");
         fragmentTransaction.commit();
     }
-    private void getMyInfo(Context context,View view) {
+
+    private void getMyInfo(Context context, View view) {
         ServiceGenerator.createUserService(context).getProfile(userId).enqueue(new Callback<APIRespone<User>>() {
             @Override
             public void onResponse(Call<APIRespone<User>> call, Response<APIRespone<User>> response) {
@@ -118,11 +126,11 @@ public class ProfileInfoFragment extends Fragment {
                             .load(avatarUri)
                             .into(avatar);
                     username.setText(user.getUserName());
-                    followingCount.setText(user.getFollowings()+"");
-                    followerCount.setText(user.getFollowers()+"");
-                }else {
+                    followingCount.setText(user.getFollowings() + "");
+                    followerCount.setText(user.getFollowers() + "");
+                } else {
                     try {
-                        SimpleAPIRespone errResponse = HttpUtil.parseError(response, SimpleAPIRespone.class,context);
+                        SimpleAPIRespone errResponse = HttpUtil.parseError(response, SimpleAPIRespone.class, context);
                         Toast.makeText(context, "Error: " + errResponse.getMes(), Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
                         e.printStackTrace();

@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,7 +23,12 @@ import com.bumptech.glide.Glide;
 import com.example.tiktokapp.R;
 import com.example.tiktokapp.activity.HomeActivity;
 import com.example.tiktokapp.activity.LoginActivity;
+<<<<<<< Updated upstream
 import com.example.tiktokapp.activity.MainActivity;
+=======
+import com.example.tiktokapp.activity.ProfileActivity;
+import com.example.tiktokapp.activity.SubVideoActivity;
+>>>>>>> Stashed changes
 import com.example.tiktokapp.adapter.CommentAdapter;
 import com.example.tiktokapp.requestModel.CommentReq;
 import com.example.tiktokapp.responseModel.APIResponeList;
@@ -63,7 +69,7 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment {
         View view = inflater.inflate(R.layout.comment_bottom_sheet, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerViewComments);
-        exitComment= view.findViewById(R.id.exitComment);
+        exitComment = view.findViewById(R.id.exitComment);
 
         amountComment = view.findViewById(R.id.amountComment);
         edtComment = view.findViewById(R.id.editTextComment);
@@ -103,8 +109,13 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment {
             }
         });
 
+<<<<<<< Updated upstream
         sendComment.setOnClickListener(v->{
             createComment(edtComment.getText().toString());
+=======
+        sendComment.setOnClickListener(v -> {
+            createCommet(edtComment.getText().toString());
+>>>>>>> Stashed changes
         });
 
         // Fetch comments
@@ -134,7 +145,7 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment {
 
         // Call the Retrofit service to create the comment
         ServiceGenerator.createCommentService(getContext())
-                .create(postId,cmtReq)
+                .create(postId, cmtReq)
                 .enqueue(new Callback<SimpleAPIRespone>() {
                     @Override
                     public void onResponse(Call<SimpleAPIRespone> call, Response<SimpleAPIRespone> response) {
@@ -198,6 +209,26 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment {
     @Override
     public void onDetach() {
         super.onDetach();
+<<<<<<< Updated upstream
         ((HomeActivity) getActivity()).getPosts(getContext());
+=======
+        Log.d("CommentBottomSheet", "run detach");
+        if (getActivity() instanceof HomeActivity) {
+            Log.d("CommentBottomSheet", "in home");
+            ((HomeActivity) getActivity()).getPosts(getContext());
+            return;
+        }
+        Log.d("CommentBottomSheet", "not in home");
+
+        if (getActivity() instanceof SubVideoActivity) {
+            Log.d("CommentBottomSheet", "in SubVideoActivity");
+            SubVideoActivity subVideoActivity = (SubVideoActivity) getActivity();
+            subVideoActivity.getPostById(subVideoActivity.postId, getContext());
+            return;
+        }
+
+        Log.d("CommentBottomSheet", "not in SubVideoActivity");
+
+>>>>>>> Stashed changes
     }
 }
