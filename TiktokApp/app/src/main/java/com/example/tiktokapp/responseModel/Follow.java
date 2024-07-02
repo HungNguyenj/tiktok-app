@@ -12,6 +12,9 @@ import lombok.RequiredArgsConstructor;
 public class Follow extends AbstractModel{
     private final int follower;
     private final int followee;
+    private int isFollowee;
+    private int isFollow;
+    private int isFriend;
     private User followerData;
     private User followeeData;
 

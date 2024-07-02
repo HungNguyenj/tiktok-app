@@ -3,6 +3,7 @@ package com.example.tiktokapp.fragment;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import com.example.tiktokapp.activity.ChooseFileActivity;
 import com.example.tiktokapp.activity.EditProfileActivity;
 import com.example.tiktokapp.activity.HomeActivity;
 import com.example.tiktokapp.activity.LoginActivity;
+import com.example.tiktokapp.activity.ViewFollowActivity;
 import com.example.tiktokapp.responseModel.APIRespone;
 import com.example.tiktokapp.responseModel.APIResponeList;
 import com.example.tiktokapp.responseModel.Post;
@@ -69,6 +71,14 @@ public class ProfileInfoFragment extends Fragment {
 //            IntentUtil.changeActivityWithData(view.getContext(), ChooseFileActivity.class,bundle);
 //        });
         followingCount = view.findViewById(R.id.followingCount);
+        followingCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getContext(), ViewFollowActivity.class);
+                startActivity(intent);
+            }
+        });
         followerCount = view.findViewById(R.id.followerCount);
         username = view.findViewById(R.id.username);
         preferences = view.getContext().getSharedPreferences("MyPreferences", MODE_PRIVATE);
