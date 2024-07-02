@@ -62,6 +62,7 @@ public class ProfileInfoFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_profile_info, container, false);
         avatar = view.findViewById(R.id.avatar);
+
 //        avatar.setOnClickListener(v -> {
 //            Bundle bundle = new Bundle();
 //            bundle.putInt("requestCode", Constant.REQUEST_GET_IMAGE_EDIT_AVATAR);
@@ -120,6 +121,7 @@ public class ProfileInfoFragment extends Fragment {
                     username.setText(user.getUserName());
                     followingCount.setText(user.getFollowings()+"");
                     followerCount.setText(user.getFollowers()+"");
+
                 }else {
                     try {
                         SimpleAPIRespone errResponse = HttpUtil.parseError(response, SimpleAPIRespone.class,context);

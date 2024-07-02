@@ -22,6 +22,7 @@ import com.example.tiktokapp.responseModel.APIRespone;
 import com.example.tiktokapp.responseModel.SimpleAPIRespone;
 import com.example.tiktokapp.responseModel.User;
 import com.example.tiktokapp.services.ServiceGenerator;
+import com.example.tiktokapp.utils.IntentUtil;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -107,6 +108,7 @@ public class EditInforActivity extends AppCompatActivity {
                             editor.putString("username", inforReq.getUsername());
                             editor.apply();
                             Toast.makeText(EditInforActivity.this, "User updated successfully", Toast.LENGTH_SHORT).show();
+                            IntentUtil.changeActivity(EditInforActivity.this,EditProfileActivity.class);
                             finish();
                         } else {
                             Toast.makeText(EditInforActivity.this, "User didn't got updated", Toast.LENGTH_SHORT).show();
